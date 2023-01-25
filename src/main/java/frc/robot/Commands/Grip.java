@@ -9,6 +9,7 @@ import frc.robot.Subsystems.Gripper;
 
 public class Grip extends CommandBase {
   private Gripper innerGripper;
+  // private int isGrub = -1;
 
   public Grip(Gripper outerGripper) {
     innerGripper = outerGripper;
@@ -16,13 +17,25 @@ public class Grip extends CommandBase {
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    // if(isGrub % 2 == 0){
+    //   innerGripper.gripRelease();
+    // }
+    // else{ 
+    //   innerGripper.gripGrab();
+    // }
+    innerGripper.gripToggle();
+  }
 
   @Override
-  public void execute() {}
+  public void execute() {
+
+  }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    // isGrub += 1;
+  }
 
   @Override
   public boolean isFinished() {

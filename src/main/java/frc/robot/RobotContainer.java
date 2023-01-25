@@ -5,13 +5,21 @@
 package frc.robot;
 
 import frc.robot.Commands.ArcadeDrive;
+import frc.robot.Commands.Grip;
 import frc.robot.Subsystems.DriveTrain;
+import frc.robot.Subsystems.Gripper;
 
 public class RobotContainer {
 
-  DriveTrain driveTrain = new DriveTrain();
+  private final DriveTrain driveTrain;
+  private final Gripper gripper;
+  private final OI m_oi;
 
   public RobotContainer() {
+    driveTrain = new DriveTrain();
+    gripper = new Gripper();
+    m_oi = new OI();
+
     driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
     configureButtonBindings();
 
@@ -35,8 +43,9 @@ public class RobotContainer {
 
 
   private void configureButtonBindings() {
-
-
+    /**Linking between the buttons, that defined in oi.java, to commands. */
+    // m_oi.button3.whenPressed(new Grip(gripper));
+    m_oi.button3.onTrue(new Grip(gripper));
 
   }
 }

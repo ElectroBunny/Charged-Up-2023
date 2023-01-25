@@ -14,31 +14,40 @@ public class Gripper extends SubsystemBase {
   //initialize solonoieds in memory
   DoubleSolenoid doublePCMRight = null;
   DoubleSolenoid doublePCMLeft = null;
-  public boolean isIntakeOpen = false;
 
   public Gripper() {
     //define solonoieds
     doublePCMRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.RIGHT_SOLENOID_FW, RobotMap.RIGHT_SOLENOID_BW);
     doublePCMLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.LEFT_SOLENOID_FW, RobotMap.LEFT_SOLENOID_BW);
-  }
-
-  public void gripSolenoidOff() {
-    doublePCMRight.set(Value.kOff);
-    doublePCMLeft.set(Value.kOff);
-  }
-
-  public void gripSolenoidGrab() {
-    doublePCMRight.set(Value.kForward);
-    doublePCMLeft.set(Value.kForward);
-  }
-
-
-  public void gripSolenoidRelease(){
+    //Sets the grip to be opened when the robots starts
     doublePCMRight.set(Value.kReverse);
     doublePCMLeft.set(Value.kReverse);
-    isIntakeOpen = false;
   }
+
+  // public void gripSolenoidOff() {
+  //   doublePCMRight.set(Value.kOff);
+  //   doublePCMLeft.set(Value.kOff);
+  // }
+
+  // public void gripGrab() {
+  //   doublePCMRight.set(Value.kForward);
+  //   doublePCMLeft.set(Value.kForward);
+  // }
+
+
+  // public void gripRelease(){
+  //   doublePCMRight.set(Value.kReverse);
+  //   doublePCMLeft.set(Value.kReverse);
+  // }
   
+  /*
+   * Function that toggles between the states of the solenoid
+   */
+  public void gripToggle(){
+    doublePCMRight.toggle();
+    doublePCMLeft.toggle();
+  }
+
   @Override
   public void periodic() {
   }
