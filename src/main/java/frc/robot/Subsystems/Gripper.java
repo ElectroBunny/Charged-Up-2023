@@ -12,8 +12,8 @@ import frc.robot.RobotMap;
 
 public class Gripper extends SubsystemBase {
   //initialize solonoieds in memory
-  DoubleSolenoid doublePCMRight = null;
-  DoubleSolenoid doublePCMLeft = null;
+  private DoubleSolenoid doublePCMRight = null;
+  private DoubleSolenoid doublePCMLeft = null;
 
   public Gripper() {
     //define solonoieds

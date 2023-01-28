@@ -18,10 +18,25 @@ public class RobotMap {
     public static final int X_AXIS_PORT = 0;
     public static final int Y_AXIS_PORT = 1;
 
+    /*
+     * Definition of gripper solenoids
+     */
     public static final int RIGHT_SOLENOID_FW = 2;
     public static final int RIGHT_SOLENOID_BW = 3;
     public static final int LEFT_SOLENOID_FW = 0;
     public static final int LEFT_SOLENOID_BW = 1;
+
+    /*
+     * Definition of gripper telescop motor
+     */
+    public static final int TELESCOPIC_GRIPPER = 0;
+
+    /*
+     * Definition of arm motor controllers.
+     */
+
+    public static final int ARM_RIGHT_MOTOR = 0;
+    public static final int ARM_LEFT_MOTOR = 0;
 
     /*
     Defenition of Xbox Values
