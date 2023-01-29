@@ -3,6 +3,7 @@ package frc.robot;
 
 public class RobotMap {
     
+    //https://github.com/wpilibsuite/allwpilib/blob/main/wpilibj/src/main/java/edu/wpi/first/wpilibj/DutyCycleEncoder.java
     /**
     Definition of static variables - ports of driving motor controllers
      */
@@ -37,6 +38,15 @@ public class RobotMap {
 
     public static final int ARM_RIGHT_MOTOR = 0;
     public static final int ARM_LEFT_MOTOR = 0;
+
+    /*
+     * Definition of arm encoder
+     */
+    public static final int RIGHT_ENCODER_CHANNEL_A = 0;
+    public static final int RIGHT_ENCODER_CHANNEL_B = 0;
+    public static final int LEFT_ENCODER_CHANNEL_A = 0;
+    public static final int LEFT_ENCODER_CHANNEL_B = 0;
+    public static final int ENCODER_TICKS_PER_ROTATION = 8192;
 
     /*
     Defenition of Xbox Values
