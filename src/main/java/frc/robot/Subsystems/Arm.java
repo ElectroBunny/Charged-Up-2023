@@ -21,6 +21,12 @@ public class Arm extends SubsystemBase {
   private Encoder right_encoder;
   private Encoder left_encoder;
 
+  private double distanceRight = 0;
+  private double distanceLeft = 0;
+
+  private boolean directionRight;
+  private boolean directionLeft;
+
 
   public Arm() {
     //initialize arm motors
@@ -34,7 +40,6 @@ public class Arm extends SubsystemBase {
     left_encoder.setDistancePerPulse(1./256.);
     right_encoder.reset();
     left_encoder.reset();
-
 
     armLeftMotor.setNeutralMode(NeutralMode.Coast);
     armRightMotor.setNeutralMode(NeutralMode.Coast);
@@ -52,13 +57,13 @@ public class Arm extends SubsystemBase {
   /*
    * Functions that get information from the encoders
    */
-  public double getDistanceRight(){
-    return right_encoder.getDistance();
-  }
+  // public double getDistanceRight(){
+  //   return right_encoder.getDistance();
+  // }
 
-  public double getDistanceLeft(){
-    return left_encoder.getDistance();
-  }
+  // public double getDistanceLeft(){
+  //   return left_encoder.getDistance();
+  // }
 
   public double getRateRight(){
     return right_encoder.getRate();
@@ -67,9 +72,44 @@ public class Arm extends SubsystemBase {
   public double getRateLeft(){
     return left_encoder.getRate();
   }
+  
+  public boolean getDirectRight(){
+    directionRight = right_encoder.getDirection();
+    return directionRight;
+  }
+
+  public boolean getDirectLeft(){
+    directionLeft = left_encoder.getDirection();
+    return directionLeft;
+  }
+
+  public double getRelativeDistanceRight(){
+    if(directionRight){
+      distanceRight += right_encoder.getDistance();
+      right_encoder.reset();
+    }
+    else{
+      distanceRight -= right_encoder.getDistance();
+      right_encoder.reset();
+    }
+    return distanceRight;
+  }
+  
+  public double getRelativeDistanceLeft(){
+    if(directionLeft){
+      distanceLeft += left_encoder.getDistance();
+      left_encoder.reset();
+    }
+    else{
+      distanceRight -= left_encoder.getDistance();
+      left_encoder.reset();
+    }
+    return distanceRight;
+  }
+  
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
+ 
 }
