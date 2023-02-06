@@ -46,7 +46,7 @@ public class RobotMap {
     public static final int RIGHT_ENCODER_CHANNEL_B = 2;
     public static final int LEFT_ENCODER_CHANNEL_A = 0;
     public static final int LEFT_ENCODER_CHANNEL_B = 0;
-    public static final int ENCODER_TICKS_PER_ROTATION = 2048;
+    public static final int ENCODER_PULSES_PER_ROTATION = 2048;
 
     /*
     Defenition of Xbox Values
