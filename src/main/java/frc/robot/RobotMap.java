@@ -30,7 +30,7 @@ public class RobotMap {
     /*
      * Definition of gripper telescop motor
      */
-    public static final int TELESCOPIC_GRIPPER = 0;
+    public static final int TELESCOPIC_GRIPPER = 8;
 
     /*
      * Definition of arm motor controllers.
@@ -42,11 +42,11 @@ public class RobotMap {
     /*
      * Definition of arm encoder
      */
-    public static final int RIGHT_ENCODER_CHANNEL_A = 0;
-    public static final int RIGHT_ENCODER_CHANNEL_B = 0;
+    public static final int RIGHT_ENCODER_CHANNEL_A = 1;
+    public static final int RIGHT_ENCODER_CHANNEL_B = 2;
     public static final int LEFT_ENCODER_CHANNEL_A = 0;
     public static final int LEFT_ENCODER_CHANNEL_B = 0;
-    public static final int ENCODER_TICKS_PER_ROTATION = 8192;
+    public static final int ENCODER_TICKS_PER_ROTATION = 2048;
 
     /*
     Defenition of Xbox Values

@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -19,7 +20,7 @@ public class TeleGrip extends SubsystemBase {
   }
 
   public void moveGripper(double gripperGain){
-    m_teleGrip.set(gripperGain);
+    m_teleGrip.set(ControlMode.PercentOutput, gripperGain);
   }
 
   @Override
