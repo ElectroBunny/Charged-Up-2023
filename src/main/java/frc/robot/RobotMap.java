@@ -49,6 +49,14 @@ public class RobotMap {
     public static final int ENCODER_PULSES_PER_ROTATION = 2048;
 
     /*
+     * Definition of PID constants for the arm system.
+     */
+    public static final double KP_ARM = 0;
+    public static final double KI_ARM = 0;
+    public static final double KD_ARM = 0;
+    public static final double TOLRENCE_ARM = 2.5;
+    
+    /*
     Defenition of Xbox Values
     */
 

@@ -51,26 +51,20 @@ public class Arm extends SubsystemBase {
   /*
    * Functions that get information from the encoders
    */
-  public double getDistanceRight(){
-    return right_encoder.getDistance();
-  }
+
+  
 
   // public double getDistanceLeft(){
   //   return left_encoder.getDistance();
   // }
 
-  public double getRateRight(){
-    return right_encoder.getRate();
-  }
+  
 
   // public double getRateLeft(){
   //   return left_encoder.getRate();
   // }
   
-  public boolean getDirectRight(){
-    return right_encoder.getDirection();
-  }
-
+  
   // public boolean getDirectLeft(){
   //   directionLeft = left_encoder.getDirection();
   //   return directionLeft;
