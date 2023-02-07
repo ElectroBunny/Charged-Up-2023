@@ -20,12 +20,6 @@ public class Arm extends SubsystemBase {
   //Definition of Encoder for the Arm system
   public Encoder right_encoder;
   // public Encoder left_encoder;
-
-  private double distanceRight = 0;
-  private double distanceLeft = 0;
-
-  private boolean directionRight;
-  private boolean directionLeft;
   
   public Arm() {
     //initialize arm motors
@@ -40,7 +34,6 @@ public class Arm extends SubsystemBase {
     // left_encoder.setDistancePerPulse(1./256.);
     right_encoder.reset();
     // left_encoder.reset();
-
 
     // armLeftMotor.setNeutralMode(NeutralMode.Coast);
     // armRightMotor.setNeutralMode(NeutralMode.Coast);
@@ -62,31 +55,30 @@ public class Arm extends SubsystemBase {
     return right_encoder.getDistance();
   }
 
-//   public double getDistanceLeft(){
-//     return left_encoder.getDistance();
-//   }
+  // public double getDistanceLeft(){
+  //   return left_encoder.getDistance();
+  // }
 
   public double getRateRight(){
     return right_encoder.getRate();
   }
 
-//   public double getRateLeft(){
-//     return left_encoder.getRate();
-//   }
+  // public double getRateLeft(){
+  //   return left_encoder.getRate();
+  // }
+  
+  public boolean getDirectRight(){
+    return right_encoder.getDirection();
+  }
 
-public boolean getDirectRight(){
-  directionRight = right_encoder.getDirection();
-  return directionRight;
-}
-
-// public boolean getDirectLeft(){
-//   directionLeft = left_encoder.getDirection();
-//   return directionLeft;
-// }
-
+  // public boolean getDirectLeft(){
+  //   directionLeft = left_encoder.getDirection();
+  //   return directionLeft;
+  // }
+  
 
   @Override
   public void periodic() {
-    directionRight = right_encoder.getDirection();
-    }
+  }
+ 
 }
