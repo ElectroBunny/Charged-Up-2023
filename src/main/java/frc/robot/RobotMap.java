@@ -55,6 +55,13 @@ public class RobotMap {
     public static final double KI_ARM = 0;
     public static final double KD_ARM = 0;
     public static final double TOLRENCE_ARM = 2.5;
+    //Angles definition
+    public static final double LOW_LEFT_ANGLE = 0;
+    public static final double LOW_RIGHT_ANGLE = 0;
+    public static final double MID_CONE_ANGLE = 0;
+    public static final double MID_CUBE_ANGLE = 0;
+    public static final double HIGH_CONE_ANGLE = 0;
+    public static final double HIGH_CUBE_ANGLE = 0;
     
     /*
     Defenition of Xbox Values

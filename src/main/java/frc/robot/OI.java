@@ -22,6 +22,8 @@ public class OI {
     JoystickButton button8 = new JoystickButton(joystick_controller, 8);
     JoystickButton button9 = new JoystickButton(joystick_controller, 9);
     JoystickButton button10 = new JoystickButton(joystick_controller, 10);
+    JoystickButton button11 = new JoystickButton(joystick_controller, 11);
+    JoystickButton button12 = new JoystickButton(joystick_controller, 12);
     POVButton povbutton1= new POVButton(joystick_controller,0);
     POVButton povbutton2= new POVButton(joystick_controller,180);
     

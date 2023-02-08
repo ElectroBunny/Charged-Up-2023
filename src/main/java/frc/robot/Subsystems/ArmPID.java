@@ -28,6 +28,7 @@ public class ArmPID extends SubsystemBase {
 
   public ArmPID() {
     pid = new PIDController(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM);
+    pid.reset();
     right_encoder = new Encoder(RobotMap.RIGHT_ENCODER_CHANNEL_A, RobotMap.RIGHT_ENCODER_CHANNEL_B, false, EncodingType.k2X);
     right_encoder.setDistancePerPulse(1./2048.);
     right_encoder.reset();
@@ -41,7 +42,7 @@ public class ArmPID extends SubsystemBase {
   }
 
   public double getAngleRight(){
-    return right_encoder.getDistance() * 360;
+    return right_encoder.getDistance() * 7.2;
   }
 
   public double getRateRight(){
@@ -55,16 +56,15 @@ public class ArmPID extends SubsystemBase {
   /*
    * PID calculation functions.
    */
-  public double changeSideToGripper(boolean isRight)
-  {
-    if (isRight){
-      return setToAngle(RobotMap.MIN_ANGLE);
-    }
-    else {
-      return setToAngle(RobotMap.MAX_ANGLE);
-    }
-    isRight != isRight;
-  }
+  // public double changeSideToGripper(boolean isRight)
+  // {
+  //   if (isRight){
+  //     return setToAngle(RobotMap.MIN_ANGLE);
+  //   }
+  //   else {
+  //     return setToAngle(RobotMap.MAX_ANGLE);
+  //   }
+  // }
 
   public double setToAngle(double setpoint)
   {
@@ -73,10 +73,17 @@ public class ArmPID extends SubsystemBase {
     return v;
   }
 
+  public boolean atSetPoint(){
+    return pid.atSetpoint();
+  }
   
+  public void resetPID(){
+    pid.reset();
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
   }
 }
