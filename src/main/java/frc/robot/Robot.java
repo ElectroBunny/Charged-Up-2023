@@ -5,6 +5,7 @@
 package frc.robot;
 
 import org.ejml.dense.row.MatrixFeatures_CDRM;
+import frc.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -18,10 +19,19 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
+  /*
+   * Definition of autonomus commands chooser
+   */
+  private static final String kDefaultAuto = "Default Auto";
+  private static final String kLeftAutoCone = "Left Auto Cone";
+  private static final String kLeftAutoCube = "Left Auto Cube";
+  private static final String kMidAutoCone = "Mid Auto Cone";
+  private static final String kMidAutoCube = "Mid Auto Cube";
+  private static final String kRightAutoCone = "Right Auto Cone";
+  private static final String kRightAutocube = "Right Auto Cube";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
   private final RobotContainer m_robotContainer = new RobotContainer();
 
   /**
@@ -30,9 +40,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    // m_chooser.addOption("My Auto", kCustomAuto);
-    // SmartDashboard.putData("Auto choices", m_chooser);
+    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+    m_chooser.addOption("Left Auto Cone", kLeftAutoCone);
+    m_chooser.addOption("Left Auto Cube", kLeftAutoCube);
+    m_chooser.addOption("Mid Auto Cone", kMidAutoCone);
+    m_chooser.addOption("Mid Auto Cube", kMidAutoCube);
+    m_chooser.addOption("Right Auto Cone", kRightAutoCone);
+    m_chooser.addOption("Right Auto Cube", kRightAutocube);
+
+    SmartDashboard.putData("Auto choices", m_chooser);
   }
 
   /**
@@ -61,17 +77,36 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
-  }
+    m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
+
+    m_robotContainer.onAutoInit();
+    }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
+      case kLeftAutoCone:
+        m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE);
         break;
+      case kLeftAutoCube:
+        m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE);
+        break;
+      case kMidAutoCone:
+        m_robotContainer.onAutoMid();
+        break;
+
+      case kMidAutoCube:
+        m_robotContainer.onAutoMid();
+        break;
+
+      case kRightAutoCone:
+        m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE);
+        break;
+      case kRightAutocube:
+        m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE);
+        break;
+
       case kDefaultAuto:
       default:
         // Put default auto code here

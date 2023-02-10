@@ -6,11 +6,11 @@ package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Arm;
-import frc.robot.Subsystems.ArmPID;
+import frc.robot.Subsystems.EncoderPIDD;
 
 public class moveArmToAngle extends CommandBase {
   private Arm innerArm;
-  private ArmPID armPid;
+  private EncoderPIDD encoderPid;
 
   public moveArmToAngle(Arm outerArm, double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,12 +32,12 @@ public class moveArmToAngle extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    armPid.resetPID();
+    encoderPid.resetPID();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return armPid.atSetPoint();
+    return encoderPid.atSetPoint();
   }
 }

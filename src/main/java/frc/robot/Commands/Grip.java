@@ -11,8 +11,8 @@ public class Grip extends CommandBase {
   private Gripper innerGripper;
   // private int isGrub = -1;
 
-  public Grip(Gripper outerGripper) {
-    innerGripper = outerGripper;
+  public Grip(Gripper m_teleGrip) {
+    innerGripper = m_teleGrip;
     addRequirements(innerGripper);
   }
 
