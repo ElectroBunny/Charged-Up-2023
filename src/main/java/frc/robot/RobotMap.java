@@ -23,10 +23,10 @@ public class RobotMap {
     /**
     Definition of static variables - ports of driving motor controllers
      */
-    public static final int DRIVE_LEFT_MASTER  = 0;
-    public static final int DRIVE_LEFT_SLAVE  = 0;
-    public static final int DRIVE_RIGHT_MASTER  = 0;
-    public static final int DRIVE_RIGHT_SLAVE  = 0;
+    public static final int DRIVE_LEFT_MASTER  = 3;
+    public static final int DRIVE_LEFT_SLAVE  = 1;
+    public static final int DRIVE_RIGHT_MASTER  = 4;
+    public static final int DRIVE_RIGHT_SLAVE  = 2;
 
     /*
      * Definition of joysticks ports.
