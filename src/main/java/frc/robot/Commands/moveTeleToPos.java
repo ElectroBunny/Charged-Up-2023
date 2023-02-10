@@ -5,39 +5,39 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Subsystems.EncoderPIDD;
-import frc.robot.Subsystems.TeleGrip;
+import frc.robot.Subsystems.PIDCalc;
+import frc.robot.Subsystems.Telescop;
 
-public class moveTeleToDistance extends CommandBase {
-  private TeleGrip innerTele;
-  private EncoderPIDD encoderPid;
+public class moveTeleToPos extends CommandBase {
+  private Telescop innerTele;
+  private PIDCalc encoderPID;
 
-  public moveTeleToDistance(TeleGrip outerTele, double distance) {
+  public moveTeleToPos(Telescop outerTele, PIDCalc outerPID, double distance) {
     this.innerTele = outerTele;
-    innerTele.setPointDistance = distance;
+    innerTele.setSetpointLength(distance);
+    this.encoderPID = outerPID;
     addRequirements(innerTele);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    innerTele.moveTeleToDistance();
+    innerTele.moveTeleToPos();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    encoderPid.resetPID();
+    encoderPID.resetPID();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return encoderPid.atSetPoint();
+    return encoderPID.atSetPoint();
   }
 }

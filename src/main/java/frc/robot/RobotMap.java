@@ -63,6 +63,7 @@ public class RobotMap {
     public static final int TELE_ENCODER_CHANNEL_A = 3;
     public static final int TELE_ENCODER_CHANNEL_B = 4;
     public static final int ENCODER_PULSES_PER_ROTATION = 2048;
+    public static final int ARM_GEAR_RATIO = 50;
 
     /*
      * Definition of PID constants for the arm system.
@@ -99,6 +100,8 @@ public class RobotMap {
     public static final double KI_TELE = 0;
     public static final double KD_TELE = 0;
     public static final double TOLRENCE_TELE = 2.5;
+    public static final int TELE_GEAR_RATIO = 1;
+    public static final double TELE_GEAR_PERMITER = 0;
 
     /*
      * Definition of autonomus time constants

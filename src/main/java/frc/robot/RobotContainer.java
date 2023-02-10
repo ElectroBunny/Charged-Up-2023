@@ -9,22 +9,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.ArcadeDrive;
 import frc.robot.Commands.Grip;
 import frc.robot.Commands.moveArmToAngle;
-import frc.robot.Commands.moveTeleToDistance;
+import frc.robot.Commands.moveTeleToPos;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.DriveTrain;
-import frc.robot.Subsystems.EncoderPIDD;
 import frc.robot.Subsystems.Gripper;
-import frc.robot.Subsystems.TeleGrip;
-import frc.robot.RobotMap;
+import frc.robot.Subsystems.PIDCalc;
+import frc.robot.Subsystems.Telescop;
 
 public class RobotContainer {
 
   private final DriveTrain driveTrain;
   // private final Gripper gripper;
   private final OI m_oi;
-  private final EncoderPIDD m_armPid;
-  private final EncoderPIDD m_telePid;
-  private final TeleGrip m_teleGrip;
+  private final PIDCalc m_armPid;
+  private final PIDCalc m_telePid;
+  private final Telescop m_teleGrip;
   private final Arm m_arm;
   private final Gripper m_gripper;
 
@@ -37,10 +36,10 @@ public class RobotContainer {
     m_oi = new OI();
     
     m_arm = new Arm();
-    m_armPid = new EncoderPIDD(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM, m_arm.returnEncoder());
+    m_armPid = new PIDCalc(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM);
     
-    m_teleGrip = new TeleGrip();
-    m_telePid = new EncoderPIDD(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE, m_teleGrip.returnEncoder());
+    m_teleGrip = new Telescop();
+    m_telePid = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
 
     driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
     configureButtonBindings();
@@ -67,7 +66,7 @@ public class RobotContainer {
   */
   public void onSimpleAuto(double armSetPoint){
     //Sets the setpoint of the PID calculations
-    m_arm.setPointAngle = armSetPoint;
+    m_arm.setSetpointAngle(armSetPoint);
 
     delta_time = Timer.getFPGATimestamp() - startTime;
     if(!m_armPid.atSetPoint()){
@@ -75,7 +74,7 @@ public class RobotContainer {
     }
 
     else if(!m_telePid.atSetPoint()){
-      m_teleGrip.moveTeleToDistance();
+      m_teleGrip.moveTeleToPos();
     }
 
     else if(delta_time < RobotMap.SIMPLE_AUTO_DRIVE_TIME){
@@ -90,6 +89,8 @@ public class RobotContainer {
 
   public void onTeleopInit() {
     driveTrain.ArcadeDrive(0, 0);
+    m_armPid.resetPID();
+    m_telePid.resetPID();
   }
 
     
@@ -105,37 +106,37 @@ public class RobotContainer {
     m_oi.button1.onTrue(new Grip(m_gripper));
 
     //Gripper mode and low scoring buttons
-    m_oi.button7.onTrue(new moveArmToAngle(m_arm, RobotMap.LOW_FRONT_ANGLE)
-      .andThen(new moveTeleToDistance(m_teleGrip, RobotMap.TELE_LOW_DISTANCE_FRONT))
+    m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE)
+      .andThen(new moveTeleToPos(m_teleGrip, m_telePid, RobotMap.TELE_LOW_DISTANCE_FRONT))
       .andThen(new Grip(m_gripper))
-      .andThen(new moveTeleToDistance(m_teleGrip, 0)));
+      .andThen(new moveTeleToPos(m_teleGrip, m_telePid, 0)));
 
-    m_oi.button8.onTrue(new moveArmToAngle(m_arm, RobotMap.LOW_BACK_ANGLE)
-      .andThen(new moveTeleToDistance(m_teleGrip, RobotMap.TELE_LOW_DISTANCE_BACK))
+    m_oi.button8.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_BACK_ANGLE)
+      .andThen(new moveTeleToPos(m_teleGrip, m_telePid, RobotMap.TELE_LOW_DISTANCE_BACK))
       .andThen(new Grip(m_gripper))
-      .andThen(new moveTeleToDistance(m_teleGrip, 0)));
+      .andThen(new moveTeleToPos(m_teleGrip, m_telePid, 0)));
 
     //Cone scoring buttons(mid and high)
-    m_oi.button9.onTrue(new moveArmToAngle(m_arm, RobotMap.MID_CONE_ANGLE)
-      .andThen(new moveTeleToDistance(m_teleGrip, RobotMap.TELE_MID_DISTANCE_CONE))
+    m_oi.button9.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.MID_CONE_ANGLE)
+      .andThen(new moveTeleToPos(m_teleGrip, m_telePid, RobotMap.TELE_MID_DISTANCE_CONE))
       .andThen(new Grip(m_gripper))
-      .andThen(new moveTeleToDistance(m_teleGrip, 0)));
+      .andThen(new moveTeleToPos(m_teleGrip, m_telePid, 0)));
       
-    m_oi.button10.onTrue(new moveArmToAngle(m_arm, RobotMap.HIGH_CONE_ANGLE)
-      .andThen(new moveTeleToDistance(m_teleGrip,RobotMap.TELE_HIGH_DISTANCE_CONE))
+    m_oi.button10.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE)
+      .andThen(new moveTeleToPos(m_teleGrip, m_telePid, RobotMap.TELE_HIGH_DISTANCE_CONE))
       .andThen(new Grip(m_gripper))
-      .andThen(new moveTeleToDistance(m_teleGrip,0)));
+      .andThen(new moveTeleToPos(m_teleGrip, m_telePid, 0)));
 
     //Cube scoring buttons(mid and high)
-    m_oi.button11.onTrue(new moveArmToAngle(m_arm, RobotMap.MID_CUBE_ANGLE)
-      .andThen(new moveTeleToDistance(m_teleGrip, RobotMap.TELE_MID_DISTANCE_CUBE))
+    m_oi.button11.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.MID_CUBE_ANGLE)
+      .andThen(new moveTeleToPos(m_teleGrip, m_telePid, RobotMap.TELE_MID_DISTANCE_CUBE))
       .andThen(new Grip(m_gripper))
-      .andThen(new moveTeleToDistance(m_teleGrip, 0)));
+      .andThen(new moveTeleToPos(m_teleGrip, m_telePid, 0)));
     
-    m_oi.button12.onTrue(new moveArmToAngle(m_arm, RobotMap.HIGH_CUBE_ANGLE)
-      .andThen(new moveTeleToDistance(m_teleGrip, RobotMap.TELE_HIGH_DISTANCE_CUBE))
+    m_oi.button12.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CUBE_ANGLE)
+      .andThen(new moveTeleToPos(m_teleGrip, m_telePid, RobotMap.TELE_HIGH_DISTANCE_CUBE))
       .andThen(new Grip(m_gripper))
-      .andThen(new moveTeleToDistance(m_teleGrip, 0)));
+      .andThen(new moveTeleToPos(m_teleGrip, m_telePid, 0)));
   }
 }
 

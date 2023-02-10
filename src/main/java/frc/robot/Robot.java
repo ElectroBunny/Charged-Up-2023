@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import org.ejml.dense.row.MatrixFeatures_CDRM;
-import frc.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -87,7 +85,7 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
       case kLeftAutoCone:
-        m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE);
+        m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE);//move_by_color(color, high/middle/low)
         break;
       case kLeftAutoCube:
         m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE);
