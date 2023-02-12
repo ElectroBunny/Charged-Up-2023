@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.ArcadeDrive;
 import frc.robot.Commands.Grip;
 import frc.robot.Commands.moveArmToAngle;
+import frc.robot.Commands.moveTeleManually;
 import frc.robot.Commands.moveTeleToPos;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.DriveTrain;
@@ -104,6 +105,10 @@ public class RobotContainer {
     /**Linking between the buttons, that defined in oi.java, to commands. */
 
     m_oi.button1.onTrue(new Grip(m_gripper));
+
+    m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, true));
+    m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, false));
+
 
     //Gripper mode and low scoring buttons
     m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE)

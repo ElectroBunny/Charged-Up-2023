@@ -74,6 +74,14 @@ public class Telescop extends SubsystemBase {
     m_teleGrip.set(encoderPID.getOutput(this.getLength(), this.setpointLength));
   }
 
+  public void moveTeleManually(double teleGain){
+    m_teleGrip.set(teleGain);
+  }
+
+  public void stopTele(){
+    m_teleGrip.stopMotor();
+  }
+
   @Override
   public void periodic() {
   }
