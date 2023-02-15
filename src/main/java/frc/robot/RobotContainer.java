@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.ArcadeDrive;
@@ -20,6 +22,7 @@ import frc.robot.Subsystems.Gripper;
 import frc.robot.Subsystems.PIDCalc;
 import frc.robot.Subsystems.Telescop;
 
+
 public class RobotContainer {
 
   private final DriveTrain driveTrain;
@@ -34,10 +37,18 @@ public class RobotContainer {
   private double startTime;
   private double delta_time;
 
+  public static Compressor pcmCompressor;
+
+
   public RobotContainer() {
     driveTrain = new DriveTrain();
     m_gripper = new Gripper();
     m_oi = new OI();
+    
+    pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
+    pcmCompressor.enableDigital();
+    pcmCompressor.enableAnalog(-120, 120);
+    pcmCompressor.enableHybrid(-120, 120);
     
     m_arm = new Arm();
     // m_armPid = new PIDCalc(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM);
@@ -45,7 +56,7 @@ public class RobotContainer {
     // m_teleGrip = new Telescop();
     // m_telePid = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
 
-    driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
+    // driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
 
     configureButtonBindings();
   }
@@ -114,8 +125,8 @@ public class RobotContainer {
     // m_oi.button4.onTrue(new moveArmManually(m_arm, m_armPid, -1));
 
 
-    // m_oi.povbutton1.whileTrue(new checkArm(m_arm));
-    // m_oi.povbutton2.whileTrue(new reverseArm(m_arm));
+    m_oi.povbutton1.whileTrue(new checkArm(m_arm));
+    m_oi.povbutton2.whileTrue(new reverseArm(m_arm));
 
     // //Gripper mode and low scoring buttons
     // m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE)

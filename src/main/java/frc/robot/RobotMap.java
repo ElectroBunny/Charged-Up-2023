@@ -38,10 +38,8 @@ public class RobotMap {
     /*
      * Definition of gripper solenoids
      */
-    public static final int RIGHT_SOLENOID_FW = 2;
-    public static final int RIGHT_SOLENOID_BW = 3;
-    public static final int LEFT_SOLENOID_FW = 0;
-    public static final int LEFT_SOLENOID_BW = 1;
+    public static final int RIGHT_SOLENOID_FW = 0;
+    public static final int RIGHT_SOLENOID_BW = 1;
 
     /*
      * Definition of gripper telescop motor

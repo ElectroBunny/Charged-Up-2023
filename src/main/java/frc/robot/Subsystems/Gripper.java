@@ -13,15 +13,12 @@ import frc.robot.RobotMap;
 public class Gripper extends SubsystemBase {
   //initialize solonoieds in memory
   private DoubleSolenoid doublePCMRight = null;
-  private DoubleSolenoid doublePCMLeft = null;
-
+  
   public Gripper() {
     //define solonoieds
     doublePCMRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.RIGHT_SOLENOID_FW, RobotMap.RIGHT_SOLENOID_BW);
-    doublePCMLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.LEFT_SOLENOID_FW, RobotMap.LEFT_SOLENOID_BW);
     //Sets the grip to be opened when the robots starts
     doublePCMRight.set(Value.kReverse);
-    doublePCMLeft.set(Value.kReverse);
   }
 
   // public void gripSolenoidOff() {
@@ -45,7 +42,6 @@ public class Gripper extends SubsystemBase {
    */
   public void gripToggle(){
     doublePCMRight.toggle();
-    doublePCMLeft.toggle();
   }
 
   @Override
