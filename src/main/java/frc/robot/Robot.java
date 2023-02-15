@@ -5,6 +5,8 @@
 package frc.robot;
 
 
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,6 +40,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
+    //Code for logs
+    DataLogManager.start();
+    DriverStation.startDataLog(DataLogManager.getLog());
+
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("Left Auto Cone", kLeftAutoCone);
     m_chooser.addOption("Left Auto Cube", kLeftAutoCube);

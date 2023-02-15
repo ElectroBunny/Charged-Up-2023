@@ -29,14 +29,14 @@ public class RobotContainer {
   // private final PIDCalc m_telePid;
   // private final Telescop m_teleGrip;
   private final Arm m_arm;
-  // private final Gripper m_gripper;
+  private final Gripper m_gripper;
 
   private double startTime;
   private double delta_time;
 
   public RobotContainer() {
     driveTrain = new DriveTrain();
-    // m_gripper = new Gripper();
+    m_gripper = new Gripper();
     m_oi = new OI();
     
     m_arm = new Arm();
@@ -108,14 +108,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /**Linking between the buttons, that defined in oi.java, to commands. */
 
-    // m_oi.button1.onTrue(new Grip(m_gripper));
+    m_oi.button1.onTrue(new Grip(m_gripper));
 
     // m_oi.button3.onTrue(new moveArmManually(m_arm, m_armPid, +1));
     // m_oi.button4.onTrue(new moveArmManually(m_arm, m_armPid, -1));
 
 
-    m_oi.povbutton1.whileTrue(new checkArm(m_arm));
-    m_oi.povbutton2.whileTrue(new reverseArm(m_arm));
+    // m_oi.povbutton1.whileTrue(new checkArm(m_arm));
+    // m_oi.povbutton2.whileTrue(new reverseArm(m_arm));
 
     // //Gripper mode and low scoring buttons
     // m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE)

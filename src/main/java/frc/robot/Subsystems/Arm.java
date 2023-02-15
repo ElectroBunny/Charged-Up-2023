@@ -95,7 +95,7 @@ public class Arm extends SubsystemBase {
   }
 
   public void stopArm(){ 
-    armRightMotor.stopMotor();;
+    armRightMotor.stopMotor();
   }
 
   @Override
