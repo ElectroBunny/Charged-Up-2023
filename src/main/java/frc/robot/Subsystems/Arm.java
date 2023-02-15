@@ -86,6 +86,18 @@ public class Arm extends SubsystemBase {
     armRightMotor.set(encoderPID.getOutput(this.getAngle(), this.setpointAngle));
   }
 
+  public void moveArmManually(int movementDirection){
+    armRightMotor.set(encoderPID.getOutput(this.getAngle(), this.getAngle() + (movementDirection * RobotMap.MANUAL_ARM_MOVE_ANGLE) ));
+  }
+
+  public void checkArm(double armGain){
+    armRightMotor.set(armGain);
+  }
+
+  public void stopArm(){ 
+    armRightMotor.stopMotor();;
+  }
+
   @Override
   public void periodic() {
   }

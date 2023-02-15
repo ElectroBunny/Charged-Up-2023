@@ -18,6 +18,7 @@ public class Telescop extends SubsystemBase {
   private Encoder encoder;
   private PIDCalc encoderPID;
   private double setpointLength;
+  private int manualMoveDirection; 
 
   public Telescop() {
     this.m_teleGrip = new WPI_VictorSPX(RobotMap.TELESCOPIC_GRIPPER);
@@ -74,8 +75,11 @@ public class Telescop extends SubsystemBase {
     m_teleGrip.set(encoderPID.getOutput(this.getLength(), this.setpointLength));
   }
 
+  public void setManualMoveDirection(int direction){
+    this.manualMoveDirection = direction;
+  }
   public void moveTeleManually(double teleGain){
-    m_teleGrip.set(teleGain);
+    m_teleGrip.set(teleGain * this.manualMoveDirection);
   }
 
   public void stopTele(){

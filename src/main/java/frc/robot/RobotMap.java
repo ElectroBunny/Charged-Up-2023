@@ -52,8 +52,8 @@ public class RobotMap {
      * Definition of arm motor controllers.
      */
 
-    public static final int ARM_RIGHT_MOTOR = 0;
-    public static final int ARM_LEFT_MOTOR = 0;
+    public static final int ARM_RIGHT_MOTOR = 8;
+    public static final int ARM_LEFT_MOTOR = 10;
 
     /*
      * Definition of arm encoder
@@ -76,6 +76,7 @@ public class RobotMap {
     // beware: angle of arm is reseted at floor level and goes clockwise in comparision to robot's front pannel
     public static final double MIN_ANGLE = 14;
     public static final double MAX_ANGLE = 306.25;
+    public static final int MANUAL_ARM_MOVE_ANGLE = 20;
     /*
     average between range of deviation
     Δα = ±2°

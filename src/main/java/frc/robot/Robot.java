@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    m_robotContainer.onRobotPeriodic();
+    // m_robotContainer.onRobotPeriodic();
   }
 
   /**
@@ -77,39 +77,39 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
 
-    m_robotContainer.onAutoInit();
+    // m_robotContainer.onAutoInit();
     }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kLeftAutoCone:
-        m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE);//move_by_color(color, high/middle/low)
-        break;
-      case kLeftAutoCube:
-        m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE);
-        break;
-      case kMidAutoCone:
-        m_robotContainer.onAutoMid();
-        break;
+    // switch (m_autoSelected) {
+    //   case kLeftAutoCone:
+    //     m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE);//move_by_color(color, high/middle/low)
+    //     break;
+    //   case kLeftAutoCube:
+    //     m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE);
+    //     break;
+    //   case kMidAutoCone:
+    //     m_robotContainer.onAutoMid();
+    //     break;
 
-      case kMidAutoCube:
-        m_robotContainer.onAutoMid();
-        break;
+    //   case kMidAutoCube:
+    //     m_robotContainer.onAutoMid();
+    //     break;
 
-      case kRightAutoCone:
-        m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE);
-        break;
-      case kRightAutocube:
-        m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE);
-        break;
+    //   case kRightAutoCone:
+    //     m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE);
+    //     break;
+    //   case kRightAutocube:
+    //     m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE);
+    //     break;
 
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+    //   case kDefaultAuto:
+    //   default:
+    //     // Put default auto code here
+    //     break;
+    // }
   }
 
   /** This function is called once when teleop is enabled. */
