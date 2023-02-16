@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.ArcadeDrive;
@@ -37,18 +35,11 @@ public class RobotContainer {
   private double startTime;
   private double delta_time;
 
-  public static Compressor pcmCompressor;
-
 
   public RobotContainer() {
     driveTrain = new DriveTrain();
     m_gripper = new Gripper();
     m_oi = new OI();
-    
-    pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
-    pcmCompressor.enableDigital();
-    pcmCompressor.enableAnalog(-120, 120);
-    pcmCompressor.enableHybrid(-120, 120);
     
     m_arm = new Arm();
     // m_armPid = new PIDCalc(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM);

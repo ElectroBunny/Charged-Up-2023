@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystems;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -12,13 +13,21 @@ import frc.robot.RobotMap;
 
 public class Gripper extends SubsystemBase {
   //initialize solonoieds in memory
-  private DoubleSolenoid doublePCMRight = null;
+  private DoubleSolenoid doubleSolenoid = null;
+  public static Compressor pcmCompressor;
+
   
   public Gripper() {
+    //Definition of the compressor
+    pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
+    pcmCompressor.enableDigital();
+    pcmCompressor.enableAnalog(-120, 120);
+    pcmCompressor.enableHybrid(-120, 120);
+
     //define solonoieds
-    doublePCMRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.RIGHT_SOLENOID_FW, RobotMap.RIGHT_SOLENOID_BW);
+    doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.GRIPPER_SOLENOID_FW, RobotMap.GRIPPER_SOLENOID_BW);
     //Sets the grip to be opened when the robots starts
-    doublePCMRight.set(Value.kReverse);
+    doubleSolenoid.set(Value.kReverse);
   }
 
   // public void gripSolenoidOff() {
@@ -41,7 +50,7 @@ public class Gripper extends SubsystemBase {
    * Function that toggles between the states of the solenoid
    */
   public void gripToggle(){
-    doublePCMRight.toggle();
+    doubleSolenoid.toggle();
   }
 
   @Override
