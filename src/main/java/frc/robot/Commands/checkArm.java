@@ -5,9 +5,13 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
+import frc.robot.RobotMap;
 import frc.robot.Subsystems.Arm;
 
 public class checkArm extends CommandBase {
+  private double yAxis = 0;
+  private OI oi = new OI();
   private Arm innerArm;
 
   public checkArm(Arm outerArm) {
@@ -22,7 +26,8 @@ public class checkArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    innerArm.checkArm(-0.2);
+    yAxis = oi.getJoystickRawAxis(RobotMap.Y_AXIS_PORT);
+    innerArm.checkArm(yAxis);
   }
 
   // Called once the command ends or is interrupted.

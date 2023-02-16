@@ -5,6 +5,7 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotMap;
 import frc.robot.Subsystems.Arm;
 
 public class reverseArm extends CommandBase {
@@ -22,7 +23,7 @@ public class reverseArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    innerArm.checkArm(0.2);
+    innerArm.checkArm(RobotMap.TELESCOPE_SPEED);
   }
 
   // Called once the command ends or is interrupted.

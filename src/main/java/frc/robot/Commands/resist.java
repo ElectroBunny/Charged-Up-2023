@@ -5,39 +5,30 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OI;
-import frc.robot.RobotMap;
-import frc.robot.Subsystems.Telescop;
+import frc.robot.Subsystems.Arm;
 
-public class moveTeleManually extends CommandBase {
-  private Telescop innerTele;
-  private double yAxis = 0;
-  private OI oi = new OI();
-  private int direction; 
+public class resist extends CommandBase {
+  private Arm innerArm;
 
-  public moveTeleManually(Telescop outerTele, int direction) {
-
-    this.innerTele = outerTele;
-    addRequirements(innerTele);
-    this.direction = direction;
-  }
+  public resist(Arm outerArm) {
+    this.innerArm = outerArm;
+    addRequirements(innerArm);
+ }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    yAxis = oi.getJoystickRawAxis(RobotMap.Y_AXIS_PORT);
-    innerTele.moveTeleManually(direction);
+    innerArm.resist();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    innerTele.stopTele();
+    innerArm.stopArm();
   }
 
   // Returns true when the command should end.

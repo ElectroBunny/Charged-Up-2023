@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Commands.ArcadeDrive;
 import frc.robot.Commands.Grip;
 import frc.robot.Commands.Release;
@@ -16,6 +17,7 @@ import frc.robot.Commands.moveArmManually;
 import frc.robot.Commands.moveArmToAngle;
 import frc.robot.Commands.moveTeleManually;
 import frc.robot.Commands.moveTeleToPos;
+import frc.robot.Commands.resist;
 import frc.robot.Commands.reverseArm;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.DriveTrain;
@@ -31,7 +33,7 @@ public class RobotContainer {
   private final OI m_oi;
   // private final PIDCalc m_armPid;
   // private final PIDCalc m_telePid;
-  // private final Telescop m_teleGrip;
+  private final Telescop m_teleGrip;
   private final Arm m_arm;
   private final Gripper m_gripper;
 
@@ -48,6 +50,7 @@ public class RobotContainer {
     m_oi = new OI();
     
     m_arm = new Arm();
+    m_teleGrip = new Telescop();
 
     // pcmCompressor = new Compressor( PneumaticsModuleType.CTREPCM);
     // pcmCompressor.enableDigital();
@@ -59,12 +62,11 @@ public class RobotContainer {
     // m_teleGrip = new Telescop();
     // m_telePid = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
 
-    // driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
-
     configureButtonBindings();
   }
 
   public void onRobotPeriodic(){
+    SmartDashboard.putNumber("Arm angle", m_arm.getAngle());
     // SmartDashboard.putNumber("Distance R", m_armPid.getDistanceRight());
     // SmartDashboard.putNumber("Distance L", m_armPid.getDistanceLeft());
     // SmartDashboard.putNumber("Rate R", m_armPid.getRateRight());
@@ -123,15 +125,23 @@ public class RobotContainer {
     /**Linking between the buttons, that defined in oi.java, to commands. */
 
     m_oi.button3.onTrue(new Grip(m_gripper));
-    m_oi.button4.onTrue(new Release(m_gripper));
+    // m_oi.button4.onTrue(new Release(m_gripper));
 
 
     // m_oi.button3.onTrue(new moveArmManually(m_arm, m_armPid, +1));
     // m_oi.button4.onTrue(new moveArmManually(m_arm, m_armPid, -1));
 
 
-    m_oi.povbutton1.whileTrue(new checkArm(m_arm));
-    m_oi.povbutton2.whileTrue(new reverseArm(m_arm));
+    // m_oi.button5.whileTrue(new checkArm(m_arm));
+    // m_oi.button6.whileTrue(new reverseArm(m_arm));
+    m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, 1));
+    m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, -1));
+
+
+    m_oi.button7.whileTrue(new resist(m_arm));
+    m_oi.button2.whileTrue(new checkArm(m_arm));
+
+
 
     // //Gripper mode and low scoring buttons
     // m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE)

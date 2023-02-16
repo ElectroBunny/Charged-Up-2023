@@ -14,6 +14,7 @@ import frc.robot.RobotMap;
 
 public class Telescop extends SubsystemBase {
   private WPI_VictorSPX m_teleGrip;
+  private double Gain;
 
   private Encoder encoder;
   private PIDCalc encoderPID;
@@ -40,6 +41,10 @@ public class Telescop extends SubsystemBase {
   */
   public double getDistance(){
     return encoder.getDistance();
+  }
+
+  public void setGain(double Gain){
+    this.Gain = Gain;
   }
 
   /** Return the length of the arm relative to zero point - where the tele starts.
@@ -78,8 +83,8 @@ public class Telescop extends SubsystemBase {
   public void setManualMoveDirection(int direction){
     this.manualMoveDirection = direction;
   }
-  public void moveTeleManually(double teleGain){
-    m_teleGrip.set(teleGain * this.manualMoveDirection);
+  public void moveTeleManually(int direction){
+    m_teleGrip.set(direction);
   }
 
   public void stopTele(){

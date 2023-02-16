@@ -3,6 +3,12 @@ package frc.robot;
 
 public class RobotMap {
 
+    //speed for telescope opening
+    public static final double TELESCOPE_SPEED_REVERSE = -1;
+    public static final double TELESCOPE_SPEED = 1;
+
+
+
     //general dimensions (robot and field)
 
     public static final double ROBOT_SHIELD_HEIGHT = 13.5;
@@ -39,13 +45,13 @@ public class RobotMap {
      * Definition of gripper solenoids
      */
     public static final int RIGHT_GRIPPER_SOLENOID_FW = 1;
-    public static final int RIGHT_GRIPPER_SOLENOID_BW = 0;
+    public static final int RIGHT_GRIPPER_SOLENOID_BW = 7;
     public static final int LEFT_GRIPPER_SOLENOID_FW = 4;
     public static final int LEFT_GRIPPER_SOLENOID_BW = 5;
     /*
      * Definition of gripper telescop motor
      */
-    public static final int TELESCOPIC_GRIPPER = 8;
+    public static final int TELESCOPIC_GRIPPER = 7;
 
     /*
      * Definition of arm motor controllers.

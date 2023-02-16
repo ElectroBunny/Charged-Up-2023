@@ -17,6 +17,7 @@ public class Gripper extends SubsystemBase {
   private DoubleSolenoid doubleSolenoidLeft = null;
 
   public static Compressor pcmCompressor;
+  private boolean isOpen;
 
   
   public Gripper() {
@@ -28,6 +29,7 @@ public class Gripper extends SubsystemBase {
     //Sets the grip to be opened when the robots starts
     doubleSolenoidRight.set(Value.kOff);
     doubleSolenoidLeft.set(Value.kOff);
+    isOpen = true;
   }
 
   public void gripSolenoidOff() {
@@ -50,9 +52,15 @@ public class Gripper extends SubsystemBase {
   /*
    * Function that toggles between the states of the solenoid
    */
-  // public void gripToggle(){
-  //   doubleSolenoid.toggle();
-  // }
+  public void gripToggle(){
+    if (isOpen){
+      this.gripGrab();
+    }
+    else {
+      this.gripRelease();
+    }
+    isOpen = !isOpen;
+  }
 
   @Override
   public void periodic() {

@@ -24,7 +24,7 @@ public class Arm extends SubsystemBase {
 
   public Arm() {
     // Definition of the arm encoder and its constants.
-    this.encoder = new Encoder(RobotMap.ARM_ENCODER_CHANNEL_A, RobotMap.ARM_ENCODER_CHANNEL_B, false, EncodingType.k2X);
+    this.encoder = new Encoder(RobotMap.ARM_ENCODER_CHANNEL_A, RobotMap.ARM_ENCODER_CHANNEL_B, true, EncodingType.k2X);
     this.encoder.setDistancePerPulse(1./2048.);
     this.encoder.reset();
 
@@ -35,8 +35,8 @@ public class Arm extends SubsystemBase {
     this.armRightMotor = new WPI_VictorSPX(RobotMap.ARM_RIGHT_MOTOR);
     this.armLeftMotor = new WPI_VictorSPX(RobotMap.ARM_LEFT_MOTOR);
 
-    this.armLeftMotor.setNeutralMode(NeutralMode.Coast);
-    this.armRightMotor.setNeutralMode(NeutralMode.Coast);
+    this.armLeftMotor.setNeutralMode(NeutralMode.Brake);
+    this.armRightMotor.setNeutralMode(NeutralMode.Brake);
 
     this.armLeftMotor.setInverted(true);
     this.armRightMotor.setInverted(false);
@@ -58,7 +58,7 @@ public class Arm extends SubsystemBase {
     * @return the angle of the arm as described above.
    */
   public double getAngle(){
-    return RobotMap.MIN_ANGLE + (encoder.getDistance() * 360 / RobotMap.ARM_GEAR_RATIO);
+    return RobotMap.MIN_ANGLE + (encoder.getDistance() * 360);
   }
 
   /*
@@ -96,6 +96,15 @@ public class Arm extends SubsystemBase {
 
   public void stopArm(){ 
     armRightMotor.stopMotor();
+  }
+
+  public void resist(){
+    if(this.getAngle() < 180){
+      armRightMotor.set(-0.1);
+    }
+    else{
+      armRightMotor.set(0.1);
+    }
   }
 
   @Override
