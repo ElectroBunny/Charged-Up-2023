@@ -7,17 +7,17 @@ package frc.robot.Commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Gripper;
 
-public class Grip extends CommandBase {
+public class Release extends CommandBase {
   private Gripper innerGripper;
 
-  public Grip(Gripper m_teleGrip) {
+  public Release(Gripper m_teleGrip) {
     innerGripper = m_teleGrip;
     addRequirements(innerGripper);
   }
 
   @Override
   public void initialize() {
-      innerGripper.gripGrab();
+      innerGripper.gripRelease();
   }
 
   @Override

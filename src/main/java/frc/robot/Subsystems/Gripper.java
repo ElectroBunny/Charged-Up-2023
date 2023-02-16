@@ -13,45 +13,46 @@ import frc.robot.RobotMap;
 
 public class Gripper extends SubsystemBase {
   //initialize solonoieds in memory
-  private DoubleSolenoid doubleSolenoid = null;
+  private DoubleSolenoid doubleSolenoidRight = null;
+  private DoubleSolenoid doubleSolenoidLeft = null;
+
   public static Compressor pcmCompressor;
 
   
   public Gripper() {
     //Definition of the compressor
-    pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
-    pcmCompressor.enableDigital();
-    pcmCompressor.enableAnalog(-120, 120);
-    pcmCompressor.enableHybrid(-120, 120);
 
     //define solonoieds
-    doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.GRIPPER_SOLENOID_FW, RobotMap.GRIPPER_SOLENOID_BW);
+    doubleSolenoidRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.RIGHT_GRIPPER_SOLENOID_FW, RobotMap.RIGHT_GRIPPER_SOLENOID_BW);
+    doubleSolenoidLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.LEFT_GRIPPER_SOLENOID_FW, RobotMap.LEFT_GRIPPER_SOLENOID_BW);
     //Sets the grip to be opened when the robots starts
-    doubleSolenoid.set(Value.kReverse);
+    doubleSolenoidRight.set(Value.kOff);
+    doubleSolenoidLeft.set(Value.kOff);
   }
 
-  // public void gripSolenoidOff() {
-  //   doublePCMRight.set(Value.kOff);
-  //   doublePCMLeft.set(Value.kOff);
-  // }
+  public void gripSolenoidOff() {
+    doubleSolenoidRight.set(Value.kOff);
+    doubleSolenoidLeft.set(Value.kOff);
 
-  // public void gripGrab() {
-  //   doublePCMRight.set(Value.kForward);
-  //   doublePCMLeft.set(Value.kForward);
-  // }
+  }
+
+  public void gripGrab() {
+    doubleSolenoidRight.set(Value.kForward);
+    doubleSolenoidLeft.set(Value.kForward);
+  }
 
 
-  // public void gripRelease(){
-  //   doublePCMRight.set(Value.kReverse);
-  //   doublePCMLeft.set(Value.kReverse);
-  // }
+  public void gripRelease(){
+    doubleSolenoidRight.set(Value.kReverse);
+    doubleSolenoidLeft.set(Value.kReverse);
+  }
   
   /*
    * Function that toggles between the states of the solenoid
    */
-  public void gripToggle(){
-    doubleSolenoid.toggle();
-  }
+  // public void gripToggle(){
+  //   doubleSolenoid.toggle();
+  // }
 
   @Override
   public void periodic() {

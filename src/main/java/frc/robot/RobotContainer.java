@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.ArcadeDrive;
 import frc.robot.Commands.Grip;
+import frc.robot.Commands.Release;
 import frc.robot.Commands.checkArm;
 import frc.robot.Commands.moveArmManually;
 import frc.robot.Commands.moveArmToAngle;
@@ -35,6 +38,9 @@ public class RobotContainer {
   private double startTime;
   private double delta_time;
 
+  public static Compressor pcmCompressor;
+
+
 
   public RobotContainer() {
     driveTrain = new DriveTrain();
@@ -42,6 +48,12 @@ public class RobotContainer {
     m_oi = new OI();
     
     m_arm = new Arm();
+
+    // pcmCompressor = new Compressor( PneumaticsModuleType.CTREPCM);
+    // pcmCompressor.enableDigital();
+    // pcmCompressor.enableAnalog(0, 120);
+
+
     // m_armPid = new PIDCalc(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM);
     
     // m_teleGrip = new Telescop();
@@ -110,7 +122,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /**Linking between the buttons, that defined in oi.java, to commands. */
 
-    m_oi.button1.onTrue(new Grip(m_gripper));
+    m_oi.button3.onTrue(new Grip(m_gripper));
+    m_oi.button4.onTrue(new Release(m_gripper));
+
 
     // m_oi.button3.onTrue(new moveArmManually(m_arm, m_armPid, +1));
     // m_oi.button4.onTrue(new moveArmManually(m_arm, m_armPid, -1));
