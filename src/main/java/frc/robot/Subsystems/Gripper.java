@@ -27,8 +27,8 @@ public class Gripper extends SubsystemBase {
     doubleSolenoidRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.RIGHT_GRIPPER_SOLENOID_FW, RobotMap.RIGHT_GRIPPER_SOLENOID_BW);
     doubleSolenoidLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.LEFT_GRIPPER_SOLENOID_FW, RobotMap.LEFT_GRIPPER_SOLENOID_BW);
     //Sets the grip to be opened when the robots starts
-    doubleSolenoidRight.set(Value.kOff);
-    doubleSolenoidLeft.set(Value.kOff);
+    doubleSolenoidRight.set(Value.kReverse);
+    doubleSolenoidLeft.set(Value.kReverse);
     isOpen = true;
   }
 

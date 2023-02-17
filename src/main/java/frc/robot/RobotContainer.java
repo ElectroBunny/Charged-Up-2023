@@ -28,8 +28,7 @@ import frc.robot.Subsystems.Telescop;
 
 public class RobotContainer {
 
-  private final DriveTrain driveTrain;
-  // private final Gripper gripper;
+  // private final DriveTrain driveTrain;
   private final OI m_oi;
   // private final PIDCalc m_armPid;
   // private final PIDCalc m_telePid;
@@ -45,7 +44,7 @@ public class RobotContainer {
 
 
   public RobotContainer() {
-    driveTrain = new DriveTrain();
+    // driveTrain = new DriveTrain();
     m_gripper = new Gripper();
     m_oi = new OI();
     
@@ -59,7 +58,6 @@ public class RobotContainer {
 
     // m_armPid = new PIDCalc(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM);
     
-    // m_teleGrip = new Telescop();
     // m_telePid = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
 
     configureButtonBindings();
@@ -125,7 +123,7 @@ public class RobotContainer {
     /**Linking between the buttons, that defined in oi.java, to commands. */
 
     m_oi.button3.onTrue(new Grip(m_gripper));
-    // m_oi.button4.onTrue(new Release(m_gripper));
+    m_oi.button4.onTrue(new Release(m_gripper));
 
 
     // m_oi.button3.onTrue(new moveArmManually(m_arm, m_armPid, +1));
