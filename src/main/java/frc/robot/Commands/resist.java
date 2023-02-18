@@ -5,12 +5,19 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
 import frc.robot.Subsystems.Arm;
+import frc.robot.Subsystems.Telescope;
 
 public class resist extends CommandBase {
   private Arm innerArm;
+  private Telescope m_tele;
+
+  private OI m_oi = new OI();
 
   public resist(Arm outerArm) {
+    this.m_tele = new Telescope();
+
     this.innerArm = outerArm;
     addRequirements(innerArm);
  }
@@ -22,7 +29,7 @@ public class resist extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    innerArm.resist();
+    innerArm.resist(m_tele.getLength());
   }
 
   // Called once the command ends or is interrupted.
@@ -34,6 +41,6 @@ public class resist extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_oi.button7.getAsBoolean();
   }
 }

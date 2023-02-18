@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -12,20 +11,20 @@ public class OI {
     //Definiton of joystick buttons
     
     public Joystick joystick_controller = new Joystick(RobotMap.JOYSTICK_CONTROLLER);
-    JoystickButton button1 = new JoystickButton(joystick_controller, 1);
-    JoystickButton button2 = new JoystickButton(joystick_controller, 2);
-    JoystickButton button3 = new JoystickButton(joystick_controller, 3);
-    JoystickButton button4 = new JoystickButton(joystick_controller, 4);
-    JoystickButton button5 = new JoystickButton(joystick_controller, 5);
-    JoystickButton button6 = new JoystickButton(joystick_controller, 6);
-    JoystickButton button7 = new JoystickButton(joystick_controller, 7);
-    JoystickButton button8 = new JoystickButton(joystick_controller, 8);
-    JoystickButton button9 = new JoystickButton(joystick_controller, 9);
-    JoystickButton button10 = new JoystickButton(joystick_controller, 10);
-    JoystickButton button11 = new JoystickButton(joystick_controller, 11);
-    JoystickButton button12 = new JoystickButton(joystick_controller, 12);
-    POVButton povbutton1= new POVButton(joystick_controller,0);
-    POVButton povbutton2= new POVButton(joystick_controller,180);
+    public JoystickButton button1 = new JoystickButton(joystick_controller, 1);
+    public JoystickButton button2 = new JoystickButton(joystick_controller, 2);
+    public JoystickButton button3 = new JoystickButton(joystick_controller, 3);
+    public JoystickButton button4 = new JoystickButton(joystick_controller, 4);
+    public JoystickButton button5 = new JoystickButton(joystick_controller, 5);
+    public JoystickButton button6 = new JoystickButton(joystick_controller, 6);
+    public JoystickButton button7 = new JoystickButton(joystick_controller, 7);
+    public JoystickButton button8 = new JoystickButton(joystick_controller, 8);
+    public JoystickButton button9 = new JoystickButton(joystick_controller, 9);
+    public JoystickButton button10 = new JoystickButton(joystick_controller, 10);
+    public JoystickButton button11 = new JoystickButton(joystick_controller, 11);
+    public JoystickButton button12 = new JoystickButton(joystick_controller, 12);
+    public POVButton povbutton1= new POVButton(joystick_controller,0);
+    public POVButton povbutton2= new POVButton(joystick_controller,180);
     
     //definition of Xbox Controller 
 
@@ -65,9 +64,6 @@ public class OI {
     public POVButton povButtonDownXboxLeft = new POVButton(xboxController, 180);
     public POVButton povButtonUpXboxRight = new POVButton(xboxController, 0);
     public POVButton povButtonDownXboxRight = new POVButton(xboxController, 180);
-
-    //Definition 
-    public PS4Controller ps4Controller = new PS4Controller(RobotMap.PS4_CONTROLLER);
     
     public double getJoystickRawAxis(int axis){
         return joystick_controller.getRawAxis(axis);

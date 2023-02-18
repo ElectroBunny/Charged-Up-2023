@@ -12,24 +12,24 @@ import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class Telescop extends SubsystemBase {
+public class Telescope extends SubsystemBase {
   private WPI_VictorSPX m_teleGrip;
+  // Gain contains value of constant in order to open Telescope
   private double Gain;
 
   private Encoder encoder;
   private PIDCalc encoderPID;
   private double setpointLength;
-  private int manualMoveDirection; 
 
-  public Telescop() {
+  public Telescope() {
     this.m_teleGrip = new WPI_VictorSPX(RobotMap.TELESCOPIC_GRIPPER);
     this.m_teleGrip.setNeutralMode(NeutralMode.Coast);
 
-    encoder = new Encoder(RobotMap.TELE_ENCODER_CHANNEL_A, RobotMap.TELE_ENCODER_CHANNEL_B, false, EncodingType.k2X);
-    encoder.setDistancePerPulse(1./2048.);
-    encoder.reset(); 
+    this.encoder = new Encoder(RobotMap.TELE_ENCODER_CHANNEL_A, RobotMap.TELE_ENCODER_CHANNEL_B, false, EncodingType.k2X);
+    this.encoder.setDistancePerPulse(1./2048.);
+    this.encoder.reset(); 
 
-    encoderPID = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
+    this.encoderPID = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
 
   }
 
@@ -43,16 +43,12 @@ public class Telescop extends SubsystemBase {
     return encoder.getDistance();
   }
 
-  public void setGain(double Gain){
-    this.Gain = Gain;
-  }
-
   /** Return the length of the arm relative to zero point - where the tele starts.
     *
     * @return the length of the arm as described above.
    */
   public double getLength(){
-    return encoder.getDistance() * RobotMap.TELE_GEAR_PERMITER / RobotMap.TELE_GEAR_RATIO;
+    return encoder.getDistance() * RobotMap.TELE_SHAFT_PERMITER / RobotMap.TELE_GEAR_RATIO;
   }
 
   /*
@@ -80,11 +76,21 @@ public class Telescop extends SubsystemBase {
     m_teleGrip.set(encoderPID.getOutput(this.getLength(), this.setpointLength));
   }
 
-  public void setManualMoveDirection(int direction){
-    this.manualMoveDirection = direction;
+  /*
+   * Function that sets the gain(voltage in percent) to give to the telescope.
+   */
+  public void setGain(double Gain){
+    this.Gain = Gain;
   }
-  public void moveTeleManually(int direction){
-    m_teleGrip.set(direction);
+
+  /** Moves the telescope with a limit.
+    *
+    * @param currentAngle the current angle of the arm.
+    */
+  public void moveTeleManually(double currentAngle){
+    if((0 < currentAngle && currentAngle < 360) && (this.getLength() < RobotMap.TELE_MAX_LENGTH)){
+      m_teleGrip.set(this.Gain);
+    }
   }
 
   public void stopTele(){

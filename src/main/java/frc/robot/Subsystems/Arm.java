@@ -86,25 +86,29 @@ public class Arm extends SubsystemBase {
     armRightMotor.set(encoderPID.getOutput(this.getAngle(), this.setpointAngle));
   }
 
-  public void moveArmManually(int movementDirection){
-    armRightMotor.set(encoderPID.getOutput(this.getAngle(), this.getAngle() + (movementDirection * RobotMap.MANUAL_ARM_MOVE_ANGLE) ));
-  }
-
-  public void checkArm(double armGain){
+  /** Moves the arm by dynamic gain given.
+   *
+   * @param armGain the gain to set the arm motor to(dynamic)
+   */
+  public void moveArmManually(double armGain){
     armRightMotor.set(armGain);
   }
 
-  public void stopArm(){ 
-    armRightMotor.stopMotor();
-  }
-
-  public void resist(){
+  /** Holds the arm in its position by giving dynamic gain.
+   * 
+   * @param teleLength the current length of the telescope, used to calculate the gain in order to hold the arm.
+   */
+  public void resist(double teleLength){
     if(this.getAngle() < 180){
       armRightMotor.set(-0.1);
     }
     else{
       armRightMotor.set(0.1);
     }
+  }
+
+  public void stopArm(){ 
+    armRightMotor.stopMotor();
   }
 
   @Override

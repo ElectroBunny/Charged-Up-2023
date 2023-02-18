@@ -5,17 +5,21 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
+import frc.robot.RobotMap;
 import frc.robot.Subsystems.Arm;
-import frc.robot.Subsystems.PIDCalc;
+import frc.robot.Subsystems.Telescope;
 
 public class moveArmManually extends CommandBase {
+  private double yAxis = 0;
+  private OI oi = new OI();
+
   private Arm innerArm;
-  private PIDCalc encoderPID;
-  private int movementDirection; //1 - up, -1 - down
-  
-  public moveArmManually(Arm outerArm, PIDCalc outerPID, int direction) {
-    this.movementDirection = direction;
-    this.encoderPID = outerPID;
+  private Telescope m_tele;
+
+  public moveArmManually(Arm outerArm) {
+    this.m_tele = new Telescope();
+
     this.innerArm = outerArm;
     addRequirements(innerArm);
   }
@@ -27,18 +31,21 @@ public class moveArmManually extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    innerArm.moveArmManually(this.movementDirection);
+    yAxis = oi.getJoystickRawAxis(RobotMap.Y_AXIS_PORT);
+    innerArm.moveArmManually(yAxis);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    encoderPID.resetPID();
+    innerArm.resist(m_tele.getLength());
+
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return encoderPID.atSetPoint();
+    return false;
   }
 }

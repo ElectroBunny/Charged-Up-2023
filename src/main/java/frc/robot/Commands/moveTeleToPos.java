@@ -6,13 +6,13 @@ package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.PIDCalc;
-import frc.robot.Subsystems.Telescop;
+import frc.robot.Subsystems.Telescope;
 
 public class moveTeleToPos extends CommandBase {
-  private Telescop innerTele;
+  private Telescope innerTele;
   private PIDCalc encoderPID;
 
-  public moveTeleToPos(Telescop outerTele, PIDCalc outerPID, double distance) {
+  public moveTeleToPos(Telescope outerTele, PIDCalc outerPID, double distance) {
     this.innerTele = outerTele;
     innerTele.setSetpointLength(distance);
     this.encoderPID = outerPID;

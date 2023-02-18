@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.time.Period;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
@@ -12,27 +14,25 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Commands.ArcadeDrive;
 import frc.robot.Commands.Grip;
 import frc.robot.Commands.Release;
-import frc.robot.Commands.checkArm;
 import frc.robot.Commands.moveArmManually;
 import frc.robot.Commands.moveArmToAngle;
 import frc.robot.Commands.moveTeleManually;
 import frc.robot.Commands.moveTeleToPos;
 import frc.robot.Commands.resist;
-import frc.robot.Commands.reverseArm;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.DriveTrain;
 import frc.robot.Subsystems.Gripper;
 import frc.robot.Subsystems.PIDCalc;
-import frc.robot.Subsystems.Telescop;
+import frc.robot.Subsystems.Telescope;
 
 
 public class RobotContainer {
 
-  // private final DriveTrain driveTrain;
+  private final DriveTrain driveTrain;
   private final OI m_oi;
   // private final PIDCalc m_armPid;
   // private final PIDCalc m_telePid;
-  private final Telescop m_teleGrip;
+  private final Telescope m_teleGrip;
   private final Arm m_arm;
   private final Gripper m_gripper;
 
@@ -44,44 +44,37 @@ public class RobotContainer {
 
 
   public RobotContainer() {
-    // driveTrain = new DriveTrain();
+    driveTrain = new DriveTrain();
     m_gripper = new Gripper();
     m_oi = new OI();
-    
     m_arm = new Arm();
-    m_teleGrip = new Telescop();
-
-    // pcmCompressor = new Compressor( PneumaticsModuleType.CTREPCM);
-    // pcmCompressor.enableDigital();
-    // pcmCompressor.enableAnalog(0, 120);
-
-
+    m_teleGrip = new Telescope();
     // m_armPid = new PIDCalc(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM);
-    
     // m_telePid = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
 
+
+    //might cause a problem
+    pcmCompressor = new Compressor( PneumaticsModuleType.CTREPCM);
+    pcmCompressor.enableDigital();
+    // pcmCompressor.enableAnalog(0, 120);
+
     configureButtonBindings();
+    driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
   }
 
   public void onRobotPeriodic(){
     SmartDashboard.putNumber("Arm angle", m_arm.getAngle());
-    // SmartDashboard.putNumber("Distance R", m_armPid.getDistanceRight());
-    // SmartDashboard.putNumber("Distance L", m_armPid.getDistanceLeft());
-    // SmartDashboard.putNumber("Rate R", m_armPid.getRateRight());
-    // SmartDashboard.putNumber("Rate L", m_armPid.getRateLeft());
-    // SmartDashboard.putNumber("Rate R", m_armPid.getRateRight());
-    // SmartDashboard.putNumber("Rate L", m_armPid.getRateLeft());
-    // SmartDashboard.putBoolean("Direction R", m_armPid.getDirectRight());
-    // SmartDashboard.putBoolean("Direction L", m_armPid.getDirectLeft());
+    SmartDashboard.putNumber("Telescope length", m_teleGrip.getLength());
   }
 
   public void onAutoInit(){
+    //Saves the time when the autonomus started.
     this.startTime = Timer.getFPGATimestamp();
   }
   
   /**
   * Sets the tool tip text.
-  * @param armSetPoint the angle that you want the arm to move to
+  * @param armSetPoint the angle that you want the arm to move to (autonomus)
   */
   // public void onSimpleAuto(double armSetPoint){
   //   //Sets the setpoint of the PID calculations
@@ -100,7 +93,7 @@ public class RobotContainer {
   //     driveTrain.ArcadeDrive(0.6, 0);
   //   }
 
-  // }
+  
 
   public void onAutoMid(){
   }
@@ -125,19 +118,12 @@ public class RobotContainer {
     m_oi.button3.onTrue(new Grip(m_gripper));
     m_oi.button4.onTrue(new Release(m_gripper));
 
-
-    // m_oi.button3.onTrue(new moveArmManually(m_arm, m_armPid, +1));
-    // m_oi.button4.onTrue(new moveArmManually(m_arm, m_armPid, -1));
-
-
-    // m_oi.button5.whileTrue(new checkArm(m_arm));
-    // m_oi.button6.whileTrue(new reverseArm(m_arm));
-    m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, 1));
-    m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, -1));
+    m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN));
+    m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN_REVERSE));
 
 
-    m_oi.button7.whileTrue(new resist(m_arm));
-    m_oi.button2.whileTrue(new checkArm(m_arm));
+    // m_oi.button7.whileTrue(new resist(m_arm));
+    m_oi.button2.whileTrue(new moveArmManually(m_arm));
 
 
 
@@ -175,7 +161,3 @@ public class RobotContainer {
     //   .andThen(new moveTeleToPos(m_teleGrip, m_telePid, 0)));
   }
 }
-
-
-//movetele to distense 
-//rel
