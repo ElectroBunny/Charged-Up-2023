@@ -33,5 +33,28 @@ public class MPU6050 {
     this.gyroZ = (data[12] << 8) | data[13];
     // do something with the sensor data
   }
+
+  public int getAccelX(){
+    return this.accelX;
+  }
+
+  public int getAccelY(){
+    return this.accelY;
+  }
+
+  public int getAccelZ(){
+    return this.accelZ;
+  }
   
+  public int getGyroX(){
+    return this.gyroX;
+  }
+
+  public int getGyroY(){
+    return this.gyroY;
+  }
+
+  public int getGyroZ(){
+    return this.gyroZ;
+  }
 }

@@ -4,11 +4,10 @@
 
 package frc.robot.Commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Subsystems.Gripper;
 
-public class Grip extends CommandBase {
+public class Grip extends InstantCommand {
   private Gripper innerGripper;
 
   public Grip(Gripper m_teleGrip) {
@@ -18,20 +17,6 @@ public class Grip extends CommandBase {
 
   @Override
   public void initialize() {
-      innerGripper.gripGrab();
-  }
-
-  @Override
-  public void execute() {
-
-  }
-
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  @Override
-  public boolean isFinished() {
-    return false;
+      innerGripper.gripToggle();
   }
 }

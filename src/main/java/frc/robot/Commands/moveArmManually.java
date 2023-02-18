@@ -39,8 +39,6 @@ public class moveArmManually extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     innerArm.resist(m_tele.getLength());
-
-    
   }
 
   // Returns true when the command should end.

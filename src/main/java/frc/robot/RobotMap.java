@@ -119,7 +119,7 @@ public class RobotMap {
     public static final double TELE_MID_DISTANCE_CONE = 0;
     public static final double TELE_HIGH_DISTANCE_CONE = 0;
 
-    public static final double TELE_MAX_LENGTH = 0;
+    public static final double TELE_MAX_LENGTH = 120;
 
     /*
      * Definition of autonomus time constants

@@ -68,4 +68,16 @@ public class OI {
     public double getJoystickRawAxis(int axis){
         return joystick_controller.getRawAxis(axis);
     }
+
+    public double getXboxRightTriggerAxis(){
+        return xboxController.getRightTriggerAxis();
+    }
+
+    public double getXboxLeftTriggerAxis(){
+        return xboxController.getLeftTriggerAxis();
+    }
+
+    public double getXboxLeftX(){
+        return xboxController.getLeftX();
+    }
 }

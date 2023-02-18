@@ -6,12 +6,12 @@ package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
-import frc.robot.RobotMap;
 import frc.robot.Subsystems.DriveTrain;
 
 public class ArcadeDrive extends CommandBase {
   private DriveTrain innerDriver;
-  private double xAxis = 0, yAxis = 0;
+
+  private double forwardY = 0, reverseY = 0, xAxis = 0;
   private OI oi = new OI();
 
   public ArcadeDrive(DriveTrain externalDriver) {
@@ -26,9 +26,12 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    xAxis = oi.getJoystickRawAxis(RobotMap.X_AXIS_PORT);
-    yAxis = oi.getJoystickRawAxis(RobotMap.Y_AXIS_PORT);
-    innerDriver.ArcadeDrive(yAxis, xAxis);
+    this.forwardY = oi.getXboxRightTriggerAxis();
+    this.reverseY = oi.getXboxLeftTriggerAxis();
+
+    this.xAxis = oi.getXboxLeftX();
+
+    innerDriver.ArcadeDrive((this.forwardY - this.reverseY), this.xAxis);
   }
 
   // Called once the command ends or is interrupted.

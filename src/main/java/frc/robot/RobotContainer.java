@@ -42,7 +42,6 @@ public class RobotContainer {
   public static Compressor pcmCompressor;
 
 
-
   public RobotContainer() {
     driveTrain = new DriveTrain();
     m_gripper = new Gripper();
@@ -54,12 +53,11 @@ public class RobotContainer {
 
 
     //might cause a problem
-    pcmCompressor = new Compressor( PneumaticsModuleType.CTREPCM);
+    pcmCompressor = new Compressor(PneumaticsModuleType.CTREPCM);
     pcmCompressor.enableDigital();
     // pcmCompressor.enableAnalog(0, 120);
 
     configureButtonBindings();
-    driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
   }
 
   public void onRobotPeriodic(){
@@ -114,9 +112,12 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     /**Linking between the buttons, that defined in oi.java, to commands. */
+    
+    driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
 
-    m_oi.button3.onTrue(new Grip(m_gripper));
-    m_oi.button4.onTrue(new Release(m_gripper));
+    m_oi.button1.onTrue(new Grip(m_gripper));
+    // m_oi.button3.onTrue(new Grip(m_gripper));
+    // m_oi.button4.onTrue(new Release(m_gripper));
 
     m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN));
     m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN_REVERSE));
