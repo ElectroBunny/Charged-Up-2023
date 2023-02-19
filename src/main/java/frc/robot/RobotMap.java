@@ -9,6 +9,7 @@ public class RobotMap {
     public static final int X_AXIS_PORT = 0;
     public static final int Y_AXIS_PORT = 1;
     public static final int XBOX_CONTROLLER = 1;
+    public static final int PS4_CONTROLLER = 2;
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
