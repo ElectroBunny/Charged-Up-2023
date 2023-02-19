@@ -119,8 +119,8 @@ public class RobotContainer {
     // m_oi.button3.onTrue(new Grip(m_gripper));
     // m_oi.button4.onTrue(new Release(m_gripper));
 
-    m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN));
-    m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN_REVERSE));
+    // m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN));
+    // m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN_REVERSE));
 
 
     // m_oi.button7.whileTrue(new resist(m_arm));

@@ -89,7 +89,7 @@ public class Telescope extends SubsystemBase {
     */
   public void moveTeleManually(double currentAngle){
     if((0 < currentAngle && currentAngle < 360)){
-      if (this.getLength() < RobotMap.TELE_MAX_LENGTH){
+      if (0 < RobotMap.TELE_MAX_LENGTH){ //this.getLength() <
         m_teleGrip.set(this.Gain);
       }
     }

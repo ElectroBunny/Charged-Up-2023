@@ -15,10 +15,10 @@ public class moveArmManually extends CommandBase {
   private OI oi = new OI();
 
   private Arm innerArm;
-  private Telescope m_tele;
+  // private Telescope m_tele;
 
   public moveArmManually(Arm outerArm) {
-    this.m_tele = new Telescope();
+    // this.m_tele = new Telescope();
 
     this.innerArm = outerArm;
     addRequirements(innerArm);
@@ -38,7 +38,7 @@ public class moveArmManually extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    innerArm.resist(m_tele.getLength());
+    innerArm.resist(1);
   }
 
   // Returns true when the command should end.
