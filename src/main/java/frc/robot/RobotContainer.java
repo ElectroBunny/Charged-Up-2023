@@ -30,7 +30,7 @@ public class RobotContainer {
 
   private final DriveTrain driveTrain;
   private final OI m_oi;
-  // private final PIDCalc m_armPid;
+  private final PIDCalc m_armPid;
   // private final PIDCalc m_telePid;
   private final Telescope m_teleGrip;
   private final Arm m_arm;
@@ -48,7 +48,7 @@ public class RobotContainer {
     m_oi = new OI();
     m_arm = new Arm();
     m_teleGrip = new Telescope();
-    // m_armPid = new PIDCalc(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM);
+    m_armPid = new PIDCalc(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM);
     // m_telePid = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
 
 
@@ -91,7 +91,7 @@ public class RobotContainer {
   //     driveTrain.ArcadeDrive(0.6, 0);
   //   }
 
-  
+  // }
 
   public void onAutoMid(){
   }
@@ -116,17 +116,15 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
 
     m_oi.button1.onTrue(new Grip(m_gripper));
-    // m_oi.button3.onTrue(new Grip(m_gripper));
-    // m_oi.button4.onTrue(new Release(m_gripper));
 
-    // m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN));
-    // m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN_REVERSE));
+    m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN));
+    m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, 0 - RobotMap.TELESCOPE_GAIN));
 
 
     // m_oi.button7.whileTrue(new resist(m_arm));
     m_oi.button2.whileTrue(new moveArmManually(m_arm));
 
-
+    m_oi.button3.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CUBE_ANGLE));
 
     // //Gripper mode and low scoring buttons
     // m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE)

@@ -13,7 +13,6 @@ public class RobotMap {
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
     //Drive system constants:
 
     //Definition of drive motors' ports.
@@ -28,7 +27,8 @@ public class RobotMap {
     public static final double ROBOT_SHIELD_HEIGHT = 13.5;
     public static final double ROBOT_IDLE_HEIGHT = 75.5;
     public static final double MAX_HEIGHT_ALLOWED = 198;
-    public static final int ROBOT_SHIELD_WIDTH = 82;
+    public static final int ROBOT_SHIELD_WIDTH = 68;
+    public static final int ROBOT_SHIELD_LENGTH = 82;
     public static final double SHIELD_TO_CENTER_JOINT = 5.5;
 
     //Angles definition
@@ -129,6 +129,8 @@ public class RobotMap {
     public static final double ARM_AUTONOMUS_TIME = 0;
 
  //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    //driving constans for autonomus (right)
 
 
 
