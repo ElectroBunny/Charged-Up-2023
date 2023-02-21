@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -20,6 +21,8 @@ public class Arm extends SubsystemBase {
   private PIDCalc encoderPID;
   private Encoder encoder;
   private double setpointAngle;
+
+  private double volt;
   
 
   public Arm() {
@@ -30,13 +33,13 @@ public class Arm extends SubsystemBase {
 
     // Definiton of the PID object by its constants.
     this.encoderPID = new PIDCalc(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM);
-
+    
     // Initializes arm motors.
     this.armRightMotor = new WPI_VictorSPX(RobotMap.ARM_RIGHT_MOTOR);
     this.armLeftMotor = new WPI_VictorSPX(RobotMap.ARM_LEFT_MOTOR);
 
-    this.armLeftMotor.setNeutralMode(NeutralMode.Brake);
-    this.armRightMotor.setNeutralMode(NeutralMode.Brake);
+    this.armLeftMotor.setNeutralMode(NeutralMode.Coast);
+    this.armRightMotor.setNeutralMode(NeutralMode.Coast);
 
     this.armLeftMotor.setInverted(true);
     this.armRightMotor.setInverted(false);
@@ -83,7 +86,16 @@ public class Arm extends SubsystemBase {
   
   /** Sets voltage to the motors using the PID calculations. */
   public void moveArmToAngle(){
-    armRightMotor.set(encoderPID.getOutput(this.getAngle(), this.setpointAngle));
+    this.volt = encoderPID.getOutput(this.getAngle(), this.setpointAngle);
+    if (this.volt > 0.8){
+      armRightMotor.set((0 - volt)*(0 - volt));
+    }
+    else{
+    armRightMotor.set(0 - volt);
+    }
+
+    SmartDashboard.putNumber("output: ", volt);
+    // armRightMotor.set(0 - ()));
   }
 
   /** Moves the arm by dynamic gain given.
@@ -103,7 +115,7 @@ public class Arm extends SubsystemBase {
       armRightMotor.set(-0.1);
     }
     else{
-      armRightMotor.set(0.1);
+      armRightMotor.set(0.2);
     }
   }
 

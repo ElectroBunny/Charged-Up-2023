@@ -26,8 +26,8 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.forwardY = oi.getPS4RightTriggerAxis();
-    this.reverseY = oi.getPS4LeftTriggerAxis();
+    this.reverseY = oi.getPS4RightTriggerAxis();
+    this.forwardY = oi.getPS4LeftTriggerAxis();
 
     this.xAxis = oi.getPS4LeftX();
 

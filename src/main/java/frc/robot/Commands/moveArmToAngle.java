@@ -4,6 +4,9 @@
 
 package frc.robot.Commands;
 
+import javax.swing.text.StyleContext.SmallAttributeSet;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.PIDCalc;
@@ -33,11 +36,13 @@ public class moveArmToAngle extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     encoderPID.resetPID();
+    innerArm.resist(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    SmartDashboard.putBoolean("At set point:", encoderPID.atSetPoint());
     return encoderPID.atSetPoint();
   }
 }

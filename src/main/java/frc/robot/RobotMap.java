@@ -33,7 +33,7 @@ public class RobotMap {
 
     //Angles definition
     // beware: angle of arm is reseted at floor level and goes clockwise in comparision to robot's front pannel
-    public static final double MIN_ANGLE = 44;
+    public static final double MIN_ANGLE = 50;
     public static final double MAX_ANGLE = 306.25;
     
 
@@ -69,14 +69,14 @@ public class RobotMap {
     public static final int ARM_LEFT_MOTOR = 10;
     
     //Definition of PID constants for the arm system.
-    public static final double KP_ARM = 0;
-    public static final double KI_ARM = 0;
-    public static final double KD_ARM = 0;
-    public static final double TOLRENCE_ARM = 2.5;
+    public static final double KP_ARM = 0.0074;
+    public static final double KI_ARM = 0.00022;
+    public static final double KD_ARM = 0.00067;
+    public static final double TOLRENCE_ARM = 4;
 
     //Definition of arm encoder
-    public static final int ARM_ENCODER_CHANNEL_A = 1;
-    public static final int ARM_ENCODER_CHANNEL_B = 2;
+    public static final int ARM_ENCODER_CHANNEL_A = 8;
+    public static final int ARM_ENCODER_CHANNEL_B = 9;
     
     public static final int ENCODER_PULSES_PER_ROTATION = 2048;
     

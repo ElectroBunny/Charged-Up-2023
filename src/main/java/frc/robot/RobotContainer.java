@@ -34,7 +34,7 @@ public class RobotContainer {
   // private final PIDCalc m_telePid;
   private final Telescope m_teleGrip;
   private final Arm m_arm;
-  private final Gripper m_gripper;
+  // private final Gripper m_gripper;
 
   private double startTime;
   private double delta_time;
@@ -44,7 +44,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     driveTrain = new DriveTrain();
-    m_gripper = new Gripper();
+    // m_gripper = new Gripper();
     m_oi = new OI();
     m_arm = new Arm();
     m_teleGrip = new Telescope();
@@ -63,6 +63,8 @@ public class RobotContainer {
   public void onRobotPeriodic(){
     SmartDashboard.putNumber("Arm angle", m_arm.getAngle());
     SmartDashboard.putNumber("Telescope length", m_teleGrip.getLength());
+    SmartDashboard.putNumber("Time", Timer.getFPGATimestamp());
+    System.out.println(m_arm.getAngle());
   }
 
   public void onAutoInit(){
@@ -115,16 +117,16 @@ public class RobotContainer {
     
     driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
 
-    m_oi.button1.onTrue(new Grip(m_gripper));
+    // m_oi.button1.onTrue(new Grip(m_gripper));
 
-    m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN));
-    m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, 0 - RobotMap.TELESCOPE_GAIN));
+    // m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN));
+    // m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, 0 - RobotMap.TELESCOPE_GAIN));
 
 
     // m_oi.button7.whileTrue(new resist(m_arm));
     m_oi.button2.whileTrue(new moveArmManually(m_arm));
 
-    m_oi.button3.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CUBE_ANGLE));
+    m_oi.button3.onTrue(new moveArmToAngle(m_arm, m_armPid, 180));
 
     // //Gripper mode and low scoring buttons
     // m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE)

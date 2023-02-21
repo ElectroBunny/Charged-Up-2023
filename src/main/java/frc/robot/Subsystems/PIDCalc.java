@@ -7,6 +7,7 @@ package frc.robot.Subsystems;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
 public class PIDCalc extends SubsystemBase{
 
@@ -16,14 +17,16 @@ public class PIDCalc extends SubsystemBase{
   private PIDController pid;
   private double dataInput;
   private double setpoint;
+  private double error;
   private double output;
-
+  private double tolerance;
   /*
   Constructor + reset of pid values from previous runs
   */
   public PIDCalc(double kP, double kI, double kD, double tolerance) {
       pid = new PIDController(kP, kI, kD);
       pid.reset();
+      this.tolerance = tolerance;
       pid.setTolerance(tolerance);
     }
   
@@ -50,7 +53,7 @@ public class PIDCalc extends SubsystemBase{
    * @return voltage in precents to set the motor to.
    */
   public double getOutput(){
-    this.output = MathUtil.clamp(pid.calculate(this.dataInput, this.setpoint), -1, 1);
+    this.output = MathUtil.clamp(pid.calculate(this.dataInput, this.setpoint), -0.6, 0.6);
     return this.output;
   }
 
@@ -71,7 +74,18 @@ public class PIDCalc extends SubsystemBase{
    * @return True if the system has reached its setpoint. Otherwise, false.
    */
   public boolean atSetPoint(){
-    return pid.atSetpoint();
+    // if ((this.setpoint - this.dataInput < this.tolerance) && (this.setpoint - this.dataInput > 0 - this.tolerance)){
+    //   return false;
+    // }
+    // return true;
+    this.error = this.setpoint - this.dataInput;
+    if (Math.abs(this.error) <= this.tolerance){
+      return true;
+    }
+    else {
+      return false;
+    }
+    // return pid.atSetpoint();
   }
   
   /**Resets the PID last error and integral value */
