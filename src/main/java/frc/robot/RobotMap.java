@@ -75,8 +75,8 @@ public class RobotMap {
     public static final double TOLRENCE_ARM = 4;
 
     //Definition of arm encoder
-    public static final int ARM_ENCODER_CHANNEL_A = 8;
-    public static final int ARM_ENCODER_CHANNEL_B = 9;
+    public static final int ARM_ENCODER_CHANNEL_A = 1;
+    public static final int ARM_ENCODER_CHANNEL_B = 2;
     
     public static final int ENCODER_PULSES_PER_ROTATION = 2048;
     
