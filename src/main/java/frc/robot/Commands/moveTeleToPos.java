@@ -1,43 +1,43 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+// // Copyright (c) FIRST and other WPILib contributors.
+// // Open Source Software; you can modify and/or share it under the terms of
+// // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands;
+// package frc.robot.Commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Subsystems.PIDCalc;
-import frc.robot.Subsystems.Telescope;
+// import edu.wpi.first.wpilibj2.command.CommandBase;
+// import frc.robot.Subsystems.PIDCalc;
+// import frc.robot.Subsystems.Telescope;
 
-public class moveTeleToPos extends CommandBase {
-  private Telescope innerTele;
-  private PIDCalc encoderPID;
+// public class moveTeleToPos extends CommandBase {
+//   private Telescope innerTele;
+//   private PIDCalc encoderPID;
 
-  public moveTeleToPos(Telescope outerTele, PIDCalc outerPID, double distance) {
-    this.innerTele = outerTele;
-    innerTele.setSetpointLength(distance);
-    this.encoderPID = outerPID;
-    addRequirements(innerTele);
-  }
+//   public moveTeleToPos(Telescope outerTele, PIDCalc outerPID, double distance) {
+//     this.innerTele = outerTele;
+//     // innerTele.setSetpointLength(distance);
+//     this.encoderPID = outerPID;
+//     addRequirements(innerTele);
+//   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+//   // Called when the command is initially scheduled.
+//   @Override
+//   public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    innerTele.moveTeleToPos();
-  }
+//   // Called every time the scheduler runs while the command is scheduled.
+//   @Override
+//   public void execute() {
+//     // innerTele.moveTeleToPos();
+//   }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    encoderPID.resetPID();
-  }
+//   // Called once the command ends or is interrupted.
+//   @Override
+//   public void end(boolean interrupted) {
+//     encoderPID.resetPID();
+//   }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return encoderPID.atSetPoint();
-  }
-}
+//   // Returns true when the command should end.
+//   @Override
+//   public boolean isFinished() {
+//     return encoderPID.atSetPoint();
+//   }
+// }

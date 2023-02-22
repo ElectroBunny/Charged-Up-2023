@@ -69,21 +69,21 @@ public class RobotMap {
     public static final int ARM_LEFT_MOTOR = 10;
     
     //Definition of PID constants for the arm system.
-    public static final double KP_ARM = 0.0074;
-    public static final double KI_ARM = 0.00022;
-    public static final double KD_ARM = 0.00067;
-    public static final double TOLRENCE_ARM = 4;
+    public static final double KP_ARM = 0.0095; // 0.0076
+    public static final double KI_ARM = 0.001; // 0.00045
+    public static final double KD_ARM = 0.004; // 0.00064
+    public static final double TOLRENCE_ARM = 2.5;
 
     //Definition of arm encoder
-    public static final int ARM_ENCODER_CHANNEL_A = 8;
-    public static final int ARM_ENCODER_CHANNEL_B = 9;
+    public static final int ARM_ENCODER_CHANNEL_A = 1;
+    public static final int ARM_ENCODER_CHANNEL_B = 2;
     
     public static final int ENCODER_PULSES_PER_ROTATION = 2048;
     
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
     //Definition of gripper solenoids
-    public static final int RIGHT_GRIPPER_SOLENOID_FW = 1;
+    public static final int RIGHT_GRIPPER_SOLENOID_FW = 0;
     public static final int RIGHT_GRIPPER_SOLENOID_BW = 7;
     public static final int LEFT_GRIPPER_SOLENOID_FW = 4;
     public static final int LEFT_GRIPPER_SOLENOID_BW = 5;

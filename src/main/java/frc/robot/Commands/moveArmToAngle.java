@@ -42,7 +42,11 @@ public class moveArmToAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    SmartDashboard.putBoolean("At set point:", encoderPID.atSetPoint());
-    return encoderPID.atSetPoint();
+    SmartDashboard.putBoolean("At set point:", !encoderPID.atSetPoint());
+    // if (innerArm.getAngle() >= 176.0){
+    //   return true;
+    // }
+    // return false;
+    return !encoderPID.atSetPoint();
   }
 }

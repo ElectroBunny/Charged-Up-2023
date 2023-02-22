@@ -22,8 +22,8 @@ public class Arm extends SubsystemBase {
   private Encoder encoder;
   private double setpointAngle;
 
-  private double volt;
-  
+  private double voltPID; 
+  private double resistMul; 
 
   public Arm() {
     // Definition of the arm encoder and its constants.
@@ -38,13 +38,18 @@ public class Arm extends SubsystemBase {
     this.armRightMotor = new WPI_VictorSPX(RobotMap.ARM_RIGHT_MOTOR);
     this.armLeftMotor = new WPI_VictorSPX(RobotMap.ARM_LEFT_MOTOR);
 
-    this.armLeftMotor.setNeutralMode(NeutralMode.Coast);
-    this.armRightMotor.setNeutralMode(NeutralMode.Coast);
+    this.armLeftMotor.setNeutralMode(NeutralMode.Brake);
+    this.armRightMotor.setNeutralMode(NeutralMode.Brake);
 
     this.armLeftMotor.setInverted(true);
     this.armRightMotor.setInverted(false);
 
     this.armLeftMotor.follow(armRightMotor);
+  }
+
+  public void changeToCoast(){
+    armRightMotor.setNeutralMode(NeutralMode.Coast);
+    armLeftMotor.setNeutralMode(NeutralMode.Coast);
   }
 
   // Encoder data functions.
@@ -86,15 +91,13 @@ public class Arm extends SubsystemBase {
   
   /** Sets voltage to the motors using the PID calculations. */
   public void moveArmToAngle(){
-    this.volt = encoderPID.getOutput(this.getAngle(), this.setpointAngle);
-    if (this.volt > 0.8){
-      armRightMotor.set((0 - volt)*(0 - volt));
-    }
-    else{
-    armRightMotor.set(0 - volt);
-    }
+    this.voltPID = encoderPID.getOutput(this.getAngle(), this.setpointAngle);
+    // if (this.voltPID > 0.8){
+    //   armRightMotor.set((0 - voltPID)*(0 - voltPID));
+    // }
+    armRightMotor.set(0 - voltPID);
 
-    SmartDashboard.putNumber("output: ", volt);
+    SmartDashboard.putNumber("output: ", voltPID);
     // armRightMotor.set(0 - ()));
   }
 
@@ -110,9 +113,16 @@ public class Arm extends SubsystemBase {
    * 
    * @param teleLength the current length of the telescope, used to calculate the gain in order to hold the arm.
    */
-  public void resist(double teleLength){
+  public void resist(double teleLength){ //, boolean isButton5Pressed
+    // if(isButton5Pressed){
+    //   this.resistMul = 2;
+    // }
+    // else{
+    //   this.resistMul = 1;
+    // }
+
     if(this.getAngle() < 180){
-      armRightMotor.set(-0.1);
+      armRightMotor.set(-0.13);
     }
     else{
       armRightMotor.set(0.2);

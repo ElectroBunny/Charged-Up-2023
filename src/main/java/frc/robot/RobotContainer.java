@@ -17,13 +17,15 @@ import frc.robot.Commands.Release;
 import frc.robot.Commands.moveArmManually;
 import frc.robot.Commands.moveArmToAngle;
 import frc.robot.Commands.moveTeleManually;
-import frc.robot.Commands.moveTeleToPos;
+// import frc.robot.Commands.moveTeleToPos;
 import frc.robot.Commands.resist;
+import frc.robot.Commands.reverse;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.DriveTrain;
 import frc.robot.Subsystems.Gripper;
 import frc.robot.Subsystems.PIDCalc;
 import frc.robot.Subsystems.Telescope;
+import frc.robot.Utilities.MPU6050;
 
 
 public class RobotContainer {
@@ -34,17 +36,19 @@ public class RobotContainer {
   // private final PIDCalc m_telePid;
   private final Telescope m_teleGrip;
   private final Arm m_arm;
-  // private final Gripper m_gripper;
+  private final Gripper m_gripper;
 
   private double startTime;
   private double delta_time;
 
   public static Compressor pcmCompressor;
 
+  private MPU6050 mpu;
+
 
   public RobotContainer() {
     driveTrain = new DriveTrain();
-    // m_gripper = new Gripper();
+    m_gripper = new Gripper();
     m_oi = new OI();
     m_arm = new Arm();
     m_teleGrip = new Telescope();
@@ -57,13 +61,22 @@ public class RobotContainer {
     pcmCompressor.enableDigital();
     // pcmCompressor.enableAnalog(0, 120);
 
+    mpu = new MPU6050();
+
     configureButtonBindings();
   }
 
   public void onRobotPeriodic(){
     SmartDashboard.putNumber("Arm angle", m_arm.getAngle());
-    SmartDashboard.putNumber("Telescope length", m_teleGrip.getLength());
+    // SmartDashboard.putNumber("Telescope length", m_teleGrip.getLength());
     SmartDashboard.putNumber("Time", Timer.getFPGATimestamp());
+    SmartDashboard.putNumber("AccelX", mpu.getAccelX());
+    SmartDashboard.putNumber("AccelY", mpu.getAccelY());
+    SmartDashboard.putNumber("AccelZ", mpu.getAccelZ());
+    SmartDashboard.putNumber("GyroX", mpu.getGyroX());
+    SmartDashboard.putNumber("GyroY", mpu.getGyroY());
+    SmartDashboard.putNumber("GyroZ", mpu.getGyroZ());
+
     System.out.println(m_arm.getAngle());
   }
 
@@ -111,22 +124,26 @@ public class RobotContainer {
 
   }
 
+  public void onDisabledInit(){
+    m_arm.changeToCoast();
+  }
+
 
   private void configureButtonBindings() {
     /**Linking between the buttons, that defined in oi.java, to commands. */
     
     driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
 
-    // m_oi.button1.onTrue(new Grip(m_gripper));
+    m_oi.button1.onTrue(new Grip(m_gripper));
 
-    // m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, RobotMap.TELESCOPE_GAIN));
-    // m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, 0 - RobotMap.TELESCOPE_GAIN));
+    m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip));
+    m_oi.povbutton2.whileTrue(new reverse(m_teleGrip));
 
 
     // m_oi.button7.whileTrue(new resist(m_arm));
     m_oi.button2.whileTrue(new moveArmManually(m_arm));
 
-    m_oi.button3.onTrue(new moveArmToAngle(m_arm, m_armPid, 180));
+    m_oi.button3.onTrue(new moveArmToAngle(m_arm, m_armPid, 90));
 
     // //Gripper mode and low scoring buttons
     // m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE)

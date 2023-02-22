@@ -5,42 +5,42 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OI;
+
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Telescope;
 
-public class resist extends CommandBase {
-  private Arm innerArm;
-  private Telescope m_tele;
+public class reverse extends CommandBase {
+  private Telescope innerTele;
+  // private Arm m_arm;
 
-  private OI m_oi = new OI();
+  public reverse(Telescope outerTele) {
+    // this.m_arm = new Arm();
 
-  public resist(Arm outerArm) {
-    this.m_tele = new Telescope();
-
-    this.innerArm = outerArm;
-    addRequirements(innerArm);
- }
+    this.innerTele = outerTele;
+    addRequirements(innerTele);
+    
+  }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // innerArm.resist(m_tele.getLength());
+    innerTele.moveTeleManually(-1); //this.m_arm.getAngle()
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    innerArm.stopArm();
+    innerTele.stopTele();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_oi.button7.getAsBoolean();
+    return false;
   }
 }

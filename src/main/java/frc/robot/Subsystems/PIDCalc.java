@@ -65,7 +65,7 @@ public class PIDCalc extends SubsystemBase{
   public double getOutput(double input, double setpoint){
     this.dataInput = input;
     this.setpoint = setpoint;
-    this.output = MathUtil.clamp(pid.calculate(this.dataInput, this.setpoint), -1, 1);
+    this.output = MathUtil.clamp(pid.calculate(this.dataInput, this.setpoint), -0.8, 0.8);
     return this.output;
   }
 
@@ -74,10 +74,6 @@ public class PIDCalc extends SubsystemBase{
    * @return True if the system has reached its setpoint. Otherwise, false.
    */
   public boolean atSetPoint(){
-    // if ((this.setpoint - this.dataInput < this.tolerance) && (this.setpoint - this.dataInput > 0 - this.tolerance)){
-    //   return false;
-    // }
-    // return true;
     this.error = this.setpoint - this.dataInput;
     if (Math.abs(this.error) <= this.tolerance){
       return true;
