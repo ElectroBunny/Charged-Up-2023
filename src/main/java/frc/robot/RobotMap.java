@@ -31,7 +31,7 @@ public class RobotMap {
     public static final int ROBOT_SHIELD_LENGTH = 82;
     public static final double SHIELD_TO_CENTER_JOINT = 5.5;
 
-    //Angles definition
+    //Angles limitaion definition
     // beware: angle of arm is reseted at floor level and goes clockwise in comparision to robot's front pannel
     public static final double MIN_ANGLE = 50;
     public static final double MAX_ANGLE = 306.25;
@@ -53,12 +53,11 @@ public class RobotMap {
     public static final double KI_TELE = 0;
     public static final double KD_TELE = 0;
     public static final double TOLRENCE_TELE = 2.5;
-    public static final int TELE_GEAR_RATIO = 1; //Ask mechanic team!
-    public static final double TELE_SHAFT_PERMITER = 0; //Check!
+    public static final double TELE_SHAFT_PERMITER = 3.14; //Check!
 
     //Definition of telescope encoder.
-    public static final int TELE_ENCODER_CHANNEL_A = 3;
-    public static final int TELE_ENCODER_CHANNEL_B = 4;
+    public static final int TELE_ENCODER_CHANNEL_A = 6;
+    public static final int TELE_ENCODER_CHANNEL_B = 7;
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -96,31 +95,25 @@ public class RobotMap {
     average between range of deviation
     Δα = ±2°
     */
-    public static final double LOW_FRONT_ANGLE = 27.1; // 90 - 52.1
-    // devitation = +-3.585
-    public static final double LOW_BACK_ANGLE = 301.23; // 270 + 52.1
-    // devitation = +-3.585
-    public static final double MID_CONE_ANGLE = 90 + 24.35;
-    // devitation = +- 1.4
-    public static final double MID_CUBE_ANGLE = 90 - 0.38;
-    // deviation = +-0.02
-    public static final double HIGH_CONE_ANGLE = 90 + 27.4;
-    // devitation = +-1
-    public static final double HIGH_CUBE_ANGLE = 90 + 14.0;
-    // decitation = +-0.57
-    
+    public static final double LOW_FRONT_ANGLE = 300.425; 
+    public static final double LOW_BACK_ANGLE = 51.93; // 270 + 52.1
+    public static final double MID_CONE_ANGLE = 101.68;
+    public static final double MID_CUBE_ANGLE = 90;
+    public static final double HIGH_CONE_ANGLE = 114.217;
+    public static final double HIGH_CUBE_ANGLE = 104.447;
+
     /*
-     * Definition of telescope distance opening in each scoring mode
+     * Definition of complete arm length opening in each scoring mode
      */
-    public static final double TELE_LOW_DISTANCE_FRONT = 0;
-    public static final double TELE_MID_DISTANCE_CUBE = 0;
-    public static final double TELE_HIGH_DISTANCE_CUBE = 0;
+    public static final double LOW_LENGTH_FRONT = 109.6;
+    public static final double MID_LENGTH_CUBE = 90; //Telescope is closed
+    public static final double HIGH_LENGTH_CUBE = 118.24;
 
-    public static final double TELE_LOW_DISTANCE_BACK = 0;
-    public static final double TELE_MID_DISTANCE_CONE = 0;
-    public static final double TELE_HIGH_DISTANCE_CONE = 0;
+    public static final double LOW_LENGTH_BACK = 90; //Telescope is closed
+    public static final double MID_LENGTH_CONE = 106.2;
+    public static final double HIGH_LENGTH_CONE = 125.55;
 
-    public static final double TELE_MAX_LENGTH = 120;
+    public static final double TELE_MAX_LENGTH = 130;
 
     /*
      * Definition of autonomus time constants
@@ -129,11 +122,5 @@ public class RobotMap {
     public static final double ARM_AUTONOMUS_TIME = 0;
 
  //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    //driving constans for autonomus (right)
-
-
-
-
 }
 

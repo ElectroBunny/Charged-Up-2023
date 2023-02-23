@@ -45,6 +45,9 @@ public class Robot extends TimedRobot {
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());
 
+    //Camera
+    m_robotContainer.startCamera();
+
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("Left Auto Cone", kLeftAutoCone);
     m_chooser.addOption("Left Auto Cube", kLeftAutoCube);

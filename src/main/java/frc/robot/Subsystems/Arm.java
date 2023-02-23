@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.OI;
 import frc.robot.RobotMap;
 
 public class Arm extends SubsystemBase {
@@ -23,7 +24,6 @@ public class Arm extends SubsystemBase {
   private double setpointAngle;
 
   private double voltPID; 
-  private double resistMul; 
 
   public Arm() {
     // Definition of the arm encoder and its constants.
@@ -38,8 +38,8 @@ public class Arm extends SubsystemBase {
     this.armRightMotor = new WPI_VictorSPX(RobotMap.ARM_RIGHT_MOTOR);
     this.armLeftMotor = new WPI_VictorSPX(RobotMap.ARM_LEFT_MOTOR);
 
-    this.armLeftMotor.setNeutralMode(NeutralMode.Brake);
-    this.armRightMotor.setNeutralMode(NeutralMode.Brake);
+    this.armLeftMotor.setNeutralMode(NeutralMode.Coast);
+    this.armRightMotor.setNeutralMode(NeutralMode.Coast);
 
     this.armLeftMotor.setInverted(true);
     this.armRightMotor.setInverted(false);
@@ -113,19 +113,13 @@ public class Arm extends SubsystemBase {
    * 
    * @param teleLength the current length of the telescope, used to calculate the gain in order to hold the arm.
    */
-  public void resist(double teleLength){ //, boolean isButton5Pressed
-    // if(isButton5Pressed){
-    //   this.resistMul = 2;
-    // }
-    // else{
-    //   this.resistMul = 1;
-    // }
+  public void resist(double teleLength){
 
-    if(this.getAngle() < 180){
-      armRightMotor.set(-0.13);
+    if(this.getAngle() <= 178.5){
+      armRightMotor.set(-0.2);
     }
     else{
-      armRightMotor.set(0.2);
+      armRightMotor.set(0.27);
     }
   }
 

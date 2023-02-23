@@ -6,20 +6,22 @@ package frc.robot;
 
 import java.time.Period;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.AxisCamera;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Commands.ArcadeDrive;
+import frc.robot.Commands.ChangeDriveVelocity;
 import frc.robot.Commands.Grip;
-import frc.robot.Commands.Release;
 import frc.robot.Commands.moveArmManually;
 import frc.robot.Commands.moveArmToAngle;
 import frc.robot.Commands.moveTeleManually;
 // import frc.robot.Commands.moveTeleToPos;
-import frc.robot.Commands.resist;
-import frc.robot.Commands.reverse;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.DriveTrain;
 import frc.robot.Subsystems.Gripper;
@@ -45,6 +47,8 @@ public class RobotContainer {
 
   private MPU6050 mpu;
 
+  CvSink cvSink;
+  CvSource outputStream;
 
   public RobotContainer() {
     driveTrain = new DriveTrain();
@@ -66,18 +70,33 @@ public class RobotContainer {
     configureButtonBindings();
   }
 
+  public void startCamera(){
+    CameraServer.startAutomaticCapture();
+    cvSink = CameraServer.getVideo();
+    outputStream = CameraServer.putVideo("Blur", 640, 480);
+  }
+
+  public void controlCameraViewSide(){
+    if(m_arm.getAngle() <= 180){
+
+    }
+    else{
+
+    }
+  }
+
   public void onRobotPeriodic(){
     SmartDashboard.putNumber("Arm angle", m_arm.getAngle());
-    // SmartDashboard.putNumber("Telescope length", m_teleGrip.getLength());
+    SmartDashboard.putNumber("Telescope length", m_teleGrip.getLength());
+
     SmartDashboard.putNumber("Time", Timer.getFPGATimestamp());
+
     SmartDashboard.putNumber("AccelX", mpu.getAccelX());
     SmartDashboard.putNumber("AccelY", mpu.getAccelY());
     SmartDashboard.putNumber("AccelZ", mpu.getAccelZ());
     SmartDashboard.putNumber("GyroX", mpu.getGyroX());
     SmartDashboard.putNumber("GyroY", mpu.getGyroY());
     SmartDashboard.putNumber("GyroZ", mpu.getGyroZ());
-
-    System.out.println(m_arm.getAngle());
   }
 
   public void onAutoInit(){
@@ -133,49 +152,27 @@ public class RobotContainer {
     /**Linking between the buttons, that defined in oi.java, to commands. */
     
     driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
+    // m_oi.A.onTrue(new ChangeDriveVelocity(driveTrain));
 
     m_oi.button1.onTrue(new Grip(m_gripper));
 
-    m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip));
-    m_oi.povbutton2.whileTrue(new reverse(m_teleGrip));
+    // m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, 1));
+    // m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, -1));
 
 
-    // m_oi.button7.whileTrue(new resist(m_arm));
     m_oi.button2.whileTrue(new moveArmManually(m_arm));
 
-    m_oi.button3.onTrue(new moveArmToAngle(m_arm, m_armPid, 90));
+    //CONE BUTTONS 7,9
 
-    // //Gripper mode and low scoring buttons
-    // m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE)
-    //   .andThen(new moveTeleToPos(m_teleGrip, m_telePid, RobotMap.TELE_LOW_DISTANCE_FRONT))
-    //   .andThen(new Grip(m_gripper))
-    //   .andThen(new moveTeleToPos(m_teleGrip, m_telePid, 0)));
+    m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE));
+    m_oi.button9.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.MID_CONE_ANGLE));
 
-    // m_oi.button8.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_BACK_ANGLE)
-    //   .andThen(new moveTeleToPos(m_teleGrip, m_telePid, RobotMap.TELE_LOW_DISTANCE_BACK))
-    //   .andThen(new Grip(m_gripper))
-    //   .andThen(new moveTeleToPos(m_teleGrip, m_telePid, 0)));
+    //CUBE BUTTONS 8,10
+    m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CUBE_ANGLE));
+    m_oi.button9.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.MID_CUBE_ANGLE));
 
-    // //Cone scoring buttons(mid and high)
-    // m_oi.button9.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.MID_CONE_ANGLE)
-    //   .andThen(new moveTeleToPos(m_teleGrip, m_telePid, RobotMap.TELE_MID_DISTANCE_CONE))
-    //   .andThen(new Grip(m_gripper))
-    //   .andThen(new moveTeleToPos(m_teleGrip, m_telePid, 0)));
-      
-    // m_oi.button10.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE)
-    //   .andThen(new moveTeleToPos(m_teleGrip, m_telePid, RobotMap.TELE_HIGH_DISTANCE_CONE))
-    //   .andThen(new Grip(m_gripper))
-    //   .andThen(new moveTeleToPos(m_teleGrip, m_telePid, 0)));
-
-    // //Cube scoring buttons(mid and high)
-    // m_oi.button11.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.MID_CUBE_ANGLE)
-    //   .andThen(new moveTeleToPos(m_teleGrip, m_telePid, RobotMap.TELE_MID_DISTANCE_CUBE))
-    //   .andThen(new Grip(m_gripper))
-    //   .andThen(new moveTeleToPos(m_teleGrip, m_telePid, 0)));
-    
-    // m_oi.button12.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CUBE_ANGLE)
-    //   .andThen(new moveTeleToPos(m_teleGrip, m_telePid, RobotMap.TELE_HIGH_DISTANCE_CUBE))
-    //   .andThen(new Grip(m_gripper))
-    //   .andThen(new moveTeleToPos(m_teleGrip, m_telePid, 0)));
+    //low (back and front)
+    m_oi.button11.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_BACK_ANGLE));
+    m_oi.button12.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE));
   }
 }

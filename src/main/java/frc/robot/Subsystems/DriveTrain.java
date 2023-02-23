@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -21,6 +22,9 @@ public class DriveTrain extends SubsystemBase {
   private WPI_TalonSRX m_leftMaster = new WPI_TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
   private WPI_TalonSRX m_leftFollower = new WPI_TalonSRX(RobotMap.DRIVE_LEFT_SLAVE);
   private DifferentialDrive m_diffDrive;
+
+  private double driveMul = 1;
+  private boolean isFast = true;
 
   public DriveTrain() {
 
@@ -69,7 +73,17 @@ public class DriveTrain extends SubsystemBase {
     if(Math.abs(turn) < 0.2)
       turn = 0.0;
     
-    m_diffDrive.arcadeDrive(forward, turn);
+    m_diffDrive.arcadeDrive(forward * this.driveMul, turn * this.driveMul);
+  }
+
+  public void changeVel(){
+    if(this.isFast){
+      this.driveMul = 0.5;
+    }
+    else{
+      this.driveMul = 1;
+    }
+    this.isFast = !this.isFast;
   }
 
   public void StopMotors(){
@@ -79,6 +93,6 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Velocity", driveMul * 100);
   }
 }
