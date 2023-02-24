@@ -4,8 +4,6 @@
 
 package frc.robot.Commands;
 
-import javax.swing.text.StyleContext.SmallAttributeSet;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Arm;
@@ -17,8 +15,9 @@ public class moveArmToAngle extends CommandBase {
 
   public moveArmToAngle(Arm outerArm, PIDCalc outerPID, double angle) {
     this.innerArm = outerArm;
-    this.innerArm.setSetpointAngle(angle);
     this.encoderPID = outerPID;
+    this.encoderPID.setSetpoint(angle);
+    SmartDashboard.putNumber("Real angle", angle);
     addRequirements(innerArm);
   }
 
@@ -29,7 +28,8 @@ public class moveArmToAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    innerArm.moveArmToAngle();
+    this.encoderPID.setInput(innerArm.getAngle());
+    this.innerArm.moveArmToAngle();
   }
 
   // Called once the command ends or is interrupted.
@@ -42,11 +42,11 @@ public class moveArmToAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    SmartDashboard.putBoolean("At set point:", !encoderPID.atSetPoint());
+    SmartDashboard.putBoolean("At set point:", encoderPID.atSetPoint());
     // if (innerArm.getAngle() >= 176.0){
     //   return true;
     // }
     // return false;
-    return !encoderPID.atSetPoint();
+    return encoderPID.atSetPoint();
   }
 }

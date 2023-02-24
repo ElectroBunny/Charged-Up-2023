@@ -25,21 +25,21 @@ public class Arm extends SubsystemBase {
 
   private double voltPID; 
 
-  public Arm() {
+  public Arm(PIDCalc armPid) {
     // Definition of the arm encoder and its constants.
     this.encoder = new Encoder(RobotMap.ARM_ENCODER_CHANNEL_A, RobotMap.ARM_ENCODER_CHANNEL_B, true, EncodingType.k2X);
     this.encoder.setDistancePerPulse(1./2048.);
     this.encoder.reset();
 
     // Definiton of the PID object by its constants.
-    this.encoderPID = new PIDCalc(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM);
-    
+    this.encoderPID = armPid;
+
     // Initializes arm motors.
     this.armRightMotor = new WPI_VictorSPX(RobotMap.ARM_RIGHT_MOTOR);
     this.armLeftMotor = new WPI_VictorSPX(RobotMap.ARM_LEFT_MOTOR);
 
-    this.armLeftMotor.setNeutralMode(NeutralMode.Coast);
-    this.armRightMotor.setNeutralMode(NeutralMode.Coast);
+    this.armLeftMotor.setNeutralMode(NeutralMode.Brake);
+    this.armRightMotor.setNeutralMode(NeutralMode.Brake);
 
     this.armLeftMotor.setInverted(true);
     this.armRightMotor.setInverted(false);
@@ -91,17 +91,23 @@ public class Arm extends SubsystemBase {
   
   /** Sets voltage to the motors using the PID calculations. */
   public void moveArmToAngle(){
-    this.voltPID = encoderPID.getOutput(this.getAngle(), this.setpointAngle);
+    this.voltPID = encoderPID.getOutput(); //this.setpointAngle
     // if (this.voltPID > 0.8){
     //   armRightMotor.set((0 - voltPID)*(0 - voltPID));
     // }
-    armRightMotor.set(0 - voltPID);
+    // armRightMotor.set(0 - voltPID);
 
-    SmartDashboard.putNumber("output: ", voltPID);
-    // armRightMotor.set(0 - ()));
+    SmartDashboard.putNumber("output: ", 0 - voltPID);
+    armRightMotor.set(0 - this.voltPID);
   }
 
-  /** Moves the arm by dynamic gain given.
+  public void move_arm(){
+    if (!this.encoderPID.atSetPoint()){
+      armRightMotor.set(-0.5);
+    } 
+  }
+
+  /** Moves the arm by dynamic gain given. 
    *
    * @param armGain the gain to set the arm motor to(dynamic)
    */

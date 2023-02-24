@@ -26,7 +26,7 @@ public class Telescope extends SubsystemBase {
     this.m_teleGrip = new WPI_VictorSPX(RobotMap.TELESCOPIC_GRIPPER);
     this.m_teleGrip.setNeutralMode(NeutralMode.Coast);
 
-    this.encoder = new Encoder(RobotMap.TELE_ENCODER_CHANNEL_A, RobotMap.TELE_ENCODER_CHANNEL_B, false, EncodingType.k2X);
+    this.encoder = new Encoder(RobotMap.TELE_ENCODER_CHANNEL_A, RobotMap.TELE_ENCODER_CHANNEL_B, true, EncodingType.k2X);
     this.encoder.setDistancePerPulse(1./2048.);
     this.encoder.reset(); 
 

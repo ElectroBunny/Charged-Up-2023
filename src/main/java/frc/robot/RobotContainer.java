@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Commands.ArcadeDrive;
 import frc.robot.Commands.ChangeDriveVelocity;
 import frc.robot.Commands.Grip;
+import frc.robot.Commands.moveArm;
 import frc.robot.Commands.moveArmManually;
 import frc.robot.Commands.moveArmToAngle;
 import frc.robot.Commands.moveTeleManually;
@@ -54,9 +55,9 @@ public class RobotContainer {
     driveTrain = new DriveTrain();
     m_gripper = new Gripper();
     m_oi = new OI();
-    m_arm = new Arm();
-    m_teleGrip = new Telescope();
     m_armPid = new PIDCalc(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM);
+    m_arm = new Arm(m_armPid);
+    m_teleGrip = new Telescope();
     // m_telePid = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
 
 
@@ -91,12 +92,12 @@ public class RobotContainer {
 
     SmartDashboard.putNumber("Time", Timer.getFPGATimestamp());
 
-    SmartDashboard.putNumber("AccelX", mpu.getAccelX());
-    SmartDashboard.putNumber("AccelY", mpu.getAccelY());
-    SmartDashboard.putNumber("AccelZ", mpu.getAccelZ());
-    SmartDashboard.putNumber("GyroX", mpu.getGyroX());
-    SmartDashboard.putNumber("GyroY", mpu.getGyroY());
-    SmartDashboard.putNumber("GyroZ", mpu.getGyroZ());
+    // SmartDashboard.putNumber("AccelX", mpu.getAccelX());
+    // SmartDashboard.putNumber("AccelY", mpu.getAccelY());
+    // SmartDashboard.putNumber("AccelZ", mpu.getAccelZ());
+    // SmartDashboard.putNumber("GyroX", mpu.getGyroX());
+    // SmartDashboard.putNumber("GyroY", mpu.getGyroY());
+    // SmartDashboard.putNumber("GyroZ", mpu.getGyroZ());
   }
 
   public void onAutoInit(){
@@ -164,15 +165,18 @@ public class RobotContainer {
 
     //CONE BUTTONS 7,9
 
-    m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE));
-    m_oi.button9.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.MID_CONE_ANGLE));
+    // m_oi.button3.onTrue(new moveArmToAngle(m_arm, m_armPid, 90));
+    m_oi.button3.onTrue(new moveArm(m_arm, m_armPid, 90));
 
-    //CUBE BUTTONS 8,10
-    m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CUBE_ANGLE));
-    m_oi.button9.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.MID_CUBE_ANGLE));
+    // m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE));
+    // m_oi.button9.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.MID_CONE_ANGLE));
 
-    //low (back and front)
-    m_oi.button11.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_BACK_ANGLE));
-    m_oi.button12.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE));
+    // //CUBE BUTTONS 8,10
+    // m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CUBE_ANGLE));
+    // m_oi.button9.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.MID_CUBE_ANGLE));
+
+    // //low (back and front)
+    // m_oi.button11.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_BACK_ANGLE));
+    // m_oi.button12.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE));
   }
 }

@@ -68,9 +68,9 @@ public class RobotMap {
     public static final int ARM_LEFT_MOTOR = 10;
     
     //Definition of PID constants for the arm system.
-    public static final double KP_ARM = 0.0095; // 0.0076
-    public static final double KI_ARM = 0.001; // 0.00045
-    public static final double KD_ARM = 0.004; // 0.00064
+    public static final double KP_ARM = 0.009; // 0.0095 
+    public static final double KI_ARM = 0.00045; // 0.001 
+    public static final double KD_ARM = 0.00044; // 0.004 
     public static final double TOLRENCE_ARM = 2.5;
 
     //Definition of arm encoder

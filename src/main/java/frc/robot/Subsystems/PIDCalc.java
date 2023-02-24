@@ -6,8 +6,8 @@ package frc.robot.Subsystems;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotMap;
 
 public class PIDCalc extends SubsystemBase{
 
@@ -46,25 +46,24 @@ public class PIDCalc extends SubsystemBase{
   */
   public void setSetpoint(double setpoint){
     this.setpoint = setpoint;
+    SmartDashboard.putNumber("this setpoint", this.setpoint);
   }
 
   /**Returns the voltage percent output for the motors according to the PID calculations.
    *
    * @return voltage in precents to set the motor to.
    */
-  public double getOutput(){
-    this.output = MathUtil.clamp(pid.calculate(this.dataInput, this.setpoint), -0.6, 0.6);
-    return this.output;
-  }
+  // public double getOutput(){
+  //   this.output = MathUtil.clamp(pid.calculate(this.dataInput, this.setpoint), -0.6, 0.6);
+  //   return this.output;
+  // }
 
   /**Gets input from the sensor measure and setpoint, sets them in the class attributes, and returns voltage in precent as output.
     * @param input the current measure from the sensor.
     * @param setpoint the setpoint for the PID calculation.
     * @return voltage in precents to set the motor to.
    */
-  public double getOutput(double input, double setpoint){
-    this.dataInput = input;
-    this.setpoint = setpoint;
+  public double getOutput(){ //double input, double setpoint
     this.output = MathUtil.clamp(pid.calculate(this.dataInput, this.setpoint), -0.8, 0.8);
     return this.output;
   }
@@ -75,13 +74,17 @@ public class PIDCalc extends SubsystemBase{
    */
   public boolean atSetPoint(){
     this.error = this.setpoint - this.dataInput;
+    SmartDashboard.putNumber("Error", this.error);
+    SmartDashboard.putNumber("Tolerance", this.tolerance);
+    SmartDashboard.putBoolean("Condition", Math.abs(this.error) <= this.tolerance);
+    SmartDashboard.putNumber("Setpoint", this.setpoint);
+
     if (Math.abs(this.error) <= this.tolerance){
       return true;
     }
     else {
       return false;
     }
-    // return pid.atSetpoint();
   }
   
   /**Resets the PID last error and integral value */

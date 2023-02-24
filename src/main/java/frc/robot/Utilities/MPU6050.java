@@ -20,7 +20,7 @@ public class MPU6050 {
   private int gyroZ;
 
   public MPU6050() {
-    mpu = new I2C(Port.kOnboard, 0);
+    mpu = new I2C(Port.kOnboard, 0x68);
   }
 
   public void readSensor() {
