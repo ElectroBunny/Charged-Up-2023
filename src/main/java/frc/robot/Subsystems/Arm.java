@@ -102,9 +102,34 @@ public class Arm extends SubsystemBase {
   }
 
   public void move_arm(){
-    if (!this.encoderPID.atSetPoint()){
-      armRightMotor.set(-0.5);
-    } 
+    if (this.getAngle() < 180 && this.setpointAngle < 180){
+      if (this.getAngle() < this.setpointAngle){
+        // more volt (-)
+        armRightMotor.set(0 - RobotMap.ARM_RAISE_VOLT);
+      }
+      else {
+        // less volt (+)
+        armRightMotor.set(RobotMap.ARM_LOWER_VOLT);
+      }
+    }
+    else if (this.getAngle() > 180 && this.setpointAngle > 180){
+      if (this.getAngle() < this.setpointAngle){
+        // less volt (+)
+        armRightMotor.set(RobotMap.ARM_LOWER_VOLT);
+      }
+      else {
+        // more volt (-)
+        armRightMotor.set(0 - RobotMap.ARM_RAISE_VOLT);
+      }
+    }
+    else if (this.getAngle() < 180 && this.setpointAngle > 180){
+      // more volt (-)
+      armRightMotor.set(0 - RobotMap.ARM_RAISE_VOLT);
+    }
+    else if (this.getAngle() > 180 && this.setpointAngle < 180){
+      // more volt (+)
+      armRightMotor.set(RobotMap.ARM_RAISE_VOLT);
+    }
   }
 
   /** Moves the arm by dynamic gain given. 

@@ -53,7 +53,7 @@ public class RobotMap {
     public static final double KI_TELE = 0;
     public static final double KD_TELE = 0;
     public static final double TOLRENCE_TELE = 2.5;
-    public static final double TELE_SHAFT_PERMITER = 3.14; //Check!
+    public static final double TELE_SHAFT_PERMITER = Math.PI * 3.14;
 
     //Definition of telescope encoder.
     public static final int TELE_ENCODER_CHANNEL_A = 6;
@@ -67,6 +67,10 @@ public class RobotMap {
     public static final int ARM_RIGHT_MOTOR = 8;
     public static final int ARM_LEFT_MOTOR = 10;
     
+    // Definition of arm raise and lower volt.above
+    public static final double ARM_RAISE_VOLT = 0.4;
+    public static final double ARM_LOWER_VOLT = 0.25;
+
     //Definition of PID constants for the arm system.
     public static final double KP_ARM = 0.009; // 0.0095 
     public static final double KI_ARM = 0.00045; // 0.001 
@@ -91,6 +95,15 @@ public class RobotMap {
 
     //Autonomus game mode constants:
 
+    // Inspections angles
+    public static final double HORIZONTAL_FIRST_ANGLE = 238.0;
+    public static final double HORIZONTAL_SECOND_ANGLE = 301.75;
+    public static final double MAX_HORIZONTAL_LENGTH = 120;
+
+    public static final double VERTICAL_FIRST_ANGLE = 148.3;
+    public static final double VERTICAL_SECOND_ANGLE = 211.7;
+    public static final double MAX_VERTICAL_LENGTH = 117;
+
     /*
     average between range of deviation
     Δα = ±2°
@@ -113,7 +126,8 @@ public class RobotMap {
     public static final double MID_LENGTH_CONE = 106.2;
     public static final double HIGH_LENGTH_CONE = 125.55;
 
-    public static final double TELE_MAX_LENGTH = 130;
+    public static final double TELE_MIN_LENGTH = 90;
+    public static final double TELE_MAX_LENGTH = 142;
 
     /*
      * Definition of autonomus time constants

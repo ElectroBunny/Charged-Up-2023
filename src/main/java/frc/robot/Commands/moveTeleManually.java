@@ -31,7 +31,7 @@ public class moveTeleManually extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    innerTele.moveTeleManually(this.gain); //this.m_arm.getAngle()
+    innerTele.moveTeleManually(this.gain, 0); //this.m_arm.getAngle()
   }
 
   // Called once the command ends or is interrupted.

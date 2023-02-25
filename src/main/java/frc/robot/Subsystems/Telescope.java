@@ -88,14 +88,39 @@ public class Telescope extends SubsystemBase {
     *
     * @param currentAngle the current angle of the arm.
     */
-  public void moveTeleManually(double gain){
-    // if((0 < currentAngle && currentAngle < 360)){
-    //   if (0 < RobotMap.TELE_MAX_LENGTH){ //this.getLength() <
-    //     m_teleGrip.set(this.Gain);
-    //   }
-    // }
+  public void moveTeleManually(double gain, double currentAngle){
+    gain *= 0.5;
+    if (gain > 0){
+      if (RobotMap.VERTICAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.VERTICAL_SECOND_ANGLE){
+        if ((RobotMap.TELE_MIN_LENGTH + this.getLength() < RobotMap.MAX_VERTICAL_LENGTH)){
+          m_teleGrip.set(gain);
+        }
+        else {
+          m_teleGrip.set(0);
+        }
+      }
+      else if (RobotMap.HORIZONTAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.HORIZONTAL_SECOND_ANGLE){
+        if ((RobotMap.TELE_MIN_LENGTH + this.getLength()) * Math.cos(currentAngle - 270) < RobotMap.MAX_HORIZONTAL_LENGTH){
+          m_teleGrip.set(gain);
+        }
+        else {
+          m_teleGrip.set(0);
+        }
+      }
+      else if (RobotMap.TELE_MIN_LENGTH + this.getLength() < RobotMap.TELE_MAX_LENGTH) {
+        m_teleGrip.set(gain);
+      }
+      else {
+        m_teleGrip.set(0);
+      }
+    }
+    else if (RobotMap.TELE_MIN_LENGTH + this.getLength() > RobotMap.TELE_MIN_LENGTH) {
+      m_teleGrip.set(gain);
+    }
+    else {
+      m_teleGrip.set(0);
+    }
     SmartDashboard.putNumber("Gain", gain);
-    m_teleGrip.set(gain);
   }
 
   public void stopTele(){
