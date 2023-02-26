@@ -157,8 +157,8 @@ public class RobotContainer {
 
     m_oi.button1.onTrue(new Grip(m_gripper));
 
-    // m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, 1));
-    // m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, -1));
+    m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, 1));
+    m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, -1));
 
 
     m_oi.button2.whileTrue(new moveArmManually(m_arm));
@@ -166,17 +166,20 @@ public class RobotContainer {
     //CONE BUTTONS 7,9
 
     // m_oi.button3.onTrue(new moveArmToAngle(m_arm, m_armPid, 90));
-    m_oi.button3.onTrue(new moveArm(m_arm, m_armPid, 90));
+    // m_oi.button3.onTrue(new moveArm(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE));
+    // m_oi.button7.onTrue(new moveArm(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE));
+    // m_oi.button9.onTrue(new moveArm(m_arm, m_armPid, RobotMap.MID_CUBE_ANGLE));
 
-    // m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE));
-    // m_oi.button9.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.MID_CONE_ANGLE));
+
+    m_oi.button7.onTrue(new moveArm(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE));
+    m_oi.button9.onTrue(new moveArm(m_arm, m_armPid, RobotMap.MID_CONE_ANGLE));
 
     // //CUBE BUTTONS 8,10
-    // m_oi.button7.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.HIGH_CUBE_ANGLE));
-    // m_oi.button9.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.MID_CUBE_ANGLE));
+    m_oi.button8.onTrue(new moveArm(m_arm, m_armPid, RobotMap.HIGH_CUBE_ANGLE));
+    m_oi.button10.onTrue(new moveArm(m_arm, m_armPid, RobotMap.MID_CUBE_ANGLE));
 
     // //low (back and front)
-    // m_oi.button11.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_BACK_ANGLE));
-    // m_oi.button12.onTrue(new moveArmToAngle(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE));
+    m_oi.button11.onTrue(new moveArm(m_arm, m_armPid, RobotMap.LOW_BACK_ANGLE));
+    m_oi.button12.onTrue(new moveArm(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE));
   }
 }

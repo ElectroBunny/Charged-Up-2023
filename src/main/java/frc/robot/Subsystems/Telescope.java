@@ -91,36 +91,49 @@ public class Telescope extends SubsystemBase {
   public void moveTeleManually(double gain, double currentAngle){
     gain *= 0.5;
     if (gain > 0){
-      if (RobotMap.VERTICAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.VERTICAL_SECOND_ANGLE){
-        if ((RobotMap.TELE_MIN_LENGTH + this.getLength() < RobotMap.MAX_VERTICAL_LENGTH)){
-          m_teleGrip.set(gain);
+      if (RobotMap.TELE_MIN_LENGTH + this.getLength() < RobotMap.TELE_MAX_LENGTH) {
+        if (RobotMap.VERTICAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.VERTICAL_SECOND_ANGLE){
+          if ((RobotMap.TELE_MIN_LENGTH + this.getLength() < RobotMap.MAX_VERTICAL_LENGTH)){
+            m_teleGrip.set(gain);
+          }
+          else {
+            m_teleGrip.set(0);
+          }
+        }
+        else if (RobotMap.HORIZONTAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.HORIZONTAL_SECOND_ANGLE){
+          if ((RobotMap.TELE_MIN_LENGTH + this.getLength()) * Math.cos(currentAngle - 270) < RobotMap.MAX_HORIZONTAL_LENGTH){
+            m_teleGrip.set(gain);
+          }
+          else {
+            m_teleGrip.set(0);
+          }
         }
         else {
-          m_teleGrip.set(0);
-        }
-      }
-      else if (RobotMap.HORIZONTAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.HORIZONTAL_SECOND_ANGLE){
-        if ((RobotMap.TELE_MIN_LENGTH + this.getLength()) * Math.cos(currentAngle - 270) < RobotMap.MAX_HORIZONTAL_LENGTH){
           m_teleGrip.set(gain);
         }
-        else {
-          m_teleGrip.set(0);
-        }
       }
-      else if (RobotMap.TELE_MIN_LENGTH + this.getLength() < RobotMap.TELE_MAX_LENGTH) {
+      else {
+        m_teleGrip.set(0);
+      }
+    }
+    else if (gain < 0) {
+      if ((RobotMap.TELE_MIN_LENGTH + this.getLength()) > RobotMap.TELE_MIN_LENGTH){
         m_teleGrip.set(gain);
       }
       else {
         m_teleGrip.set(0);
       }
     }
-    else if (RobotMap.TELE_MIN_LENGTH + this.getLength() > RobotMap.TELE_MIN_LENGTH) {
-      m_teleGrip.set(gain);
-    }
     else {
       m_teleGrip.set(0);
     }
+
+
+
+    m_teleGrip.set(0.5 * gain);
     SmartDashboard.putNumber("Gain", gain);
+    SmartDashboard.putNumber("Relative length", this.getLength());
+    SmartDashboard.putNumber("Full length", this.getLength() + RobotMap.TELE_MIN_LENGTH);
   }
 
   public void stopTele(){

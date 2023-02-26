@@ -102,6 +102,8 @@ public class Arm extends SubsystemBase {
   }
 
   public void move_arm(){
+    SmartDashboard.putNumber("ANGLE:", this.getAngle());
+    SmartDashboard.putNumber("SETPOINT", this.setpointAngle);
     if (this.getAngle() < 180 && this.setpointAngle < 180){
       if (this.getAngle() < this.setpointAngle){
         // more volt (-)
@@ -119,7 +121,7 @@ public class Arm extends SubsystemBase {
       }
       else {
         // more volt (-)
-        armRightMotor.set(0 - RobotMap.ARM_RAISE_VOLT);
+        armRightMotor.set(RobotMap.ARM_RAISE_VOLT);
       }
     }
     else if (this.getAngle() < 180 && this.setpointAngle > 180){
@@ -137,6 +139,7 @@ public class Arm extends SubsystemBase {
    * @param armGain the gain to set the arm motor to(dynamic)
    */
   public void moveArmManually(double armGain){
+    SmartDashboard.putNumber("ARM Angle", getAngle());
     armRightMotor.set(armGain);
   }
 

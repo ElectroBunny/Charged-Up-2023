@@ -12,18 +12,22 @@ import frc.robot.Subsystems.PIDCalc;
 public class moveArm extends CommandBase {
   private Arm innerArm;
   private PIDCalc encoderPID;
+  private double setpoint;
 
   public moveArm(Arm outerArm, PIDCalc outerPID, double angle) {
     this.innerArm = outerArm;
     this.encoderPID = outerPID;
-    this.encoderPID.setSetpoint(angle);
+    this.setpoint = angle;
     SmartDashboard.putNumber("Real angle", angle);
     addRequirements(innerArm);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    this.encoderPID.setSetpoint(this.setpoint);
+    this.innerArm.setSetpointAngle(this.setpoint);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

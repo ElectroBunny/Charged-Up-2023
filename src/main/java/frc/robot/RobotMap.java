@@ -69,7 +69,7 @@ public class RobotMap {
     
     // Definition of arm raise and lower volt.above
     public static final double ARM_RAISE_VOLT = 0.4;
-    public static final double ARM_LOWER_VOLT = 0.25;
+    public static final double ARM_LOWER_VOLT = 0.05;
 
     //Definition of PID constants for the arm system.
     public static final double KP_ARM = 0.009; // 0.0095 
@@ -115,6 +115,8 @@ public class RobotMap {
     public static final double HIGH_CONE_ANGLE = 114.217;
     public static final double HIGH_CUBE_ANGLE = 104.447;
 
+    public static final double FEEDER_ANGLE = 107.24;
+
     /*
      * Definition of complete arm length opening in each scoring mode
      */
@@ -126,8 +128,8 @@ public class RobotMap {
     public static final double MID_LENGTH_CONE = 106.2;
     public static final double HIGH_LENGTH_CONE = 125.55;
 
-    public static final double TELE_MIN_LENGTH = 90;
-    public static final double TELE_MAX_LENGTH = 142;
+    public static final double TELE_MIN_LENGTH = 100;
+    public static final double TELE_MAX_LENGTH = 145;
 
     /*
      * Definition of autonomus time constants
