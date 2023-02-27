@@ -53,7 +53,7 @@ public class RobotMap {
     public static final double KI_TELE = 0;
     public static final double KD_TELE = 0;
     public static final double TOLRENCE_TELE = 2.5;
-    public static final double TELE_SHAFT_PERMITER = Math.PI * 3.14;
+    public static final double TELE_SHAFT_PERMITER = 9.36;
 
     //Definition of telescope encoder.
     public static final int TELE_ENCODER_CHANNEL_A = 6;
@@ -69,7 +69,7 @@ public class RobotMap {
     
     // Definition of arm raise and lower volt.above
     public static final double ARM_RAISE_VOLT = 0.4;
-    public static final double ARM_LOWER_VOLT = 0.05;
+    public static final double ARM_LOWER_VOLT = 0.1;
 
     //Definition of PID constants for the arm system.
     public static final double KP_ARM = 0.009; // 0.0095 
@@ -110,10 +110,10 @@ public class RobotMap {
     */
     public static final double LOW_FRONT_ANGLE = 300.425; 
     public static final double LOW_BACK_ANGLE = 51.93; // 270 + 52.1
-    public static final double MID_CONE_ANGLE = 101.68;
-    public static final double MID_CUBE_ANGLE = 90;
-    public static final double HIGH_CONE_ANGLE = 114.217;
-    public static final double HIGH_CUBE_ANGLE = 104.447;
+    public static final double MID_CONE_ANGLE = 270 - (101.68 - 90);
+    public static final double MID_CUBE_ANGLE = 270 - (90 - 90);
+    public static final double HIGH_CONE_ANGLE = 270 - (114.217 - 90);
+    public static final double HIGH_CUBE_ANGLE = 270 - (104.447 - 90); // 104.447
 
     public static final double FEEDER_ANGLE = 107.24;
 
@@ -128,7 +128,7 @@ public class RobotMap {
     public static final double MID_LENGTH_CONE = 106.2;
     public static final double HIGH_LENGTH_CONE = 125.55;
 
-    public static final double TELE_MIN_LENGTH = 100;
+    public static final double TELE_MIN_LENGTH = 92; // 92
     public static final double TELE_MAX_LENGTH = 145;
 
     /*

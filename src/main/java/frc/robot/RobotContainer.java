@@ -157,13 +157,15 @@ public class RobotContainer {
 
     m_oi.button1.onTrue(new Grip(m_gripper));
 
-    m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, 1));
-    m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, -1));
+    m_oi.povbutton1.whileTrue(new moveTeleManually(m_teleGrip, 1, m_arm));
+    m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, -1, m_arm));
 
 
     m_oi.button2.whileTrue(new moveArmManually(m_arm));
 
     //CONE BUTTONS 7,9
+
+    // m_oi.button3.onTrue(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, 20))
 
     // m_oi.button3.onTrue(new moveArmToAngle(m_arm, m_armPid, 90));
     // m_oi.button3.onTrue(new moveArm(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE));

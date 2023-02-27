@@ -68,14 +68,20 @@ public class Telescope extends SubsystemBase {
   /** Gets length and sets its attribute to the setpoint of the PID.
     * @param length the length that will be the setpoint.
    */
-  // public void setSetpointLength(double length){
-  //   this.setpointLength = length;
-  // }
+  public void setSetpointLength(double length){
+    this.setpointLength = length;
+  }
   
   /** Sets voltage to the motors using the PID calculations. */
-  // public void moveTeleToPos(){
-  //   m_teleGrip.set(encoderPID.getOutput(this.getLength(), this.setpointLength));
-  // }
+  public void moveTeleToLength(){
+    if (this.setpoint - (this.getLength() + RobotMap.TELE_MIN_LENGTH) > 0){
+      m_teleGrip.set(0.5);
+    }
+    else {
+      m_teleGrip.set(-0.5);
+    }
+    // m_teleGrip.set(encoderPID.getOutput(this.getLength(), this.setpointLength));
+  }
 
   /*
    * Function that sets the gain(voltage in percent) to give to the telescope.
@@ -90,6 +96,7 @@ public class Telescope extends SubsystemBase {
     */
   public void moveTeleManually(double gain, double currentAngle){
     gain *= 0.5;
+    SmartDashboard.putNumber("current", this.getLength());
     if (gain > 0){
       if (RobotMap.TELE_MIN_LENGTH + this.getLength() < RobotMap.TELE_MAX_LENGTH) {
         if (RobotMap.VERTICAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.VERTICAL_SECOND_ANGLE){
@@ -117,12 +124,13 @@ public class Telescope extends SubsystemBase {
       }
     }
     else if (gain < 0) {
-      if ((RobotMap.TELE_MIN_LENGTH + this.getLength()) > RobotMap.TELE_MIN_LENGTH){
-        m_teleGrip.set(gain);
-      }
-      else {
-        m_teleGrip.set(0);
-      }
+      // if ((RobotMap.TELE_MIN_LENGTH + this.getLength()) > RobotMap.TELE_MIN_LENGTH){
+      //   m_teleGrip.set(gain);
+      // }
+      // else {
+      //   m_teleGrip.set(0);
+      // }
+      m_teleGrip.set(gain);
     }
     else {
       m_teleGrip.set(0);
@@ -130,7 +138,7 @@ public class Telescope extends SubsystemBase {
 
 
 
-    m_teleGrip.set(0.5 * gain);
+    // m_teleGrip.set(0.5 * gain);
     SmartDashboard.putNumber("Gain", gain);
     SmartDashboard.putNumber("Relative length", this.getLength());
     SmartDashboard.putNumber("Full length", this.getLength() + RobotMap.TELE_MIN_LENGTH);

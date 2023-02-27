@@ -5,54 +5,58 @@
 // package frc.robot.Commands;
 
 // import edu.wpi.first.wpilibj2.command.CommandBase;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 // import frc.robot.Subsystems.Arm;
 // import frc.robot.Subsystems.Telescope;
 // import frc.robot.Subsystems.PIDCalc;
 
-// public class moveTeleToPos extends CommandBase {
-//   private Telescope innerTele;
-//   private Arm innerArm;
-//   private PIDCalc encoderPID;
-//   private double setpoint;
 
-//   /** Creates a new moveTeleToPos. */
-//   public moveTeleToPos(Telescope outerTele, Arm outerArm, PIDCalc outerPid, double length) {
-//     // Use addRequirements() here to declare subsystem dependencies.
+// public class moveTeleToLength extends CommandBase {
+//   private Telescope innerTele;
+//   private double innerLength;
+//   private Arm innerArm;
+//   private PIDCalc innerPid;
+//   // private Arm m_arm;
+
+//   public moveTeleToLength(Telescope outerTele, Arm outerArm, PIDCalc outerPid, double length) {
+//     // this.m_arm = new Arm();
 //     this.innerTele = outerTele;
 //     this.innerArm = outerArm;
-//     this.encoderPID = outerPid;
-//     this.setpoint = length;
-//     SmartDashboard.putNumber("Length setpoint", length);
+//     this.innerPid = outerPid;
+//     this.innerLength = length;
 //     addRequirements(innerTele);
 //   }
 
 //   // Called when the command is initially scheduled.
 //   @Override
 //   public void initialize() {
-//     this.encoderPID.setSetpoint(this.setpoint);
-//     this.innerTele.setSetpointLength(this.setpoint);
+//     this.innerTele.setSetpointLength(this.length);
+//     this.innerPid.setSetpoint(this.length);
 //   }
 
 //   // Called every time the scheduler runs while the command is scheduled.
 //   @Override
 //   public void execute() {
-//     this.encoderPID.setInput(this.innerTele.getLength())
-//     this.innerTele.moveTeleManually(0.5, this.innerArm.getAngle());
+//     this.innerPid.setInput(this.innerTele.getLength());
+//     // if (this.length - this.innerTele.getLength() > 0){
+//     //     innerTele.moveTeleManually(0.5, this.innerArm.getAngle()); //this.m_arm.getAngle()
+//     // }
+//     // else {
+//     //     innerTele.moveTeleManually(-0.5, this.innerArm.getAngle());
+//     // }
+//     this.innerTele.moveTeleToPos();
+    
 //   }
 
 //   // Called once the command ends or is interrupted.
 //   @Override
 //   public void end(boolean interrupted) {
-//     encoderPID.resetPID();
 //     innerTele.stopTele();
 //   }
 
 //   // Returns true when the command should end.
 //   @Override
 //   public boolean isFinished() {
-//     SmartDashboard.putBoolean("At set point:", encoderPID.atSetPoint());
-//     return encoderPid.atSetPoint();
-//     // return false;
+//     return innerPid.atSetPoint();
 //   }
 // }

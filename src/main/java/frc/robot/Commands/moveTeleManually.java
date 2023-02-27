@@ -12,15 +12,15 @@ import frc.robot.Subsystems.Telescope;
 public class moveTeleManually extends CommandBase {
   private Telescope innerTele;
   private double gain;
+  private Arm innerArm;
   // private Arm m_arm;
 
-  public moveTeleManually(Telescope outerTele, double gain) {
+  public moveTeleManually(Telescope outerTele, double gain, Arm outerArm) {
     // this.m_arm = new Arm();
     this.gain = gain;
-
     this.innerTele = outerTele;
+    this.innerArm = outerArm;
     addRequirements(innerTele);
-    
   }
 
   // Called when the command is initially scheduled.
@@ -31,7 +31,7 @@ public class moveTeleManually extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    innerTele.moveTeleManually(this.gain, 0); //this.m_arm.getAngle()
+    innerTele.moveTeleManually(this.gain, this.innerArm.getAngle()); //this.m_arm.getAngle()
   }
 
   // Called once the command ends or is interrupted.
