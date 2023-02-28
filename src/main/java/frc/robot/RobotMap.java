@@ -69,7 +69,7 @@ public class RobotMap {
     
     // Definition of arm raise and lower volt.above
     public static final double ARM_RAISE_VOLT = 0.4;
-    public static final double ARM_LOWER_VOLT = 0.1;
+    public static final double ARM_LOWER_VOLT = 0.05;
 
     //Definition of PID constants for the arm system.
     public static final double KP_ARM = 0.009; // 0.0095 
@@ -120,16 +120,19 @@ public class RobotMap {
     /*
      * Definition of complete arm length opening in each scoring mode
      */
+    public static final double TELE_MIN_LENGTH = 100; // 92
+    public static final double TELE_MAX_LENGTH = 145;
+
+
     public static final double LOW_LENGTH_FRONT = 109.6;
-    public static final double MID_LENGTH_CUBE = 90; //Telescope is closed
+    public static final double MID_LENGTH_CUBE = TELE_MIN_LENGTH; //Telescope is closed
     public static final double HIGH_LENGTH_CUBE = 118.24;
 
-    public static final double LOW_LENGTH_BACK = 90; //Telescope is closed
+    public static final double LOW_LENGTH_BACK = TELE_MIN_LENGTH; //Telescope is closed
     public static final double MID_LENGTH_CONE = 106.2;
     public static final double HIGH_LENGTH_CONE = 125.55;
 
-    public static final double TELE_MIN_LENGTH = 92; // 92
-    public static final double TELE_MAX_LENGTH = 145;
+
 
     /*
      * Definition of autonomus time constants

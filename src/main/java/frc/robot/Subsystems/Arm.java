@@ -61,6 +61,10 @@ public class Arm extends SubsystemBase {
     return encoder.getDistance();
   }
 
+  public void resetEn(){
+    this.encoder.reset();
+  }
+
   /** Return the angle of the arm relative to zero point - down to the floor, the positive direction is the front of the robot direction.
     *
     * @return the angle of the arm as described above.
@@ -111,24 +115,34 @@ public class Arm extends SubsystemBase {
       }
       else {
         // less volt (+)
-        armRightMotor.set(RobotMap.ARM_LOWER_VOLT);
+        if (this.getAngle() > 160){
+          armRightMotor.set(RobotMap.ARM_LOWER_VOLT + 0.15);
+        }
+        else {
+          armRightMotor.set(RobotMap.ARM_LOWER_VOLT);
+        }
       }
     }
     else if (this.getAngle() > 180 && this.setpointAngle > 180){
       if (this.getAngle() < this.setpointAngle){
         // less volt (+)
-        armRightMotor.set(RobotMap.ARM_LOWER_VOLT);
+        if (this.getAngle() < 200){
+          armRightMotor.set(0 - (RobotMap.ARM_LOWER_VOLT + 0.15));
+        }
+        else {
+          armRightMotor.set(RobotMap.ARM_LOWER_VOLT);
+        }
       }
       else {
         // more volt (-)
         armRightMotor.set(RobotMap.ARM_RAISE_VOLT);
       }
     }
-    else if (this.getAngle() < 180 && this.setpointAngle > 180){
+    else if (this.getAngle() <= 180 && this.setpointAngle > 180){
       // more volt (-)
       armRightMotor.set(0 - RobotMap.ARM_RAISE_VOLT);
     }
-    else if (this.getAngle() > 180 && this.setpointAngle < 180){
+    else if (this.getAngle() >= 180 && this.setpointAngle < 180){
       // more volt (+)
       armRightMotor.set(RobotMap.ARM_RAISE_VOLT);
     }
@@ -148,9 +162,14 @@ public class Arm extends SubsystemBase {
    * @param teleLength the current length of the telescope, used to calculate the gain in order to hold the arm.
    */
   public void resist(double teleLength){
-
-    if(this.getAngle() <= 178.5){
-      armRightMotor.set(-0.2);
+    if (this.getAngle() <= 165){
+      armRightMotor.set(-0.27);
+    }
+    else if (this.getAngle() <= 180){
+      armRightMotor.set(0);
+    }
+    else if (this.getAngle() <= 205){
+      armRightMotor.set(0);
     }
     else{
       armRightMotor.set(0.27);

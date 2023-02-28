@@ -22,6 +22,8 @@ public class Telescope extends SubsystemBase {
   private PIDCalc encoderPID;
   private double setpointLength;
 
+  private double currentLength;
+
   public Telescope() {
     this.m_teleGrip = new WPI_VictorSPX(RobotMap.TELESCOPIC_GRIPPER);
     this.m_teleGrip.setNeutralMode(NeutralMode.Coast);
@@ -31,7 +33,7 @@ public class Telescope extends SubsystemBase {
     this.encoder.reset(); 
 
     this.encoderPID = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
-
+    this.currentLength = RobotMap.TELE_MIN_LENGTH;
   }
 
   
@@ -42,6 +44,10 @@ public class Telescope extends SubsystemBase {
   */
   public double getDistance(){
     return encoder.getDistance();
+  }
+
+  public void resetEn(){
+    this.encoder.reset();
   }
 
   /** Return the length of the arm relative to zero point - where the tele starts.
@@ -74,7 +80,7 @@ public class Telescope extends SubsystemBase {
   
   /** Sets voltage to the motors using the PID calculations. */
   public void moveTeleToLength(){
-    if (this.setpoint - (this.getLength() + RobotMap.TELE_MIN_LENGTH) > 0){
+    if (this.setpointLength - (this.getLength() + RobotMap.TELE_MIN_LENGTH) > 0){
       m_teleGrip.set(0.5);
     }
     else {
@@ -95,45 +101,53 @@ public class Telescope extends SubsystemBase {
     * @param currentAngle the current angle of the arm.
     */
   public void moveTeleManually(double gain, double currentAngle){
+
+    if(currentAngle > RobotMap.MIN_ANGLE && currentAngle < 58){
+      return;
+    }
+    this.currentLength = RobotMap.TELE_MIN_LENGTH + this.getLength();
+
     gain *= 0.5;
-    SmartDashboard.putNumber("current", this.getLength());
-    if (gain > 0){
-      if (RobotMap.TELE_MIN_LENGTH + this.getLength() < RobotMap.TELE_MAX_LENGTH) {
-        if (RobotMap.VERTICAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.VERTICAL_SECOND_ANGLE){
-          if ((RobotMap.TELE_MIN_LENGTH + this.getLength() < RobotMap.MAX_VERTICAL_LENGTH)){
-            m_teleGrip.set(gain);
+    SmartDashboard.putNumber("TELE realative length", this.getLength());
+    SmartDashboard.putNumber("TELE current angle", currentAngle);
+    SmartDashboard.putNumber("TELE full length", this.currentLength);
+    if (gain > 0){ // If trying to open
+      if (this.currentLength < RobotMap.TELE_MAX_LENGTH) { // Is possible to open?
+        if (RobotMap.VERTICAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.VERTICAL_SECOND_ANGLE){ // If angle in vertical laws
+          if (this.currentLength < RobotMap.MAX_VERTICAL_LENGTH){ // If length < law
+            m_teleGrip.set(gain); // Set power
           }
-          else {
-            m_teleGrip.set(0);
-          }
-        }
-        else if (RobotMap.HORIZONTAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.HORIZONTAL_SECOND_ANGLE){
-          if ((RobotMap.TELE_MIN_LENGTH + this.getLength()) * Math.cos(currentAngle - 270) < RobotMap.MAX_HORIZONTAL_LENGTH){
-            m_teleGrip.set(gain);
-          }
-          else {
-            m_teleGrip.set(0);
+          else { // Length >= law
+            m_teleGrip.set(0); // Clear power
           }
         }
-        else {
-          m_teleGrip.set(gain);
+        else if (RobotMap.HORIZONTAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.HORIZONTAL_SECOND_ANGLE){ // If angle in horizontal laws
+          if ((this.currentLength * Math.cos(currentAngle - 270)) < RobotMap.MAX_HORIZONTAL_LENGTH){ // If horizontal length < law
+            m_teleGrip.set(gain); // Set power
+          }
+          else { // Horizontal length >= law
+            m_teleGrip.set(0); // Clear power
+          }
+        }
+        else { // Angle not in law.
+          m_teleGrip.set(gain); // Set power
         }
       }
-      else {
-        m_teleGrip.set(0);
+      else { // Impossible to open
+        m_teleGrip.set(0); // Clear power
       }
     }
-    else if (gain < 0) {
-      // if ((RobotMap.TELE_MIN_LENGTH + this.getLength()) > RobotMap.TELE_MIN_LENGTH){
-      //   m_teleGrip.set(gain);
-      // }
-      // else {
-      //   m_teleGrip.set(0);
-      // }
-      m_teleGrip.set(gain);
+    else if (gain < 0) { // Trying to close
+      if (this.currentLength > RobotMap.TELE_MIN_LENGTH){ // Is possible to close?
+        m_teleGrip.set(gain); // Set power
+      }
+      else { // Impossible to close
+        m_teleGrip.set(0); // Clear power
+      }
+      // m_teleGrip.set(gain);
     }
-    else {
-      m_teleGrip.set(0);
+    else { // Not trying to open or close
+      m_teleGrip.set(0); // Clear power
     }
 
 

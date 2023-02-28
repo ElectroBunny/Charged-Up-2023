@@ -4,6 +4,7 @@
 
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.RobotMap;
@@ -15,12 +16,14 @@ public class moveArmManually extends CommandBase {
   private OI oi = new OI();
 
   private Arm innerArm;
+  private Telescope innerTele;
   // private Telescope m_tele;
 
-  public moveArmManually(Arm outerArm) {
+  public moveArmManually(Arm outerArm, Telescope outerTele) {
     // this.m_tele = new Telescope();
 
     this.innerArm = outerArm;
+    this.innerTele = outerTele;
     addRequirements(innerArm);
   }
 
@@ -34,7 +37,10 @@ public class moveArmManually extends CommandBase {
   @Override
   public void execute() {
     yAxis = oi.getJoystickRawAxis(RobotMap.Y_AXIS_PORT);
-    innerArm.moveArmManually(yAxis * 0.7);
+    SmartDashboard.putNumber("Length", this.innerTele.getLength() + RobotMap.TELE_MIN_LENGTH);
+    if (this.innerTele.getLength() + RobotMap.TELE_MIN_LENGTH < 117){
+      innerArm.moveArmManually(yAxis * 0.75);
+    }
   }
 
   // Called once the command ends or is interrupted.

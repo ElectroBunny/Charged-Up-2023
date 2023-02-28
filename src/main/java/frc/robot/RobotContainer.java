@@ -22,7 +22,8 @@ import frc.robot.Commands.moveArm;
 import frc.robot.Commands.moveArmManually;
 import frc.robot.Commands.moveArmToAngle;
 import frc.robot.Commands.moveTeleManually;
-// import frc.robot.Commands.moveTeleToPos;
+import frc.robot.Commands.moveTeleToPos;
+import frc.robot.Commands.moveTeleToPos;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.DriveTrain;
 import frc.robot.Subsystems.Gripper;
@@ -36,7 +37,7 @@ public class RobotContainer {
   private final DriveTrain driveTrain;
   private final OI m_oi;
   private final PIDCalc m_armPid;
-  // private final PIDCalc m_telePid;
+  private final PIDCalc m_telePid;
   private final Telescope m_teleGrip;
   private final Arm m_arm;
   private final Gripper m_gripper;
@@ -58,7 +59,7 @@ public class RobotContainer {
     m_armPid = new PIDCalc(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM);
     m_arm = new Arm(m_armPid);
     m_teleGrip = new Telescope();
-    // m_telePid = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
+    m_telePid = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
 
 
     //might cause a problem
@@ -103,42 +104,99 @@ public class RobotContainer {
   public void onAutoInit(){
     //Saves the time when the autonomus started.
     this.startTime = Timer.getFPGATimestamp();
+    m_gripper.gripRelease();
+  }
+
+  public void resetEncoders(){
+    m_arm.resetEn();
+    m_teleGrip.resetEn();
   }
   
   /**
   * Sets the tool tip text.
   * @param armSetPoint the angle that you want the arm to move to (autonomus)
   */
-  // public void onSimpleAuto(double armSetPoint){
-  //   //Sets the setpoint of the PID calculations
-  //   m_arm.setSetpointAngle(armSetPoint);
+  public void onSimpleAuto(double armSetpoint, double teleSetpoint, double driveTime){
 
-  //   delta_time = Timer.getFPGATimestamp() - startTime;
-  //   if(!m_armPid.atSetPoint()){
-  //     m_arm.moveArmToAngle();
-  //   }
+    //Sets the setpoint of the PID calculations
 
-  //   else if(!m_telePid.atSetPoint()){
-  //     m_teleGrip.moveTeleToPos();
-  //   }
+    // command template
+    // init
+    // while (not finish):
+    //    execute
+    // end
 
-  //   else if(delta_time < RobotMap.SIMPLE_AUTO_DRIVE_TIME){
-  //     driveTrain.ArcadeDrive(0.6, 0);
-  //   }
 
-  // }
+    // close gripper
+    m_gripper.gripToggle();
 
-  public void onAutoMid(){
+
+    // close tele to zero
+    m_telePid.setSetpoint(RobotMap.TELE_MIN_LENGTH + 3);
+    m_teleGrip.setSetpointLength(RobotMap.TELE_MIN_LENGTH + 3);
+    while (!this.m_telePid.atSetPoint()){
+      m_telePid.setInput(this.m_teleGrip.getLength() + RobotMap.TELE_MIN_LENGTH);
+      m_teleGrip.moveTeleToLength();
+    }
+    m_telePid.resetPID();
+    m_teleGrip.stopTele();
+
+
+    // send arm to angle
+    m_armPid.setSetpoint(armSetpoint);
+    m_arm.setSetpointAngle(armSetpoint);
+    while (!m_armPid.atSetPoint()){
+      m_armPid.setInput(m_arm.getAngle());
+      m_arm.move_arm();
+    }
+    m_armPid.resetPID();
+    m_arm.resist(0);
+
+
+    // open tele
+    m_telePid.setSetpoint(teleSetpoint);
+    m_teleGrip.setSetpointLength(teleSetpoint);
+    while (!this.m_telePid.atSetPoint()){
+      m_telePid.setInput(this.m_teleGrip.getLength() + RobotMap.TELE_MIN_LENGTH);
+      m_teleGrip.moveTeleToLength();
+    }
+    m_telePid.resetPID();
+    m_teleGrip.stopTele();
+
+
+    // release gripper
+    m_gripper.gripToggle();
+
+
+    // close tele to zero
+    m_telePid.setSetpoint(RobotMap.TELE_MIN_LENGTH + 3);
+    m_teleGrip.setSetpointLength(RobotMap.TELE_MIN_LENGTH + 3);
+    while (!this.m_telePid.atSetPoint()){
+      m_telePid.setInput(this.m_teleGrip.getLength() + RobotMap.TELE_MIN_LENGTH);
+      m_teleGrip.moveTeleToLength();
+    }
+    m_telePid.resetPID();
+    m_teleGrip.stopTele();
+
+
+    // send arm to low
+    m_armPid.setSetpoint(RobotMap.LOW_BACK_ANGLE);
+    m_arm.setSetpointAngle(RobotMap.LOW_BACK_ANGLE);
+    while (!m_armPid.atSetPoint()){
+      m_armPid.setInput(m_arm.getAngle());
+      m_arm.move_arm();
+    }
+    m_armPid.resetPID();
+    m_arm.resist(0);
+
+
+    // drive forward
+    this.delta_time = Timer.getFPGATimestamp() - startTime;
+    if(delta_time < driveTime){
+      driveTrain.ArcadeDrive(0.6, 0);
+    }
   }
 
-
-  // public void onTeleopInit() {
-  //   driveTrain.ArcadeDrive(0, 0);
-  //   m_armPid.resetPID();
-  //   m_telePid.resetPID();
-  // }
-
-    
 
   public void onTeleopPeriodic(){
 
@@ -161,27 +219,51 @@ public class RobotContainer {
     m_oi.povbutton2.whileTrue(new moveTeleManually(m_teleGrip, -1, m_arm));
 
 
-    m_oi.button2.whileTrue(new moveArmManually(m_arm));
+    m_oi.button2.whileTrue(new moveArmManually(m_arm, m_teleGrip));
 
-    //CONE BUTTONS 7,9
-
-    // m_oi.button3.onTrue(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, 20))
-
-    // m_oi.button3.onTrue(new moveArmToAngle(m_arm, m_armPid, 90));
+    
+    // m_oi.button3.onTrue(new moveArm(m_arm, m_armPid, 270));
+    // m_oi.button4.onTrue(new moveArm(m_arm, m_armPid, 90));
+    // m_oi.button5.onTrue(new moveTeleToPos(m_teleGrip, m_arm, m_armPid, 120));
+    // m_oi.button6.onTrue(new moveTeleToPos(m_teleGrip, m_arm, m_armPid, 130));
+    // m_oi.button5.onTrue(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, 20).andThen());
     // m_oi.button3.onTrue(new moveArm(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE));
     // m_oi.button7.onTrue(new moveArm(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE));
     // m_oi.button9.onTrue(new moveArm(m_arm, m_armPid, RobotMap.MID_CUBE_ANGLE));
 
+    // CONE BUTTONS 7,9
+    m_oi.button7.onTrue(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.TELE_MIN_LENGTH+3)
+    .andThen(new moveArm(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE))
+    .andThen(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.HIGH_LENGTH_CONE)));
 
-    m_oi.button7.onTrue(new moveArm(m_arm, m_armPid, RobotMap.HIGH_CONE_ANGLE));
-    m_oi.button9.onTrue(new moveArm(m_arm, m_armPid, RobotMap.MID_CONE_ANGLE));
+    m_oi.button9.onTrue(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.TELE_MIN_LENGTH+3)
+    .andThen(new moveArm(m_arm, m_armPid, RobotMap.MID_CONE_ANGLE))
+    .andThen(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.MID_LENGTH_CONE)));
 
     // //CUBE BUTTONS 8,10
-    m_oi.button8.onTrue(new moveArm(m_arm, m_armPid, RobotMap.HIGH_CUBE_ANGLE));
-    m_oi.button10.onTrue(new moveArm(m_arm, m_armPid, RobotMap.MID_CUBE_ANGLE));
+    m_oi.button8.onTrue(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.TELE_MIN_LENGTH+3)
+    .andThen(new moveArm(m_arm, m_armPid, RobotMap.HIGH_CUBE_ANGLE))
+    .andThen(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.HIGH_LENGTH_CUBE)));
+
+    m_oi.button10.onTrue(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.TELE_MIN_LENGTH+3)
+    .andThen(new moveArm(m_arm, m_armPid, RobotMap.MID_CUBE_ANGLE))
+    .andThen(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.MID_LENGTH_CUBE)));
+
+    // m_oi.button8.onTrue(new moveArm(m_arm, m_armPid, RobotMap.HIGH_CUBE_ANGLE));
+    // m_oi.button10.onTrue(new moveArm(m_arm, m_armPid, RobotMap.MID_CUBE_ANGLE));
 
     // //low (back and front)
-    m_oi.button11.onTrue(new moveArm(m_arm, m_armPid, RobotMap.LOW_BACK_ANGLE));
-    m_oi.button12.onTrue(new moveArm(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE));
+    m_oi.button11.onTrue(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.TELE_MIN_LENGTH+3)
+    .andThen(new moveArm(m_arm, m_armPid, RobotMap.LOW_BACK_ANGLE))
+    .andThen(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.LOW_LENGTH_BACK)));
+
+    m_oi.button12.onTrue(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.TELE_MIN_LENGTH+3)
+    .andThen(new moveArm(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE))
+    .andThen(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.LOW_LENGTH_FRONT)));
+
+    // m_oi.button11.onTrue(new moveArm(m_arm, m_armPid, RobotMap.LOW_BACK_ANGLE));
+    // m_oi.button12.onTrue(new moveArm(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE));
+
+    // m_oi.A.onTrue(new ChangeDriverVelocity(driveTrain));
   }
 }
