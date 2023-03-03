@@ -18,7 +18,7 @@ public class moveArm extends CommandBase {
     this.innerArm = outerArm;
     this.encoderPID = outerPID;
     this.setpoint = angle;
-    SmartDashboard.putNumber("Real angle", angle);
+    // SmartDashboard.putNumber("Real angle", angle);
     addRequirements(innerArm);
   }
 
@@ -46,7 +46,7 @@ public class moveArm extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    SmartDashboard.putBoolean("At set point:", encoderPID.atSetPoint());
+    // SmartDashboard.putBoolean("At set point:", encoderPID.atSetPoint());
     // if (innerArm.getAngle() >= 176.0){
     //   return true;
     // }

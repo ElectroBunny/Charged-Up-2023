@@ -24,7 +24,7 @@ public class moveTeleToPos extends CommandBase {
     this.innerArm = outerArm;
     this.encoderPID = outerPid;
     this.setpoint = length;
-    SmartDashboard.putNumber("Length setpoint", length);
+    // SmartDashboard.putNumber("Length setpoint", length);
     addRequirements(this.innerTele);
   }
 
@@ -52,7 +52,7 @@ public class moveTeleToPos extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    SmartDashboard.putBoolean("At set point:", encoderPID.atSetPoint());
+    // SmartDashboard.putBoolean("At set point:", encoderPID.atSetPoint());
     return this.encoderPID.atSetPoint();
     // return false;
   }

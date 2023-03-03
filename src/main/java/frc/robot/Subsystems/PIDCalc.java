@@ -46,7 +46,7 @@ public class PIDCalc extends SubsystemBase{
   */
   public void setSetpoint(double setpoint){
     this.setpoint = setpoint;
-    SmartDashboard.putNumber("this setpoint", this.setpoint);
+    // SmartDashboard.putNumber("this setpoint", this.setpoint);
   }
 
   /**Returns the voltage percent output for the motors according to the PID calculations.
@@ -74,10 +74,10 @@ public class PIDCalc extends SubsystemBase{
    */
   public boolean atSetPoint(){
     this.error = this.setpoint - this.dataInput;
-    SmartDashboard.putNumber("Error", this.error);
-    SmartDashboard.putNumber("Tolerance", this.tolerance);
-    SmartDashboard.putBoolean("Condition", Math.abs(this.error) <= this.tolerance);
-    SmartDashboard.putNumber("Setpoint", this.setpoint);
+    // SmartDashboard.putNumber("Error", this.error);
+    // SmartDashboard.putNumber("Tolerance", this.tolerance);
+    // SmartDashboard.putBoolean("Condition", Math.abs(this.error) <= this.tolerance);
+    // SmartDashboard.putNumber("Setpoint", this.setpoint);
 
     if (Math.abs(this.error) <= this.tolerance){
       return true;

@@ -95,38 +95,42 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kLeftAutoCone:
-        m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE, RobotMap.HIGH_LENGTH_CONE, 5);
-        break;
-      case kLeftAutoCube:
-        m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE, RobotMap.HIGH_LENGTH_CUBE, 5);
-        break;
-      case kMidAutoCone:
-      m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE, RobotMap.HIGH_LENGTH_CONE, 6);
-        break;
+    // switch (m_autoSelected) {
+    //   case kLeftAutoCone:
+    //     m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE, RobotMap.HIGH_LENGTH_CONE, 5);
+    //     break;
+    //   case kLeftAutoCube:
+    //     m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE, RobotMap.HIGH_LENGTH_CUBE, 5);
+    //     break;
+    //   case kMidAutoCone:
+    //   // m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE, RobotMap.HIGH_LENGTH_CONE, 6);
+    //     break;
 
-      case kMidAutoCube:
-      m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE, RobotMap.HIGH_LENGTH_CUBE, 6);
-        break;
+    //   case kMidAutoCube:
+    //   // m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE, RobotMap.HIGH_LENGTH_CUBE, 6);
+    //     break;
 
-      case kRightAutoCone:
-      m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE, RobotMap.HIGH_LENGTH_CONE, 7);
-        break;
-      case kRightAutocube:
-      m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE, RobotMap.HIGH_LENGTH_CUBE, 7);
-      break;
+    //   case kRightAutoCone:
+    //   m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE, RobotMap.HIGH_LENGTH_CONE, 7);
+    //     break;
+    //   case kRightAutocube:
+    //   m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE, RobotMap.HIGH_LENGTH_CUBE, 7);
+    //   break;
 
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+    //   case kDefaultAuto:
+    //   default:
+    //     // Put default auto code here
+    //     break;
+    // }
+    m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE, RobotMap.HIGH_LENGTH_CUBE, 5);
+
   }
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    m_robotContainer.onTeleopInit();
+  }
 
   /** This function is called periodically during operator control. */
   @Override

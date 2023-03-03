@@ -31,7 +31,7 @@ public class ArcadeDrive extends CommandBase {
 
     this.xAxis = oi.getXboxLeftX();
 
-    innerDriver.ArcadeDrive((this.forwardY - this.reverseY), this.xAxis);
+    innerDriver.ArcadeDrive((this.forwardY - this.reverseY), this.xAxis);  
   }
 
   // Called once the command ends or is interrupted.

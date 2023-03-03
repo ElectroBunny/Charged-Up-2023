@@ -18,8 +18,8 @@ public class RobotMap {
     //Definition of drive motors' ports.
     public static final int DRIVE_LEFT_MASTER  = 3;
     public static final int DRIVE_LEFT_SLAVE  = 1;
-    public static final int DRIVE_RIGHT_MASTER  = 4;
-    public static final int DRIVE_RIGHT_SLAVE  = 2;
+    public static final int DRIVE_RIGHT_MASTER  = 20;
+    public static final int DRIVE_RIGHT_SLAVE  = 4;
 
  //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

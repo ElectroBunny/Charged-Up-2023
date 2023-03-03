@@ -37,10 +37,10 @@ public class moveArmManually extends CommandBase {
   @Override
   public void execute() {
     yAxis = oi.getJoystickRawAxis(RobotMap.Y_AXIS_PORT);
-    SmartDashboard.putNumber("Length", this.innerTele.getLength() + RobotMap.TELE_MIN_LENGTH);
-    if (this.innerTele.getLength() + RobotMap.TELE_MIN_LENGTH < 117){
+    // SmartDashboard.putNumber("Length", this.innerTele.getLength() + RobotMap.TELE_MIN_LENGTH);
+    // if (this.innerTele.getLength() + RobotMap.TELE_MIN_LENGTH < 117){
       innerArm.moveArmManually(yAxis * 0.75);
-    }
+    // }
   }
 
   // Called once the command ends or is interrupted.

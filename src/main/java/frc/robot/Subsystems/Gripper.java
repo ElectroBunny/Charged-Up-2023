@@ -29,7 +29,7 @@ public class Gripper extends SubsystemBase {
     //Sets the grip to be opened when the robots starts
     doubleSolenoidRight.set(Value.kReverse);
     doubleSolenoidLeft.set(Value.kReverse);
-    isOpen = true;
+    isOpen = false;
   }
 
   public void gripSolenoidOff() {

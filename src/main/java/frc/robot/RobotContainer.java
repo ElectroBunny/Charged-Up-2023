@@ -16,11 +16,11 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Commands.ArcadeDrive;
-import frc.robot.Commands.ChangeDriveVelocity;
+// import frc.robot.Commands.ChangeDriveVelocity;
 import frc.robot.Commands.Grip;
 import frc.robot.Commands.moveArm;
 import frc.robot.Commands.moveArmManually;
-import frc.robot.Commands.moveArmToAngle;
+// import frc.robot.Commands.moveArmToAngle;
 import frc.robot.Commands.moveTeleManually;
 import frc.robot.Commands.moveTeleToPos;
 import frc.robot.Commands.moveTeleToPos;
@@ -43,11 +43,12 @@ public class RobotContainer {
   private final Gripper m_gripper;
 
   private double startTime;
-  private double delta_time;
+  private double delta_time = 0;
 
   public static Compressor pcmCompressor;
 
   private MPU6050 mpu;
+  private int auto_counter;
 
   CvSink cvSink;
   CvSource outputStream;
@@ -60,7 +61,7 @@ public class RobotContainer {
     m_arm = new Arm(m_armPid);
     m_teleGrip = new Telescope();
     m_telePid = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
-
+    auto_counter = 0;
 
     //might cause a problem
     pcmCompressor = new Compressor(PneumaticsModuleType.CTREPCM);
@@ -88,10 +89,10 @@ public class RobotContainer {
   }
 
   public void onRobotPeriodic(){
-    SmartDashboard.putNumber("Arm angle", m_arm.getAngle());
-    SmartDashboard.putNumber("Telescope length", m_teleGrip.getLength());
+    // SmartDashboard.putNumber("Arm angle", m_arm.getAngle());
+    // SmartDashboard.putNumber("Telescope length", m_teleGrip.getLength());
 
-    SmartDashboard.putNumber("Time", Timer.getFPGATimestamp());
+    // SmartDashboard.putNumber("Time", Timer.getFPGATimestamp());
 
     // SmartDashboard.putNumber("AccelX", mpu.getAccelX());
     // SmartDashboard.putNumber("AccelY", mpu.getAccelY());
@@ -104,7 +105,108 @@ public class RobotContainer {
   public void onAutoInit(){
     //Saves the time when the autonomus started.
     this.startTime = Timer.getFPGATimestamp();
-    m_gripper.gripRelease();
+
+    m_gripper.gripToggle();
+
+    m_telePid.setSetpoint(RobotMap.TELE_MIN_LENGTH + 1);
+    m_teleGrip.setSetpointLength(RobotMap.TELE_MIN_LENGTH + 1);
+    while (!this.m_telePid.atSetPoint()){
+      m_telePid.setInput(this.m_teleGrip.getLength() + RobotMap.TELE_MIN_LENGTH);
+      m_teleGrip.moveTeleToLength();
+      delta_time = Timer.getFPGATimestamp() - startTime;
+
+      if(delta_time > 15){
+        return;
+      }
+    }
+    m_telePid.resetPID();
+    m_teleGrip.stopTele();
+
+
+    // send arm to angle
+    m_armPid.setSetpoint(RobotMap.HIGH_CUBE_ANGLE - 10);
+    m_arm.setSetpointAngle(RobotMap.HIGH_CUBE_ANGLE - 10);
+    while (!m_armPid.atSetPoint()){
+      m_armPid.setInput(m_arm.getAngle());
+      m_arm.move_arm();
+      delta_time = Timer.getFPGATimestamp() - startTime;
+
+      if(delta_time > 15){
+        return;
+      }
+    }
+    m_armPid.resetPID();
+    m_arm.resist(0);
+
+
+    // open tele
+    m_telePid.setSetpoint(RobotMap.HIGH_LENGTH_CUBE + 18);
+    m_teleGrip.setSetpointLength(RobotMap.HIGH_LENGTH_CUBE + 18);
+    while (!this.m_telePid.atSetPoint()){
+      m_telePid.setInput(this.m_teleGrip.getLength() + RobotMap.TELE_MIN_LENGTH);
+      m_teleGrip.moveTeleToLength();
+      delta_time = Timer.getFPGATimestamp() - startTime;
+
+      if(delta_time > 15){
+        return;
+      }
+    }
+    m_telePid.resetPID();
+    m_teleGrip.stopTele();
+
+
+    // release gripper
+    m_gripper.gripGrab();
+
+
+    // close tele to zero
+    m_telePid.setSetpoint(RobotMap.TELE_MIN_LENGTH + 1);
+    m_teleGrip.setSetpointLength(RobotMap.TELE_MIN_LENGTH + 1);
+    while (!this.m_telePid.atSetPoint()){
+      m_telePid.setInput(this.m_teleGrip.getLength() + RobotMap.TELE_MIN_LENGTH);
+      m_teleGrip.moveTeleToLength();
+      delta_time = Timer.getFPGATimestamp() - startTime;
+
+      if(delta_time > 15){
+        return;
+      }
+    }
+    m_telePid.resetPID();
+    m_teleGrip.stopTele();
+
+
+    // send arm to low
+    m_armPid.setSetpoint(RobotMap.LOW_BACK_ANGLE);
+    m_arm.setSetpointAngle(RobotMap.LOW_BACK_ANGLE);
+    while (!m_armPid.atSetPoint()){
+      m_armPid.setInput(m_arm.getAngle());
+      m_arm.move_arm();
+      delta_time = Timer.getFPGATimestamp() - startTime;
+
+      if(delta_time > 15){
+        return;
+      }
+    }
+    m_armPid.resetPID();
+    m_arm.resist(0);
+
+    // startTime = Timer.getFPGATimestamp();
+    // delta_time = 0;
+
+    // while(delta_time < 4){
+    //   driveTrain.ArcadeDrive(0.7, 0);
+    //   delta_time = Timer.getFPGATimestamp() - startTime;
+
+    //   if(delta_time > 15){
+    //     return;
+    //   }
+    // }
+    // delta_time = 0;
+
+  }
+
+  public void onTeleopInit(){
+    driveTrain.ArcadeDrive(0, 0);
   }
 
   public void resetEncoders(){
@@ -118,83 +220,116 @@ public class RobotContainer {
   */
   public void onSimpleAuto(double armSetpoint, double teleSetpoint, double driveTime){
 
-    //Sets the setpoint of the PID calculations
+    // //Sets the setpoint of the PID calculations
 
-    // command template
-    // init
-    // while (not finish):
-    //    execute
-    // end
+    // // command template
+    // // init
+    // // while (not finish):
+    // //    execute
+    // // end
 
+    // if (this.auto_counter == 0){
+    //   // close gripper
+    //   m_gripper.gripToggle();
+    //   this.auto_counter += 1;
 
-    // close gripper
-    m_gripper.gripToggle();
-
-
-    // close tele to zero
-    m_telePid.setSetpoint(RobotMap.TELE_MIN_LENGTH + 3);
-    m_teleGrip.setSetpointLength(RobotMap.TELE_MIN_LENGTH + 3);
-    while (!this.m_telePid.atSetPoint()){
-      m_telePid.setInput(this.m_teleGrip.getLength() + RobotMap.TELE_MIN_LENGTH);
-      m_teleGrip.moveTeleToLength();
-    }
-    m_telePid.resetPID();
-    m_teleGrip.stopTele();
+    //   m_teleGrip.setSetpointLength(RobotMap.TELE_MIN_LENGTH + 3);
+    // }
+    
 
 
-    // send arm to angle
-    m_armPid.setSetpoint(armSetpoint);
-    m_arm.setSetpointAngle(armSetpoint);
-    while (!m_armPid.atSetPoint()){
-      m_armPid.setInput(m_arm.getAngle());
-      m_arm.move_arm();
-    }
-    m_armPid.resetPID();
-    m_arm.resist(0);
+    // // // close tele to zero
+    // // m_telePid.setSetpoint(teleSetpoint);
+    // // while(!m_telePid.atSetPoint()){
+    // //   m_teleGrip.moveTeleToLength();
+    // // }
+    
+
+    // // m_armPid.setSetpoint(armSetpoint);
+    // // while(!m_armPid.atSetPoint()){
+    // // m_arm.setSetpointAngle(armSetpoint);
+    // // }
+
+    
+    // if (this.auto_counter == 1 && !this.m_telePid.atSetPoint()){
+    //   m_telePid.setInput(this.m_teleGrip.getLength() + RobotMap.TELE_MIN_LENGTH);
+    //   m_teleGrip.moveTeleToLength();
+    // }
+    // else if (this.auto_counter == 1 && this.m_telePid.atSetPoint()){
+    //   m_telePid.resetPID();
+    //   m_teleGrip.stopTele();
+    //   this.auto_counter += 1;
+
+    //   // send arm to angle
+      
+    // }
+    
+    
+    // if (this.auto_counter == 2 && !m_armPid.atSetPoint()){
+    //   m_armPid.setInput(m_arm.getAngle());
+    //   m_arm.move_arm();
+    // }
+    // else if (this.auto_counter == 2 && m_armPid.atSetPoint()){
+    //   m_armPid.resetPID();
+    //   m_arm.resist(0);
+    //   this.auto_counter += 1;
+
+    //   // open tele
+    //   m_telePid.setSetpoint(teleSetpoint);
+    //   m_teleGrip.setSetpointLength(teleSetpoint);
+    // }
+    
+    
+    // if (!this.m_telePid.atSetPoint()){
+    //   m_telePid.setInput(this.m_teleGrip.getLength() + RobotMap.TELE_MIN_LENGTH);
+    //   m_teleGrip.moveTeleToLength();
+    // }
+    // else if (this.auto_counter == 3 && this.m_telePid.atSetPoint()){
+    //   m_telePid.resetPID();
+    //   m_teleGrip.stopTele();
+    //   this.auto_counter += 1;
+
+    //   // release gripper
+    //   m_gripper.gripToggle();
+
+    //   // close tele to zero
+    //   m_telePid.setSetpoint(RobotMap.TELE_MIN_LENGTH + 3);
+    //   m_teleGrip.setSetpointLength(RobotMap.TELE_MIN_LENGTH + 3);
+    // }
+    
+
+    // if (this.auto_counter == 4 && !this.m_telePid.atSetPoint()){
+    //   m_telePid.setInput(this.m_teleGrip.getLength() + RobotMap.TELE_MIN_LENGTH);
+    //   m_teleGrip.moveTeleToLength();
+    // }
+    // else if (this.auto_counter == 4 && this.m_telePid.atSetPoint()){
+    //   m_telePid.resetPID();
+    //   m_teleGrip.stopTele();
+    //   this.auto_counter += 1;
+
+    //   // send arm to low
+    //   m_armPid.setSetpoint(RobotMap.LOW_BACK_ANGLE);
+    //   m_arm.setSetpointAngle(RobotMap.LOW_BACK_ANGLE);
+    // }
+
+    // if (this.auto_counter == 5 && !m_armPid.atSetPoint()){
+    //   m_armPid.setInput(m_arm.getAngle());
+    //   m_arm.move_arm();
+    // }
+    // else if (this.auto_counter == 5 && m_armPid.atSetPoint()){
+    //   m_armPid.resetPID();
+    //   m_arm.resist(0);
+    //   this.auto_counter += 1;
 
 
-    // open tele
-    m_telePid.setSetpoint(teleSetpoint);
-    m_teleGrip.setSetpointLength(teleSetpoint);
-    while (!this.m_telePid.atSetPoint()){
-      m_telePid.setInput(this.m_teleGrip.getLength() + RobotMap.TELE_MIN_LENGTH);
-      m_teleGrip.moveTeleToLength();
-    }
-    m_telePid.resetPID();
-    m_teleGrip.stopTele();
-
-
-    // release gripper
-    m_gripper.gripToggle();
-
-
-    // close tele to zero
-    m_telePid.setSetpoint(RobotMap.TELE_MIN_LENGTH + 3);
-    m_teleGrip.setSetpointLength(RobotMap.TELE_MIN_LENGTH + 3);
-    while (!this.m_telePid.atSetPoint()){
-      m_telePid.setInput(this.m_teleGrip.getLength() + RobotMap.TELE_MIN_LENGTH);
-      m_teleGrip.moveTeleToLength();
-    }
-    m_telePid.resetPID();
-    m_teleGrip.stopTele();
-
-
-    // send arm to low
-    m_armPid.setSetpoint(RobotMap.LOW_BACK_ANGLE);
-    m_arm.setSetpointAngle(RobotMap.LOW_BACK_ANGLE);
-    while (!m_armPid.atSetPoint()){
-      m_armPid.setInput(m_arm.getAngle());
-      m_arm.move_arm();
-    }
-    m_armPid.resetPID();
-    m_arm.resist(0);
-
-
-    // drive forward
-    this.delta_time = Timer.getFPGATimestamp() - startTime;
-    if(delta_time < driveTime){
-      driveTrain.ArcadeDrive(0.6, 0);
-    }
+    //   // drive forward
+    //   this.delta_time = Timer.getFPGATimestamp() - startTime;
+    // }
+    
+    // if(this.auto_counter == 6 && delta_time < driveTime){
+    //   driveTrain.ArcadeDrive(-0.6, 0);
+    // }
+    
   }
 
 
@@ -260,6 +395,9 @@ public class RobotContainer {
     m_oi.button12.onTrue(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.TELE_MIN_LENGTH+3)
     .andThen(new moveArm(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE))
     .andThen(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.LOW_LENGTH_FRONT)));
+
+    m_oi.button3.onTrue(new moveTeleToPos(m_teleGrip, m_arm, m_telePid, RobotMap.TELE_MIN_LENGTH+3)
+    .andThen(new moveArm(m_arm, m_armPid, RobotMap.LOW_BACK_ANGLE)));
 
     // m_oi.button11.onTrue(new moveArm(m_arm, m_armPid, RobotMap.LOW_BACK_ANGLE));
     // m_oi.button12.onTrue(new moveArm(m_arm, m_armPid, RobotMap.LOW_FRONT_ANGLE));

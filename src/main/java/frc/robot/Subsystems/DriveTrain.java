@@ -10,6 +10,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.OI;
 import frc.robot.RobotMap;
 
 /**
@@ -25,6 +27,8 @@ public class DriveTrain extends SubsystemBase {
 
   private double driveMul = 1;
   private boolean isFast = true;
+
+  private CommandXboxController controller = new CommandXboxController(4);
 
   public DriveTrain() {
 
@@ -47,10 +51,10 @@ public class DriveTrain extends SubsystemBase {
     /*
      * Setting the neautral mode of the motors to coast.
      */
-    m_rightMaster.setNeutralMode(NeutralMode.Coast);
-    m_rightFollower.setNeutralMode(NeutralMode.Coast);
-    m_leftMaster.setNeutralMode(NeutralMode.Coast);
-    m_leftFollower.setNeutralMode(NeutralMode.Coast);
+    m_rightMaster.setNeutralMode(NeutralMode.Brake);
+    m_rightFollower.setNeutralMode(NeutralMode.Brake);
+    m_leftMaster.setNeutralMode(NeutralMode.Brake);
+    m_leftFollower.setNeutralMode(NeutralMode.Brake);
 
     /*
      * Joining masters and followers motor controllers.
@@ -73,18 +77,28 @@ public class DriveTrain extends SubsystemBase {
     if(Math.abs(turn) < 0.2)
       turn = 0.0;
     
-    m_diffDrive.arcadeDrive(forward * this.driveMul, turn * this.driveMul);
+    m_diffDrive.arcadeDrive(forward, turn);
   }
 
-  public void changeVel(){
-    if(this.isFast){
-      this.driveMul = 0.5;
-    }
-    else{
-      this.driveMul = 1;
-    }
-    this.isFast = !this.isFast;
+  public void runRightSide(double speed) {
+    m_rightMaster.set(speed);
   }
+
+  public void runLeftSide(double speed) {
+    m_leftMaster.set(speed);
+  }
+
+  
+
+  // public void changeVel(){
+  //   if(this.isFast){
+  //     this.driveMul = 0.5;
+  //   }
+  //   else{
+  //     this.driveMul = 1;
+  //   }
+  //   this.isFast = !this.isFast;
+  // }
 
   public void StopMotors(){
     m_rightMaster.stopMotor();
@@ -94,5 +108,12 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Velocity", driveMul * 100);
+
+    double leftY = controller.getLeftY();
+    double rightX = controller.getRightX();
+
+    // m_rightMaster.set(leftY - rightX);
+    // m_leftMaster.set(leftY + rightX);
   }
+  
 }
