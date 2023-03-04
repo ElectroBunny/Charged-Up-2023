@@ -5,7 +5,6 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotMap;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Telescope;
 
@@ -13,10 +12,8 @@ public class moveTeleManually extends CommandBase {
   private Telescope innerTele;
   private double gain;
   private Arm innerArm;
-  // private Arm m_arm;
 
   public moveTeleManually(Telescope outerTele, double gain, Arm outerArm) {
-    // this.m_arm = new Arm();
     this.gain = gain;
     this.innerTele = outerTele;
     this.innerArm = outerArm;
@@ -36,10 +33,10 @@ public class moveTeleManually extends CommandBase {
     //   this.innerTele.stopTele();
     // }
     // else {
-    //   innerTele.moveTeleManually(this.gain, this.innerArm.getAngle()); //this.m_arm.getAngle()
+    //   innerTele.moveTeleManually(this.gain, this.innerArm.getAngle());
     // }
 
-    innerTele.moveTeleManually(this.gain, this.innerArm.getAngle()); //this.m_arm.getAngle()
+    innerTele.moveTeleManually(this.gain, this.innerArm.getAngle());
   }
 
   // Called once the command ends or is interrupted.

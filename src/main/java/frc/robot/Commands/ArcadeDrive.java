@@ -11,17 +11,20 @@ import frc.robot.Subsystems.DriveTrain;
 public class ArcadeDrive extends CommandBase {
   private DriveTrain innerDriver;
 
-  private double forwardY = 0, reverseY = 0, xAxis = 0;
-  private OI oi = new OI();
+  private double forwardY, reverseY, xAxis;
+  private OI oi;
 
   public ArcadeDrive(DriveTrain externalDriver) {
+    oi = new OI();
     innerDriver = externalDriver;
     addRequirements(innerDriver);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    forwardY = reverseY = xAxis = 0;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

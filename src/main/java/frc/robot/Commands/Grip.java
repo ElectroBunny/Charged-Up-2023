@@ -17,6 +17,6 @@ public class Grip extends InstantCommand {
 
   @Override
   public void initialize() {
-      innerGripper.gripToggle();
+    innerGripper.gripToggle();
   }
 }

@@ -4,26 +4,19 @@
 
 package frc.robot.Commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.Subsystems.Arm;
-import frc.robot.Subsystems.Telescope;
 
 public class moveArmManually extends CommandBase {
   private double yAxis = 0;
   private OI oi = new OI();
 
   private Arm innerArm;
-  private Telescope innerTele;
-  // private Telescope m_tele;
 
-  public moveArmManually(Arm outerArm, Telescope outerTele) {
-    // this.m_tele = new Telescope();
-
+  public moveArmManually(Arm outerArm) {
     this.innerArm = outerArm;
-    this.innerTele = outerTele;
     addRequirements(innerArm);
   }
 
@@ -36,17 +29,14 @@ public class moveArmManually extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    yAxis = oi.getJoystickRawAxis(RobotMap.Y_AXIS_PORT);
-    // SmartDashboard.putNumber("Length", this.innerTele.getLength() + RobotMap.TELE_MIN_LENGTH);
-    // if (this.innerTele.getLength() + RobotMap.TELE_MIN_LENGTH < 117){
-      innerArm.moveArmManually(yAxis * 0.75);
-    // }
+    this.yAxis = oi.getJoystickRawAxis(RobotMap.Y_AXIS_PORT);
+    this.innerArm.moveArmManually(yAxis * 0.75);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    innerArm.resist(1);
+    innerArm.resist();
   }
 
   // Returns true when the command should end.

@@ -1,54 +1,45 @@
-// // Copyright (c) FIRST and other WPILib contributors.
-// // Open Source Software; you can modify and/or share it under the terms of
-// // the WPILib BSD license file in the root directory of this project.
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
-// package frc.robot.Commands;
+package frc.robot.Commands;
 
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-// import edu.wpi.first.wpilibj2.command.CommandBase;
-// import frc.robot.Subsystems.Arm;
-// import frc.robot.Subsystems.PIDCalc;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Subsystems.Arm;
 
-// public class moveArmToAngle extends CommandBase {
-//   private Arm innerArm;
-//   private PIDCalc encoderPID;
+public class moveArmToAngle extends CommandBase {
+  private Arm innerArm;
+  private double setpointAngle;
 
-//   public moveArmToAngle(Arm outerArm, PIDCalc outerPID, double angle) {
-//     this.innerArm = outerArm;
-//     this.encoderPID = outerPID;
-//     this.encoderPID.setSetpoint(angle);
-//     SmartDashboard.putNumber("Real angle", angle);
-//     addRequirements(innerArm);
-//   }
+  public moveArmToAngle(Arm outerArm, double angle) {
+    this.innerArm = outerArm;
+    this.setpointAngle = angle;
+    addRequirements(innerArm);
+  }
 
-//   // Called when the command is initially scheduled.
-//   @Override
-//   public void initialize() {
-    
-//   }
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    this.innerArm.setSetpointAngle(this.setpointAngle);
+  }
 
-//   // Called every time the scheduler runs while the command is scheduled.
-//   @Override
-//   public void execute() {
-//     this.encoderPID.setInput(innerArm.getAngle());
-//     this.innerArm.moveArmToAngle();
-//   }
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    this.innerArm.moveArmToAngle();
+  }
 
-//   // Called once the command ends or is interrupted.
-//   @Override
-//   public void end(boolean interrupted) {
-//     encoderPID.resetPID();
-//     innerArm.resist(0);
-//   }
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    innerArm.resist();
+  }
 
-//   // Returns true when the command should end.
-//   @Override
-//   public boolean isFinished() {
-//     SmartDashboard.putBoolean("At set point:", encoderPID.atSetPoint());
-//     // if (innerArm.getAngle() >= 176.0){
-//     //   return true;
-//     // }
-//     // return false;
-//     return encoderPID.atSetPoint();
-//   }
-// }
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    SmartDashboard.putBoolean("At setpoint", this.innerArm.armAtSetPoint());
+    return this.innerArm.armAtSetPoint();
+  }
+}

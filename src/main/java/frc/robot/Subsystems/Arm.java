@@ -6,33 +6,31 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.OI;
 import frc.robot.RobotMap;
+
 
 public class Arm extends SubsystemBase {
   // Definition of motor controllers for the Arm system.
   private WPI_VictorSPX armRightMotor;
   private WPI_VictorSPX armLeftMotor;
 
-  private PIDCalc encoderPID;
   private Encoder encoder;
+  private PIDCalc armPID;
   private double setpointAngle;
-
   private double voltPID; 
 
-  public Arm(PIDCalc armPid) {
+  private double currentAngle;
+
+  public Arm() {
     // Definition of the arm encoder and its constants.
     this.encoder = new Encoder(RobotMap.ARM_ENCODER_CHANNEL_A, RobotMap.ARM_ENCODER_CHANNEL_B, true, EncodingType.k2X);
     this.encoder.setDistancePerPulse(1./2048.);
     this.encoder.reset();
 
-    // Definiton of the PID object by its constants.
-    this.encoderPID = armPid;
+    this.armPID = new PIDCalc(RobotMap.KP_ARM, RobotMap.KI_ARM, RobotMap.KD_ARM, RobotMap.TOLRENCE_ARM);
 
     // Initializes arm motors.
     this.armRightMotor = new WPI_VictorSPX(RobotMap.ARM_RIGHT_MOTOR);
@@ -45,6 +43,9 @@ public class Arm extends SubsystemBase {
     this.armRightMotor.setInverted(false);
 
     this.armLeftMotor.follow(armRightMotor);
+
+
+    this.currentAngle = RobotMap.MIN_ANGLE;
   }
 
   public void changeToCoast(){
@@ -52,16 +53,10 @@ public class Arm extends SubsystemBase {
     armLeftMotor.setNeutralMode(NeutralMode.Coast);
   }
 
-  // Encoder data functions.
+  /* ----- Encoder data functions ----- */
 
-  /*
-  returns the distance since last reset (summing)
-  */
-  public double getDistance(){
-    return encoder.getDistance();
-  }
-
-  public void resetEn(){
+  /** Resets the encoder measurement that counted during the last run. */
+  public void resetEncoder(){
     this.encoder.reset();
   }
 
@@ -72,50 +67,44 @@ public class Arm extends SubsystemBase {
   public double getAngle(){
     return RobotMap.MIN_ANGLE + (encoder.getDistance() * 360);
   }
+  
 
-  /*
-  rate of change per second since last reset
-  */
-  public double getRate(){
-    return encoder.getRate();
-  }
+  /* ----- PID functions ----- */
 
-  public boolean getDirection(){
-    return encoder.getDirection();
-  }
-
-
-  // PID functions
   /** Gets angle and sets its attribute to the setpoint of the PID.
     * @param angle the angle that will be the setpoint.
    */
   public void setSetpointAngle(double angle){
     this.setpointAngle = angle;
+    this.armPID.setSetpoint(angle);
+  }
+
+  /** Used to check if the arm has reached its setpoint angle.
+    *
+    * @return true if the arm has reached its setpoint, otherwise - false.
+   */
+  public boolean armAtSetPoint(){
+    this.currentAngle = this.getAngle();
+    return this.armPID.atSetPoint(this.currentAngle);
   }
   
-  /** Sets voltage to the motors using the PID calculations. */
+  /** Sets voltage to the motors using the PID calculations.*/
   public void moveArmToAngle(){
-    this.voltPID = encoderPID.getOutput(); //this.setpointAngle
-    // if (this.voltPID > 0.8){
-    //   armRightMotor.set((0 - voltPID)*(0 - voltPID));
-    // }
-    // armRightMotor.set(0 - voltPID);
-
-    // SmartDashboard.putNumber("output: ", 0 - voltPID);
-    armRightMotor.set(0 - this.voltPID);
+    this.voltPID = this.armPID.getOutput(this.getAngle());
+    this.armRightMotor.set(0 - this.voltPID);
   }
 
+  /** Used to move the arm from it angle to other angle automatically, considering the velocity needed in each direction. */
   public void move_arm(){
-    // SmartDashboard.putNumber("ANGLE:", this.getAngle());
-    // SmartDashboard.putNumber("SETPOINT", this.setpointAngle);
-    if (this.getAngle() < 180 && this.setpointAngle < 180){
-      if (this.getAngle() < this.setpointAngle){
+    this.currentAngle = this.getAngle();
+    if (this.currentAngle < 180 && this.setpointAngle < 180){
+      if (this.currentAngle < this.setpointAngle){
         // more volt (-)
         armRightMotor.set(0 - RobotMap.ARM_RAISE_VOLT);
       }
       else {
         // less volt (+)
-        if (this.getAngle() > 160){
+        if (this.currentAngle > 160){
           armRightMotor.set(RobotMap.ARM_LOWER_VOLT + 0.22);
         }
         else {
@@ -123,10 +112,10 @@ public class Arm extends SubsystemBase {
         }
       }
     }
-    else if (this.getAngle() > 180 && this.setpointAngle > 180){
-      if (this.getAngle() < this.setpointAngle){
+    else if (this.currentAngle > 180 && this.setpointAngle > 180){
+      if (this.currentAngle < this.setpointAngle){
         // less volt (+)
-        if (this.getAngle() < 200){
+        if (this.currentAngle < 200){
           armRightMotor.set(0 - (RobotMap.ARM_LOWER_VOLT + 0.22));
         }
         else {
@@ -138,11 +127,11 @@ public class Arm extends SubsystemBase {
         armRightMotor.set(RobotMap.ARM_RAISE_VOLT);
       }
     }
-    else if (this.getAngle() <= 180 && this.setpointAngle > 180){
+    else if (this.currentAngle <= 180 && this.setpointAngle > 180){
       // more volt (-)
       armRightMotor.set(0 - RobotMap.ARM_RAISE_VOLT);
     }
-    else if (this.getAngle() >= 180 && this.setpointAngle < 180){
+    else if (this.currentAngle >= 180 && this.setpointAngle < 180){
       // more volt (+)
       armRightMotor.set(RobotMap.ARM_RAISE_VOLT);
     }
@@ -153,7 +142,6 @@ public class Arm extends SubsystemBase {
    * @param armGain the gain to set the arm motor to(dynamic)
    */
   public void moveArmManually(double armGain){
-    // SmartDashboard.putNumber("ARM Angle", getAngle());
     armRightMotor.set(armGain);
   }
 
@@ -161,7 +149,7 @@ public class Arm extends SubsystemBase {
    * 
    * @param teleLength the current length of the telescope, used to calculate the gain in order to hold the arm.
    */
-  public void resist(double teleLength){
+  public void resist(){
     if (this.getAngle() <= 165){
       armRightMotor.set(-0.27);
     }
@@ -176,6 +164,7 @@ public class Arm extends SubsystemBase {
     }
   }
 
+  /** Used to stop the arm motors. */
   public void stopArm(){ 
     armRightMotor.stopMotor();
   }
@@ -183,5 +172,4 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
   }
- 
 }

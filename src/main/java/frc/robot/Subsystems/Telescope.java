@@ -6,8 +6,6 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,38 +13,34 @@ import frc.robot.RobotMap;
 
 public class Telescope extends SubsystemBase {
   private WPI_VictorSPX m_teleGrip;
-  // Gain contains value of constant in order to open Telescope
-  private double Gain;
 
   private Encoder encoder;
-  private PIDCalc encoderPID;
+  private PIDCalc telePID;
   private double setpointLength;
 
   private double currentLength;
 
   public Telescope() {
-    this.m_teleGrip = new WPI_VictorSPX(RobotMap.TELESCOPIC_GRIPPER);
-    this.m_teleGrip.setNeutralMode(NeutralMode.Coast);
-
+    // Definition of the tele encoder and its constants.
     this.encoder = new Encoder(RobotMap.TELE_ENCODER_CHANNEL_A, RobotMap.TELE_ENCODER_CHANNEL_B, true, EncodingType.k2X);
     this.encoder.setDistancePerPulse(1./2048.);
-    this.encoder.reset(); 
+    this.encoder.reset();
 
-    this.encoderPID = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
+    this.telePID = new PIDCalc(RobotMap.KP_TELE, RobotMap.KI_TELE, RobotMap.KD_TELE, RobotMap.TOLRENCE_TELE);
+
+    // Initializes tele motors.
+    this.m_teleGrip = new WPI_VictorSPX(RobotMap.TELESCOPIC_GRIPPER);
+    this.m_teleGrip.setNeutralMode(NeutralMode.Brake);
+
+
     this.currentLength = RobotMap.TELE_MIN_LENGTH;
   }
 
   
-  // Encoder data functions.
+  /* ----- Encoder data functions. ----- */
 
-  /*
-  returns the distance since last reset (summing)
-  */
-  public double getDistance(){
-    return encoder.getDistance();
-  }
-
-  public void resetEn(){
+  /** Resets the encoder measurement that counted during the last run. */
+  public void resetEncoder(){
     this.encoder.reset();
   }
 
@@ -58,24 +52,24 @@ public class Telescope extends SubsystemBase {
     return encoder.getDistance() * RobotMap.TELE_SHAFT_PERMITER;
   }
 
-  /*
-  rate of change per second since last reset
-  */
-  // public double getRate(){
-  //   return encoder.getRate();
-  // }
 
-  // public boolean getDirection(){
-  //   return encoder.getDirection();
-  // }
+  /* ----- PID functions ----- */
 
-
-  // PID functions
   /** Gets length and sets its attribute to the setpoint of the PID.
     * @param length the length that will be the setpoint.
    */
   public void setSetpointLength(double length){
     this.setpointLength = length;
+    this.telePID.setSetpoint(length);
+  }
+
+  /** Used to check if the tele reached its setpoint length.
+   * 
+   * @return true if the tele reached its setpoint, otherwise - false.
+   */
+  public boolean teleAtSetPoint(){
+    this.currentLength = RobotMap.TELE_MIN_LENGTH + this.getLength();
+    return this.telePID.atSetPoint(this.currentLength);
   }
   
   /** Sets voltage to the motors using the PID calculations. */
@@ -86,14 +80,6 @@ public class Telescope extends SubsystemBase {
     else {
       m_teleGrip.set(-0.5);
     }
-    // m_teleGrip.set(encoderPID.getOutput(this.getLength(), this.setpointLength));
-  }
-
-  /*
-   * Function that sets the gain(voltage in percent) to give to the telescope.
-   */
-  public void setGain(double Gain){
-    this.Gain = Gain;
   }
 
   /** Moves the .settelescope with a limit.
@@ -109,6 +95,7 @@ public class Telescope extends SubsystemBase {
 
     gain *= 0.8;
     m_teleGrip.set(gain);
+    
     // // SmartDashboard.putNumber("TELE realative length", this.getLength());
     // // SmartDashboard.putNumber("TELE current angle", currentAngle);
     // // SmartDashboard.putNumber("TELE full length", this.currentLength);

@@ -4,7 +4,6 @@
 
 package frc.robot.Subsystems;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -12,46 +11,47 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class Gripper extends SubsystemBase {
-  //initialize solonoieds in memory
-  private DoubleSolenoid doubleSolenoidRight = null;
-  private DoubleSolenoid doubleSolenoidLeft = null;
+  // Initialize solonoieds in memory
+  private DoubleSolenoid doubleSolenoidRight;
+  private DoubleSolenoid doubleSolenoidLeft;
 
-  public static Compressor pcmCompressor;
   private boolean isOpen;
 
   
   public Gripper() {
-    //Definition of the compressor
-
-    //define solonoieds
+    
+    // Define solonoieds
     doubleSolenoidRight = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.RIGHT_GRIPPER_SOLENOID_FW, RobotMap.RIGHT_GRIPPER_SOLENOID_BW);
     doubleSolenoidLeft = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.LEFT_GRIPPER_SOLENOID_FW, RobotMap.LEFT_GRIPPER_SOLENOID_BW);
-    //Sets the grip to be opened when the robots starts
+    
+    // Sets the gripper to be opened when the robots starts
     doubleSolenoidRight.set(Value.kReverse);
     doubleSolenoidLeft.set(Value.kReverse);
-    isOpen = false;
+    isOpen = true;
   }
 
+  /** Used to trun off the gripper. */
   public void gripSolenoidOff() {
     doubleSolenoidRight.set(Value.kOff);
     doubleSolenoidLeft.set(Value.kOff);
 
   }
 
+  /** Used to close the gripper. */
   public void gripGrab() {
     doubleSolenoidRight.set(Value.kForward);
     doubleSolenoidLeft.set(Value.kForward);
+    this.isOpen = false;
   }
 
-
+  /** Used to open the gripper. */
   public void gripRelease(){
     doubleSolenoidRight.set(Value.kReverse);
     doubleSolenoidLeft.set(Value.kReverse);
+    this.isOpen = true;
   }
   
-  /*
-   * Function that toggles between the states of the solenoid
-   */
+  /** Function that toggles between the states of the gripper. */
   public void gripToggle(){
     if (isOpen){
       this.gripGrab();
@@ -59,7 +59,6 @@ public class Gripper extends SubsystemBase {
     else {
       this.gripRelease();
     }
-    isOpen = !isOpen;
   }
 
   @Override

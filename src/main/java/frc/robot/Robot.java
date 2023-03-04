@@ -23,12 +23,9 @@ public class Robot extends TimedRobot {
    * Definition of autonomus commands chooser
    */
   private static final String kDefaultAuto = "Default Auto";
-  private static final String kLeftAutoCone = "Left Auto Cone";
-  private static final String kLeftAutoCube = "Left Auto Cube";
-  private static final String kMidAutoCone = "Mid Auto Cone";
-  private static final String kMidAutoCube = "Mid Auto Cube";
-  private static final String kRightAutoCone = "Right Auto Cone";
-  private static final String kRightAutocube = "Right Auto Cube";
+  private static final String kLeftAuto = "Left";
+  private static final String kMidAuto = "Mid";
+  private static final String kRightAuto = "Right";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
@@ -40,6 +37,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    m_robotContainer.resetEncoders();
 
     //Code for logs
     DataLogManager.start();
@@ -48,17 +46,13 @@ public class Robot extends TimedRobot {
     //Camera
     m_robotContainer.startCamera();
 
+    //Autonomus choice
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("Left Auto Cone", kLeftAutoCone);
-    m_chooser.addOption("Left Auto Cube", kLeftAutoCube);
-    m_chooser.addOption("Mid Auto Cone", kMidAutoCone);
-    m_chooser.addOption("Mid Auto Cube", kMidAutoCube);
-    m_chooser.addOption("Right Auto Cone", kRightAutoCone);
-    m_chooser.addOption("Right Auto Cube", kRightAutocube);
-
+    m_chooser.addOption("Left", kLeftAuto);
+    m_chooser.addOption("Mid Auto Cube", kMidAuto);
+    m_chooser.addOption("Right Auto Cube", kRightAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    m_robotContainer.resetEncoders();
   }
 
   /**
@@ -87,43 +81,27 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autoSelected = m_chooser.getSelected();
-    m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
 
-    m_robotContainer.onAutoInit();
+    switch(m_autoSelected)
+    {
+      case kRightAuto:
+        m_robotContainer.onAutoInit(6);
+        break;
+      case kMidAuto:
+        m_robotContainer.onAutoInit(5);
+        break;
+      case kLeftAuto:
+        m_robotContainer.onAutoInit(4);
+        break;
+      case kDefaultAuto:
+      default:
+        m_robotContainer.onAutoInit(0);
     }
+  }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    // switch (m_autoSelected) {
-    //   case kLeftAutoCone:
-    //     m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE, RobotMap.HIGH_LENGTH_CONE, 5);
-    //     break;
-    //   case kLeftAutoCube:
-    //     m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE, RobotMap.HIGH_LENGTH_CUBE, 5);
-    //     break;
-    //   case kMidAutoCone:
-    //   // m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE, RobotMap.HIGH_LENGTH_CONE, 6);
-    //     break;
-
-    //   case kMidAutoCube:
-    //   // m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE, RobotMap.HIGH_LENGTH_CUBE, 6);
-    //     break;
-
-    //   case kRightAutoCone:
-    //   m_robotContainer.onSimpleAuto(RobotMap.HIGH_CONE_ANGLE, RobotMap.HIGH_LENGTH_CONE, 7);
-    //     break;
-    //   case kRightAutocube:
-    //   m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE, RobotMap.HIGH_LENGTH_CUBE, 7);
-    //   break;
-
-    //   case kDefaultAuto:
-    //   default:
-    //     // Put default auto code here
-    //     break;
-    // }
-    m_robotContainer.onSimpleAuto(RobotMap.HIGH_CUBE_ANGLE, RobotMap.HIGH_LENGTH_CUBE, 5);
-
   }
 
   /** This function is called once when teleop is enabled. */
