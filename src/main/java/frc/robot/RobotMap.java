@@ -71,10 +71,10 @@ public class RobotMap {
     public static final double ARM_RAISE_VOLT = 0.4;
     public static final double ARM_LOWER_VOLT = 0.05;
 
-    //Definition of PID constants for the arm system.
-    public static final double KP_ARM = 0.009; // 0.0095 
-    public static final double KI_ARM = 0.00045; // 0.001 
-    public static final double KD_ARM = 0.00044; // 0.004 
+    //Definition of PID consants for the arm system.
+    public static final double KP_ARM = 0.0087; // Big angle - 0.0087      Low - 0.00965
+    public static final double KI_ARM = 0.001; // Big angle - 0.001        Low - 0.0017
+    public static final double KD_ARM = 0.0047; // Big angle - 0.0047      Low -  0.0047
     public static final double TOLRENCE_ARM = 2.5;
 
     //Definition of arm encoder
@@ -113,7 +113,7 @@ public class RobotMap {
     public static final double MID_CONE_ANGLE = 270 - (101.68 - 90);
     public static final double MID_CUBE_ANGLE = 270 - (90 - 90);
     public static final double HIGH_CONE_ANGLE = 270 - (114.217 - 90);
-    public static final double HIGH_CUBE_ANGLE = 270 - (104.447 - 90); // 104.447
+    public static final double HIGH_CUBE_ANGLE = 270 - (104.447 - 90) - 10; // 104.447
 
     public static final double FEEDER_ANGLE = 107.24;
 
@@ -126,7 +126,7 @@ public class RobotMap {
 
     public static final double LOW_LENGTH_FRONT = 109.6;
     public static final double MID_LENGTH_CUBE = TELE_MIN_LENGTH; //Telescope is closed
-    public static final double HIGH_LENGTH_CUBE = 118.24;
+    public static final double HIGH_LENGTH_CUBE = 118.24 + 18;
 
     public static final double LOW_LENGTH_BACK = TELE_MIN_LENGTH; //Telescope is closed
     public static final double MID_LENGTH_CONE = 106.2;

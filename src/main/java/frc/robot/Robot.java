@@ -90,18 +90,20 @@ public class Robot extends TimedRobot {
     switch(m_autoSelected)
     {
       case kCubeMid:
-        m_robotContainer.onAutoInit(5);
+        m_robotContainer.onAutoInit(5, RobotMap.MID_CUBE_ANGLE, RobotMap.MID_LENGTH_CUBE);
         break;
       case kCubeHigh:
-        m_robotContainer.onAutoInit(6);
+        m_robotContainer.onAutoInit(5, RobotMap.HIGH_CUBE_ANGLE, RobotMap.HIGH_LENGTH_CUBE);
         break;
       case kConeMid:
-        m_robotContainer.onAutoInit(4);
+        m_robotContainer.onAutoInit(5, RobotMap.MID_CONE_ANGLE, RobotMap.MID_LENGTH_CONE);
         break;
       case kConeHigh:
+        m_robotContainer.onAutoInit(5, RobotMap.HIGH_CONE_ANGLE, RobotMap.HIGH_LENGTH_CONE);
+        break;
       default:
-        m_robotContainer.onAutoInit(0);
-    }
+        break;
+      }
   }
 
   /** This function is called periodically during autonomous. */

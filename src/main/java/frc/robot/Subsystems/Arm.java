@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -93,7 +94,7 @@ public class Arm extends SubsystemBase {
   /** Sets voltage to the motors using the PID calculations.*/
   public void moveArmToAngle(){
     this.voltPID = this.armPID.getOutput(this.getAngle());
-    this.armRightMotor.set(MathUtil.clamp(0 - (this.voltPID + 0.27 * Math.sin(Math.toRadians(this.getAngle()))), -1, 1));
+    this.armRightMotor.set(MathUtil.clamp(0 - (this.voltPID + 0.25 * Math.sin(Math.toRadians(this.getAngle()))), -1, 1));
   }
 
   /** Used to move the arm from it angle to other angle automatically, considering the velocity needed in each direction. */
@@ -153,7 +154,7 @@ public class Arm extends SubsystemBase {
    */
   public void resist(){
     if (this.getAngle() <= 165){
-      armRightMotor.set(-0.27);
+      armRightMotor.set(-0.25);
     }
     else if (this.getAngle() <= 180){
       armRightMotor.set(0);
@@ -162,7 +163,7 @@ public class Arm extends SubsystemBase {
       armRightMotor.set(0);
     }
     else{
-      armRightMotor.set(0.27);
+      armRightMotor.set(0.28);
     }
   }
 
@@ -173,5 +174,6 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Angle", this.getAngle());
   }
 }

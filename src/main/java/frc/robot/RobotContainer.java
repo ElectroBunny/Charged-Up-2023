@@ -16,6 +16,7 @@ import frc.robot.Commands.ArcadeDrive;
 import frc.robot.Commands.Grip;
 import frc.robot.Commands.moveArm;
 import frc.robot.Commands.moveArmManually;
+import frc.robot.Commands.moveArmToAngle;
 // import frc.robot.Commands.moveArmToAngle;
 import frc.robot.Commands.moveTeleManually;
 import frc.robot.Commands.moveTeleToPos;
@@ -70,13 +71,23 @@ public class RobotContainer {
 
   public void onRobotPeriodic(){}
 
-  public void onAutoInit(double driveTime){
+  public void onAutoInit(double driveTime, double angleSetpoint, double teleSetpoint){
     //Saves the time when the autonomus started.
     this.startTime = Timer.getFPGATimestamp();
 
-    m_gripper.gripGrab();
+    // m_arm.setSetpointAngle(55);
+    // while (!m_arm.armAtSetPoint()){
+    //   m_arm.move_arm();
+    //   delta_time = Timer.getFPGATimestamp() - startTime;
 
-    m_telescope.setSetpointLength(RobotMap.TELE_MIN_LENGTH + 1);
+    //   if(delta_time >= 15){
+    //     return;
+    //   }
+    // }
+    // m_arm.resist();
+    m_gripper.gripRelease();
+
+    m_telescope.setSetpointLength(RobotMap.TELE_MIN_LENGTH);
     while (!this.m_telescope.teleAtSetPoint()){
       m_telescope.moveTeleToLength();
       delta_time = Timer.getFPGATimestamp() - startTime;
@@ -89,7 +100,7 @@ public class RobotContainer {
 
 
     // send arm to angle
-    m_arm.setSetpointAngle(RobotMap.HIGH_CUBE_ANGLE - 10);
+    m_arm.setSetpointAngle(angleSetpoint);
     while (!m_arm.armAtSetPoint()){
       m_arm.move_arm();
       delta_time = Timer.getFPGATimestamp() - startTime;
@@ -102,7 +113,7 @@ public class RobotContainer {
 
 
     // open tele
-    m_telescope.setSetpointLength(RobotMap.HIGH_LENGTH_CUBE + 18);
+    m_telescope.setSetpointLength(teleSetpoint);
     while (!this.m_telescope.teleAtSetPoint()){
       m_telescope.moveTeleToLength();
       delta_time = Timer.getFPGATimestamp() - startTime;
@@ -115,11 +126,11 @@ public class RobotContainer {
 
 
     // release gripper
-    m_gripper.gripRelease();
+    m_gripper.gripGrab();
 
 
     // close tele to zero
-    m_telescope.setSetpointLength(RobotMap.TELE_MIN_LENGTH + 1);
+    m_telescope.setSetpointLength(RobotMap.TELE_MIN_LENGTH);
     while (!this.m_telescope.teleAtSetPoint()){
       m_telescope.moveTeleToLength();
       delta_time = Timer.getFPGATimestamp() - startTime;
@@ -189,32 +200,34 @@ public class RobotContainer {
 
     // 7 - CONE HIGH
     m_oi.button7.onTrue(new moveTeleToPos(m_telescope, RobotMap.TELE_MIN_LENGTH+3)
-    .andThen(new moveArm(m_arm, RobotMap.HIGH_CONE_ANGLE))
-    .andThen(new moveTeleToPos(m_telescope, RobotMap.HIGH_LENGTH_CONE)));
+    .andThen(new moveArm(m_arm, RobotMap.HIGH_CONE_ANGLE)));
+    // .andThen(new moveTeleToPos(m_telescope, RobotMap.HIGH_LENGTH_CONE)));
     
     // 9 - CONE MID
     m_oi.button9.onTrue(new moveTeleToPos(m_telescope, RobotMap.TELE_MIN_LENGTH+3)
-    .andThen(new moveArm(m_arm, RobotMap.MID_CONE_ANGLE))
-    .andThen(new moveTeleToPos(m_telescope, RobotMap.MID_LENGTH_CONE)));
+    .andThen(new moveArm(m_arm, RobotMap.MID_CONE_ANGLE)));
+    // .andThen(new moveTeleToPos(m_telescope, RobotMap.MID_LENGTH_CONE)));
 
     // 8 - CUBE HIGH
     m_oi.button8.onTrue(new moveTeleToPos(m_telescope, RobotMap.TELE_MIN_LENGTH+3)
-    .andThen(new moveArm(m_arm, RobotMap.HIGH_CUBE_ANGLE))
-    .andThen(new moveTeleToPos(m_telescope, RobotMap.HIGH_LENGTH_CUBE)));
+    .andThen(new moveArm(m_arm, RobotMap.HIGH_CUBE_ANGLE)));
+    // .andThen(new moveTeleToPos(m_telescope, RobotMap.HIGH_LENGTH_CUBE)));
 
     // 10 - CUBE MID
     m_oi.button10.onTrue(new moveTeleToPos(m_telescope, RobotMap.TELE_MIN_LENGTH+3)
-    .andThen(new moveArm(m_arm, RobotMap.MID_CUBE_ANGLE))
-    .andThen(new moveTeleToPos(m_telescope, RobotMap.MID_LENGTH_CUBE)));
+    .andThen(new moveArm(m_arm, RobotMap.MID_CUBE_ANGLE)));
+    // .andThen(new moveTeleToPos(m_telescope, RobotMap.MID_LENGTH_CUBE)));
 
     // 11 - LOW BACK (INSIDE THE ROBOT)
     m_oi.button11.onTrue(new moveTeleToPos(m_telescope, RobotMap.TELE_MIN_LENGTH+3)
-    .andThen(new moveArm(m_arm, RobotMap.LOW_BACK_ANGLE))
-    .andThen(new moveTeleToPos(m_telescope, RobotMap.LOW_LENGTH_BACK)));
+    .andThen(new moveArm(m_arm, RobotMap.LOW_BACK_ANGLE)));
+    // .andThen(new moveTeleToPos(m_telescope, RobotMap.LOW_LENGTH_BACK)));
 
     // 12 - FEEDER
     m_oi.button12.onTrue(new moveTeleToPos(m_telescope, RobotMap.TELE_MIN_LENGTH+3)
-    .andThen(new moveArm(m_arm, RobotMap.LOW_FRONT_ANGLE))
-    .andThen(new moveTeleToPos(m_telescope, RobotMap.LOW_LENGTH_FRONT)));
+    .andThen(new moveArm(m_arm, RobotMap.LOW_FRONT_ANGLE)));
+    // .andThen(new moveTeleToPos(m_telescope, RobotMap.LOW_LENGTH_FRONT)));
+
+    m_oi.button3.onTrue(new moveArmToAngle(m_arm, 90));
   }
 }
