@@ -6,6 +6,8 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -91,7 +93,7 @@ public class Arm extends SubsystemBase {
   /** Sets voltage to the motors using the PID calculations.*/
   public void moveArmToAngle(){
     this.voltPID = this.armPID.getOutput(this.getAngle());
-    this.armRightMotor.set(0 - this.voltPID);
+    this.armRightMotor.set(MathUtil.clamp(0 - (this.voltPID + 0.27 * Math.sin(Math.toRadians(this.getAngle()))), -1, 1));
   }
 
   /** Used to move the arm from it angle to other angle automatically, considering the velocity needed in each direction. */
