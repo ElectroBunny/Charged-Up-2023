@@ -22,17 +22,19 @@ public class Robot extends TimedRobot {
   /*
    * Definition of autonomus commands chooser
    */
+
   private static final String kDefaultAuto = "Default Auto";
-  private static final String kLeftAuto = "Left";
-  private static final String kMidAuto = "Mid";
-  private static final String kRightAuto = "Right";
+  private static final String kCubeMid = "Cube mid";
+  private static final String kCubeHigh = "Cube high";
+  private static final String kConeMid = "Cone mid";
+  private static final String kConeHigh = "Cone High";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private final RobotContainer m_robotContainer = new RobotContainer();
 
   /**
-   * This function is run when the robot is first started up and should be used for any
+   * This function uns when the robot is first started up and should be used for any
    * initialization code.
    */
   @Override
@@ -47,10 +49,13 @@ public class Robot extends TimedRobot {
     m_robotContainer.startCamera();
 
     //Autonomus choice
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("Left", kLeftAuto);
-    m_chooser.addOption("Mid Auto Cube", kMidAuto);
-    m_chooser.addOption("Right Auto Cube", kRightAuto);
+    m_chooser.setDefaultOption("Please choose option", kDefaultAuto);
+    m_chooser.addOption("Cube mid", kCubeMid);
+    m_chooser.addOption("Cube High", kCubeHigh);
+    m_chooser.addOption("Cone mid", kConeMid);
+    m_chooser.addOption("Cone high", kConeHigh);
+
+
     SmartDashboard.putData("Auto choices", m_chooser);
 
   }
@@ -84,16 +89,16 @@ public class Robot extends TimedRobot {
 
     switch(m_autoSelected)
     {
-      case kRightAuto:
-        m_robotContainer.onAutoInit(6);
-        break;
-      case kMidAuto:
+      case kCubeMid:
         m_robotContainer.onAutoInit(5);
         break;
-      case kLeftAuto:
+      case kCubeHigh:
+        m_robotContainer.onAutoInit(6);
+        break;
+      case kConeMid:
         m_robotContainer.onAutoInit(4);
         break;
-      case kDefaultAuto:
+      case kConeHigh:
       default:
         m_robotContainer.onAutoInit(0);
     }
