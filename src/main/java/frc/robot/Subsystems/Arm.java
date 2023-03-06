@@ -97,6 +97,33 @@ public class Arm extends SubsystemBase {
     this.armRightMotor.set(MathUtil.clamp(0 - (this.voltPID + 0.25 * Math.sin(Math.toRadians(this.getAngle()))), -1, 1));
   }
 
+  /** Use to change the setpoint angle manualy.
+   * @param gain how many and witch direction change the setpoint.
+   */
+  public void moveSetPoint(double gain){
+    this.currentAngle = this.getAngle();
+    if (gain > 0){
+      if (this.currentAngle <= RobotMap.MAX_ANGLE){
+        this.setpointAngle += gain * 5;
+      }
+      else {
+        this.resist();
+      }
+    }
+    else if (gain < 0){
+      if (this.currentAngle >= RobotMap.MIN_ANGLE){
+        this.setpointAngle -= gain * 5;
+      }
+      else {
+        this.resist();
+      }
+    }
+    else {
+      this.resist();
+    }
+    this.setSetpointAngle(this.setpointAngle);
+  }
+
   /** Used to move the arm from it angle to other angle automatically, considering the velocity needed in each direction. */
   public void move_arm(){
     this.currentAngle = this.getAngle();
@@ -153,6 +180,9 @@ public class Arm extends SubsystemBase {
    * @param teleLength the current length of the telescope, used to calculate the gain in order to hold the arm.
    */
   public void resist(){
+    this.currentAngle = this.getAngle();
+    // armRightMotor.set(Math.sin(Math.toRadians(this.currentAngle)) * RobotMap.RESIST_VOLT);
+
     if (this.getAngle() <= 165){
       armRightMotor.set(-0.25);
     }

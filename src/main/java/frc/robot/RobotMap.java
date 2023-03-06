@@ -66,6 +66,8 @@ public class RobotMap {
     //Definition of arm motor's ports.
     public static final int ARM_RIGHT_MOTOR = 8;
     public static final int ARM_LEFT_MOTOR = 10;
+
+    public static final double RESIST_VOLT = 0.25;
     
     // Definition of arm raise and lower volt.above
     public static final double ARM_RAISE_VOLT = 0.4;
