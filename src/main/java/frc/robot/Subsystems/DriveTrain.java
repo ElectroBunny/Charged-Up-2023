@@ -25,6 +25,9 @@ public class DriveTrain extends SubsystemBase {
   private double driveMul;
   private boolean isFast;
 
+  private static DriveTrain instance = null;
+
+
   // private CommandXboxController controller;
 
   public DriveTrain() {
@@ -105,6 +108,13 @@ public class DriveTrain extends SubsystemBase {
 
     // m_rightMaster.set(leftY - rightX);
     // m_leftMaster.set(leftY + rightX);
+  }
+
+  public static DriveTrain getInstance() {
+    if (instance == null) {
+      instance = new DriveTrain();
+    }
+    return instance;
   }
   
 }

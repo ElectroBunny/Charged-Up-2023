@@ -56,6 +56,11 @@ public class Arm extends SubsystemBase {
     armLeftMotor.setNeutralMode(NeutralMode.Coast);
   }
 
+  public void changeToBrake() {
+    armRightMotor.setNeutralMode(NeutralMode.Brake);
+    armLeftMotor.setNeutralMode(NeutralMode.Brake);
+  }
+
   /* ----- Encoder data functions ----- */
 
   /** Resets the encoder measurement that counted during the last run. */
@@ -193,7 +198,7 @@ public class Arm extends SubsystemBase {
       armRightMotor.set(0);
     }
     else{
-      armRightMotor.set(0.28);
+      armRightMotor.set(0.25);
     }
   }
 

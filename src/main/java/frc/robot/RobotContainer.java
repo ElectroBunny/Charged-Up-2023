@@ -157,7 +157,7 @@ public class RobotContainer {
     this.autoDriveStartTime = Timer.getFPGATimestamp();
     
     while (Timer.getFPGATimestamp() - this.autoDriveStartTime < driveTime){
-      driveTrain.ArcadeDrive(0.7, 0);
+      driveTrain.ArcadeDrive(0.6, 0);
       delta_time = Timer.getFPGATimestamp() - startTime;
       
       if(delta_time >= 15){
@@ -169,6 +169,7 @@ public class RobotContainer {
 
   public void onTeleopInit(){
     driveTrain.ArcadeDrive(0, 0);
+    m_arm.changeToBrake();
   }
 
   public void resetEncoders(){

@@ -96,44 +96,44 @@ public class Telescope extends SubsystemBase {
     gain *= 0.8;
     m_teleGrip.set(gain);
     
-    if (gain > 0){ // If trying to open
-      if (this.currentLength < RobotMap.TELE_MAX_LENGTH) { // Is possible to open?
-        if (RobotMap.VERTICAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.VERTICAL_SECOND_ANGLE){ // If angle in vertical laws
-          if (this.currentLength < RobotMap.MAX_VERTICAL_LENGTH){ // If length < law
-            m_teleGrip.set(gain); // Set power
-          }
-          else { // Length >= law
-            m_teleGrip.set(0); // Clear power
-          }
-        }
-        else if (RobotMap.HORIZONTAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.HORIZONTAL_SECOND_ANGLE){ // If angle in horizontal laws
-          if ((this.currentLength * Math.cos(Math.toRadians(currentAngle - 270))) < RobotMap.MAX_HORIZONTAL_LENGTH){ // If horizontal length < law
-            m_teleGrip.set(gain); // Set power
-          }
-          else { // Horizontal length >= law
-            m_teleGrip.set(0); // Clear power
-          }
-        }
-        else { // Angle not in law.
-          m_teleGrip.set(gain); // Set power
-        }
-      }
-      else { // Impossible to open
-        m_teleGrip.set(0); // Clear power
-      }
-    }
-    else if (gain < 0) { // Trying to close
-      if (this.currentLength > RobotMap.TELE_MIN_LENGTH){ // Is possible to close?
-        m_teleGrip.set(gain); // Set power
-      }
-      else { // Impossible to close
-        m_teleGrip.set(0); // Clear power
-      }
-      // m_teleGrip.set(gain);
-    }
-    else { // Not trying to open or close
-      m_teleGrip.set(0); // Clear power
-    }
+    // if (gain > 0){ // If trying to open
+    //   if (this.currentLength < RobotMap.TELE_MAX_LENGTH) { // Is possible to open?
+    //     if (RobotMap.VERTICAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.VERTICAL_SECOND_ANGLE){ // If angle in vertical laws
+    //       if (this.currentLength < RobotMap.MAX_VERTICAL_LENGTH){ // If length < law
+    //         m_teleGrip.set(gain); // Set power
+    //       }
+    //       else { // Length >= law
+    //         m_teleGrip.set(0); // Clear power
+    //       }
+    //     }
+    //     else if (RobotMap.HORIZONTAL_FIRST_ANGLE <=  currentAngle && currentAngle <= RobotMap.HORIZONTAL_SECOND_ANGLE){ // If angle in horizontal laws
+    //       if ((this.currentLength * Math.cos(Math.toRadians(currentAngle - 270))) < RobotMap.MAX_HORIZONTAL_LENGTH){ // If horizontal length < law
+    //         m_teleGrip.set(gain); // Set power
+    //       }
+    //       else { // Horizontal length >= law
+    //         m_teleGrip.set(0); // Clear power
+    //       }
+    //     }
+    //     else { // Angle not in law.
+    //       m_teleGrip.set(gain); // Set power
+    //     }
+    //   }
+    //   else { // Impossible to open
+    //     m_teleGrip.set(0); // Clear power
+    //   }
+    // }
+    // else if (gain < 0) { // Trying to close
+    //   if (this.currentLength > RobotMap.TELE_MIN_LENGTH){ // Is possible to close?
+    //     m_teleGrip.set(gain); // Set power
+    //   }
+    //   else { // Impossible to close
+    //     m_teleGrip.set(0); // Clear power
+    //   }
+    //   // m_teleGrip.set(gain);
+    // }
+    // else { // Not trying to open or close
+    //   m_teleGrip.set(0); // Clear power
+    // }
   }
     //m_teleGrip.set(0.5 * gain);
   

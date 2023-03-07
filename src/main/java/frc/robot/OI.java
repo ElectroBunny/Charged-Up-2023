@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
@@ -67,7 +68,7 @@ public class OI {
     public POVButton povButtonDownXboxRight = new POVButton(xboxController, 180);
 
     public PS4Controller ps4Controller = new PS4Controller(RobotMap.PS4_CONTROLLER);
-    
+
     
     //Main joystick
     public double getJoystickRawAxis(int axis){
@@ -98,5 +99,13 @@ public class OI {
 
     public double getPS4LeftX(){
         return ps4Controller.getLeftX();
+    }
+
+    public double PS4getLeftY() {
+        return ps4Controller.getLeftY();
+    }
+
+    public double PS4getRightX() {
+        return ps4Controller.getRightX();
     }
 }
