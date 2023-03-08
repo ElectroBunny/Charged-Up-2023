@@ -75,7 +75,32 @@ public class RobotContainer {
     //Saves the time when the autonomus started.
     this.startTime = Timer.getFPGATimestamp();
 
-    // m_arm.setSetpointAngle(55);
+    // // m_arm.setSetpointAngle(55);
+    // // while (!m_arm.armAtSetPoint()){
+    // //   m_arm.move_arm();
+    // //   delta_time = Timer.getFPGATimestamp() - startTime;
+
+    // //   if(delta_time >= 15){
+    // //     return;
+    // //   }
+    // // }
+    // // m_arm.resist();
+    // m_gripper.gripRelease();
+
+    // m_telescope.setSetpointLength(RobotMap.TELE_MIN_LENGTH);
+    // while (!this.m_telescope.teleAtSetPoint()){
+    //   m_telescope.moveTeleToLength();
+    //   delta_time = Timer.getFPGATimestamp() - startTime;
+
+    //   if(delta_time >= 15){
+    //     return;
+    //   }
+    // }
+    // m_telescope.stopTele();
+
+
+    // // send arm to angle
+    // m_arm.setSetpointAngle(angleSetpoint);
     // while (!m_arm.armAtSetPoint()){
     //   m_arm.move_arm();
     //   delta_time = Timer.getFPGATimestamp() - startTime;
@@ -85,79 +110,54 @@ public class RobotContainer {
     //   }
     // }
     // m_arm.resist();
-    m_gripper.gripRelease();
-
-    m_telescope.setSetpointLength(RobotMap.TELE_MIN_LENGTH);
-    while (!this.m_telescope.teleAtSetPoint()){
-      m_telescope.moveTeleToLength();
-      delta_time = Timer.getFPGATimestamp() - startTime;
-
-      if(delta_time >= 15){
-        return;
-      }
-    }
-    m_telescope.stopTele();
 
 
-    // send arm to angle
-    m_arm.setSetpointAngle(angleSetpoint);
-    while (!m_arm.armAtSetPoint()){
-      m_arm.move_arm();
-      delta_time = Timer.getFPGATimestamp() - startTime;
+    // // open tele
+    // m_telescope.setSetpointLength(teleSetpoint);
+    // while (!this.m_telescope.teleAtSetPoint()){
+    //   m_telescope.moveTeleToLength();
+    //   delta_time = Timer.getFPGATimestamp() - startTime;
 
-      if(delta_time >= 15){
-        return;
-      }
-    }
-    m_arm.resist();
-
-
-    // open tele
-    m_telescope.setSetpointLength(teleSetpoint);
-    while (!this.m_telescope.teleAtSetPoint()){
-      m_telescope.moveTeleToLength();
-      delta_time = Timer.getFPGATimestamp() - startTime;
-
-      if(delta_time >= 15){
-        return;
-      }
-    }
-    m_telescope.stopTele();
+    //   if(delta_time >= 15){
+    //     return;
+    //   }
+    // }
+    // m_telescope.stopTele();
 
 
-    // release gripper
-    m_gripper.gripGrab();
+    // // release gripper
+    // m_gripper.gripGrab();
 
 
-    // close tele to zero
-    m_telescope.setSetpointLength(RobotMap.TELE_MIN_LENGTH);
-    while (!this.m_telescope.teleAtSetPoint()){
-      m_telescope.moveTeleToLength();
-      delta_time = Timer.getFPGATimestamp() - startTime;
+    // // close tele to zero
+    // m_telescope.setSetpointLength(RobotMap.TELE_MIN_LENGTH);
+    // while (!this.m_telescope.teleAtSetPoint()){
+    //   m_telescope.moveTeleToLength();
+    //   delta_time = Timer.getFPGATimestamp() - startTime;
 
-      if(delta_time >= 15){
-        return;
-      }
-    }
-    m_telescope.stopTele();
+    //   if(delta_time >= 15){
+    //     return;
+    //   }
+    // }
+    // m_telescope.stopTele();
 
 
-    // send arm to low
-    m_arm.setSetpointAngle(RobotMap.LOW_BACK_ANGLE);
-    while (!m_arm.armAtSetPoint()){
-      m_arm.move_arm();
-      delta_time = Timer.getFPGATimestamp() - startTime;
+    // // send arm to low
+    // m_arm.setSetpointAngle(RobotMap.LOW_BACK_ANGLE);
+    // while (!m_arm.armAtSetPoint()){
+    //   m_arm.move_arm();
+    //   delta_time = Timer.getFPGATimestamp() - startTime;
 
-      if(delta_time >= 15){
-        return;
-      }
-    }
-    m_arm.resist();
+    //   if(delta_time >= 15){
+    //     return;
+    //   }
+    // }
+    // m_arm.resist();
 
     this.autoDriveStartTime = Timer.getFPGATimestamp();
     
     while (Timer.getFPGATimestamp() - this.autoDriveStartTime < driveTime){
-      driveTrain.ArcadeDrive(0.6, 0);
+      driveTrain.ArcadeDrive(0.3, 0); //0.6
       delta_time = Timer.getFPGATimestamp() - startTime;
       
       if(delta_time >= 15){
