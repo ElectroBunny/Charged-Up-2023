@@ -14,9 +14,9 @@ public class ArcadeDrive extends CommandBase {
   private double forwardY, turnX;
   private OI oi;
 
-  public ArcadeDrive(DriveTrain externalDriver) {
+  public ArcadeDrive() {
     oi = new OI();
-    innerDriver = externalDriver;
+    innerDriver = DriveTrain.getInstance();
     addRequirements(innerDriver);
   }
 

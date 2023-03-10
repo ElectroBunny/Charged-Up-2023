@@ -27,6 +27,8 @@ public class Arm extends SubsystemBase {
 
   private double currentAngle;
 
+  private static Arm instance = null;
+
   public Arm() {
     // Definition of the arm encoder and its constants.
     this.encoder = new Encoder(RobotMap.ARM_ENCODER_CHANNEL_A, RobotMap.ARM_ENCODER_CHANNEL_B, true, EncodingType.k2X);
@@ -210,5 +212,12 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Angle", this.getAngle());
+  }
+
+  public static Arm getInstance() {
+    if (instance == null) {
+      instance = new Arm();
+    }
+    return instance;
   }
 }

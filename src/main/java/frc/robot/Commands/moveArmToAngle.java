@@ -12,8 +12,8 @@ public class moveArmToAngle extends CommandBase {
   private Arm innerArm;
   private double setpointAngle;
 
-  public moveArmToAngle(Arm outerArm, double angle) {
-    this.innerArm = outerArm;
+  public moveArmToAngle(double angle) {
+    this.innerArm = Arm.getInstance();
     this.setpointAngle = angle;
     addRequirements(innerArm);
   }

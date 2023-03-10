@@ -17,7 +17,8 @@ public class Gripper extends SubsystemBase {
 
   private boolean isOpen;
 
-  
+  private static Gripper instance = null;
+
   public Gripper() {
     
     // Define solonoieds
@@ -63,5 +64,12 @@ public class Gripper extends SubsystemBase {
 
   @Override
   public void periodic() {
+  }
+
+  public static Gripper getInstance() {
+    if (instance == null) {
+      instance = new Gripper();
+    }
+    return instance;
   }
 }

@@ -47,11 +47,11 @@ public class RobotContainer {
   CvSource outputStream;
 
   public RobotContainer() {
-    driveTrain = new DriveTrain();
-    m_gripper = new Gripper();
+    driveTrain = DriveTrain.getInstance();
+    m_gripper = Gripper.getInstance();
+    m_arm = Arm.getInstance();
+    m_telescope = Telescope.getInstance();
     m_oi = new OI();
-    m_arm = new Arm();
-    m_telescope = new Telescope();
 
     pcmCompressor = new Compressor(PneumaticsModuleType.CTREPCM);
     pcmCompressor.enableDigital();
@@ -193,47 +193,46 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* ----- Linking between the buttons, that defined in oi.java, to commands. ----- */
     
-    driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
+    driveTrain.setDefaultCommand(new ArcadeDrive());
     // m_oi.A.onTrue(new ChangeDriveVelocity(driveTrain));
 
-    m_oi.button1.onTrue(new Grip(m_gripper));
+    m_oi.button1.onTrue(new Grip());
 
-    m_oi.povbutton1.whileTrue(new moveTeleManually(m_telescope, 1, m_arm));
-    m_oi.povbutton2.whileTrue(new moveTeleManually(m_telescope, -1, m_arm));
+    m_oi.povbutton1.whileTrue(new moveTeleManually(0.8));
+    m_oi.povbutton2.whileTrue(new moveTeleManually(-0.8));
 
-    m_oi.button2.whileTrue(new moveArmManually(m_arm));
+    m_oi.button2.whileTrue(new moveArmManually());
 
 
     // // 7 - CONE HIGH
-    // m_oi.button7.onTrue(new moveTeleToPos(m_telescope, RobotMap.TELE_MIN_LENGTH+3)
-    // .andThen(new moveArm(m_arm, RobotMap.HIGH_CONE_ANGLE)));
-    // // .andThen(new moveTeleToPos(m_telescope, RobotMap.HIGH_LENGTH_CONE)));
+    // m_oi.button7.onTrue(new moveTeleToPos(RobotMap.TELE_MIN_LENGTH+3)
+    // .andThen(new moveArm(RobotMap.HIGH_CONE_ANGLE)));
+    // // .andThen(new moveTeleToPos(RobotMap.HIGH_LENGTH_CONE)));
     
     // // 9 - CONE MID
-    // m_oi.button9.onTrue(new moveTeleToPos(m_telescope, RobotMap.TELE_MIN_LENGTH+3)
-    // .andThen(new moveArm(m_arm, RobotMap.MID_CONE_ANGLE)));
-    // // .andThen(new moveTeleToPos(m_telescope, RobotMap.MID_LENGTH_CONE)));
+    // m_oi.button9.onTrue(new moveTeleToPos(RobotMap.TELE_MIN_LENGTH+3)
+    // .andThen(new moveArm(RobotMap.MID_CONE_ANGLE)));
+    // // .andThen(new moveTeleToPos(RobotMap.MID_LENGTH_CONE)));
 
     // // 8 - CUBE HIGH
-    // m_oi.button8.onTrue(new moveTeleToPos(m_telescope, RobotMap.TELE_MIN_LENGTH+3)
-    // .andThen(new moveArm(m_arm, RobotMap.HIGH_CUBE_ANGLE)));
-    // // .andThen(new moveTeleToPos(m_telescope, RobotMap.HIGH_LENGTH_CUBE)));
+    // m_oi.button8.onTrue(new moveTeleToPos(RobotMap.TELE_MIN_LENGTH+3)
+    // .andThen(new moveArm(RobotMap.HIGH_CUBE_ANGLE)));
+    // // .andThen(new moveTeleToPos(RobotMap.HIGH_LENGTH_CUBE)));
 
     // // 10 - CUBE MID
-    // m_oi.button10.onTrue(new moveTeleToPos(m_telescope, RobotMap.TELE_MIN_LENGTH+3)
-    // .andThen(new moveArm(m_arm, RobotMap.MID_CUBE_ANGLE)));
-    // // .andThen(new moveTeleToPos(m_telescope, RobotMap.MID_LENGTH_CUBE)));
+    // m_oi.button10.onTrue(new moveTeleToPos(RobotMap.TELE_MIN_LENGTH+3)
+    // .andThen(new moveArm(RobotMap.MID_CUBE_ANGLE)));
+    // // .andThen(new moveTeleToPos(RobotMap.MID_LENGTH_CUBE)));
 
     // // 11 - LOW BACK (INSIDE THE ROBOT)
-    // m_oi.button11.onTrue(new moveTeleToPos(m_telescope, RobotMap.TELE_MIN_LENGTH+3)
-    // .andThen(new moveArm(m_arm, RobotMap.LOW_BACK_ANGLE)));
-    // // .andThen(new moveTeleToPos(m_telescope, RobotMap.LOW_LENGTH_BACK)));
+    // m_oi.button11.onTrue(new moveTeleToPos(RobotMap.TELE_MIN_LENGTH+3)
+    // .andThen(new moveArm(RobotMap.LOW_BACK_ANGLE)));
+    // // .andThen(new moveTeleToPos(RobotMap.LOW_LENGTH_BACK)));
 
     // // 12 - FEEDER
-    // m_oi.button12.onTrue(new moveTeleToPos(m_telescope, RobotMap.TELE_MIN_LENGTH+3)
-    // .andThen(new moveArm(m_arm, RobotMap.LOW_FRONT_ANGLE)));
-    // // .andThen(new moveTeleToPos(m_telescope, RobotMap.LOW_LENGTH_FRONT)));
+    // m_oi.button12.onTrue(new moveTeleToPos(RobotMap.TELE_MIN_LENGTH+3)
+    // .andThen(new moveArm(RobotMap.LOW_FRONT_ANGLE)));
+    // // .andThen(new moveTeleToPos(RobotMap.LOW_LENGTH_FRONT)));
 
-    // m_oi.button3.onTrue(new moveArmToAngle(m_arm, 90));
   }
 }

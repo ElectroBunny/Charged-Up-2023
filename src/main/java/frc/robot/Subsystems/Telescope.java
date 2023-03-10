@@ -21,6 +21,8 @@ public class Telescope extends SubsystemBase {
 
   private double currentLength;
 
+  private static Telescope instance = null;
+
   public Telescope() {
     // Definition of the tele encoder and its constants.
     this.encoder = new Encoder(RobotMap.TELE_ENCODER_CHANNEL_A, RobotMap.TELE_ENCODER_CHANNEL_B, true, EncodingType.k2X);
@@ -91,12 +93,11 @@ public class Telescope extends SubsystemBase {
   //   */
   public void moveTeleManually(double gain, double currentAngle){
 
-    if(currentAngle > RobotMap.MIN_ANGLE && currentAngle < 58){
-      return;
-    }
-    this.currentLength = RobotMap.TELE_MIN_LENGTH + this.getLength();
+    // if(currentAngle > RobotMap.MIN_ANGLE && currentAngle < 58){
+    //   return;
+    // }
+    // this.currentLength = RobotMap.TELE_MIN_LENGTH + this.getLength();
 
-    gain *= 0.8;
     m_teleGrip.set(gain);
     
     // if (gain > 0){ // If trying to open
@@ -147,5 +148,12 @@ public class Telescope extends SubsystemBase {
 
   @Override
   public void periodic() {
+  }
+
+  public static Telescope getInstance() {
+    if (instance == null) {
+      instance = new Telescope();
+    }
+    return instance;
   }
 }

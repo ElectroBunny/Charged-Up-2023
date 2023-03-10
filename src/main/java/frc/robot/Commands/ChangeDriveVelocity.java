@@ -10,8 +10,8 @@ import frc.robot.Subsystems.DriveTrain;
 public class ChangeDriveVelocity extends InstantCommand {
   private DriveTrain innerDrive;
 
-  public ChangeDriveVelocity(DriveTrain outerDrive) {
-    this.innerDrive = outerDrive;
+  public ChangeDriveVelocity() {
+    this.innerDrive = DriveTrain.getInstance();
     addRequirements(innerDrive);
   }
 

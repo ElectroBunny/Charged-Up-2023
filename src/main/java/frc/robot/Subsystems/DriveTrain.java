@@ -27,7 +27,6 @@ public class DriveTrain extends SubsystemBase {
 
   private static DriveTrain instance = null;
 
-
   // private CommandXboxController controller;
 
   public DriveTrain() {

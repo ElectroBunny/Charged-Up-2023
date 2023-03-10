@@ -13,10 +13,10 @@ public class moveTeleManually extends CommandBase {
   private double gain;
   private Arm innerArm;
 
-  public moveTeleManually(Telescope outerTele, double gain, Arm outerArm) {
+  public moveTeleManually(double gain) {
     this.gain = gain;
-    this.innerTele = outerTele;
-    this.innerArm = outerArm;
+    this.innerTele = Telescope.getInstance();
+    this.innerArm = Arm.getInstance();
     addRequirements(innerTele);
   }
 

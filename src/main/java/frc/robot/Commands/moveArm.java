@@ -11,10 +11,9 @@ public class moveArm extends CommandBase {
   private Arm innerArm;
   private double setpoint;
 
-  public moveArm(Arm outerArm, double angle) {
-    this.innerArm = outerArm;
+  public moveArm(double angle) {
+    this.innerArm = Arm.getInstance();
     this.setpoint = angle;
-    // SmartDashboard.putNumber("Real angle", angle);
     addRequirements(innerArm);
   }
 

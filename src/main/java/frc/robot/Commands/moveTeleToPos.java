@@ -12,8 +12,8 @@ public class moveTeleToPos extends CommandBase {
   private double setpoint;
 
   /** Creates a new moveTeleToPos. */
-  public moveTeleToPos(Telescope outerTele, double length) {
-    this.innerTele = outerTele;
+  public moveTeleToPos(double length) {
+    this.innerTele = Telescope.getInstance();
     this.setpoint = length;
     addRequirements(this.innerTele);
   }

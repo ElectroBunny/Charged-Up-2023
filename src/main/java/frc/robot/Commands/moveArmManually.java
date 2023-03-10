@@ -15,8 +15,8 @@ public class moveArmManually extends CommandBase {
 
   private Arm innerArm;
 
-  public moveArmManually(Arm outerArm) {
-    this.innerArm = outerArm;
+  public moveArmManually() {
+    this.innerArm = Arm.getInstance();
     addRequirements(innerArm);
   }
 

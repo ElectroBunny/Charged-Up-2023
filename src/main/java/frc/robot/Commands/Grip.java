@@ -10,8 +10,8 @@ import frc.robot.Subsystems.Gripper;
 public class Grip extends InstantCommand {
   private Gripper innerGripper;
 
-  public Grip(Gripper m_teleGrip) {
-    innerGripper = m_teleGrip;
+  public Grip() {
+    innerGripper = Gripper.getInstance();
     addRequirements(innerGripper);
   }
 
