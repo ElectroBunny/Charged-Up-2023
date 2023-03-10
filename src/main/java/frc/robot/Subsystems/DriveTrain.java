@@ -55,6 +55,18 @@ public class DriveTrain extends SubsystemBase {
     m_leftMaster.setNeutralMode(NeutralMode.Brake);
     m_leftFollower.setNeutralMode(NeutralMode.Brake);
 
+    // m_rightMaster.configPeakCurrentLimit(25);
+    // m_rightMaster.configPeakCurrentDuration(20);
+
+    // m_leftMaster.configPeakCurrentLimit(22);
+  // m_leftMaster.configPeakCurrentDuration(20);
+
+    // m_rightFollower.configPeakCurrentLimit(22);
+    // m_rightFollower.configPeakCurrentDuration(20);
+
+    // m_leftFollower.configPeakCurrentLimit(22);
+    // m_leftFollower.configPeakCurrentDuration(20);
+
     // Joining masters and followers motor controllers.
     m_rightFollower.follow(m_rightMaster);
     m_leftFollower.follow(m_leftMaster);
@@ -74,13 +86,23 @@ public class DriveTrain extends SubsystemBase {
     */
   public void ArcadeDrive(double forward, double turn){
     // Deadzone
-    if(Math.abs(forward) < 0.2)
-      forward = 0.0;
+    // if(Math.abs(forward) < 0.2)
+    //   forward = 0.0;
 
-    if(Math.abs(turn) < 0.2)
-      turn = 0.0;
+    // if(Math.abs(turn) < 0.2)
+    //   turn = 0.0;
     
     m_diffDrive.arcadeDrive(forward, turn);
+  }
+
+  public void SeparateDrive(double forward){
+    // if(Math.abs(forward) < 0.2)
+    //   forward = 0.0;
+
+    // m_leftFollower.set(forward);
+    // m_leftMaster.set(forward);
+    // m_rightFollower.set(forward);
+    // m_rightMaster.set(forward);
   }
 
   /** Used to toggle between the velocity modes of the robot - slow/fast*/

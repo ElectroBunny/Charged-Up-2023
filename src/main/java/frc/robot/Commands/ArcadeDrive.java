@@ -11,7 +11,7 @@ import frc.robot.Subsystems.DriveTrain;
 public class ArcadeDrive extends CommandBase {
   private DriveTrain innerDriver;
 
-  private double forwardY, reverseY, xAxis;
+  private double forwardY, turnX;
   private OI oi;
 
   public ArcadeDrive(DriveTrain externalDriver) {
@@ -24,7 +24,7 @@ public class ArcadeDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    forwardY = reverseY = xAxis = 0;
+    forwardY = turnX = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,12 +36,11 @@ public class ArcadeDrive extends CommandBase {
     // this.xAxis = oi.getPS4LeftX();
 
     // innerDriver.ArcadeDrive((this.forwardY - this.reverseY), this.xAxis);  
-    this.reverseY = oi.getXboxRightTriggerAxis();
-    this.forwardY = oi.getXboxLeftTriggerAxis();
+    
+    this.forwardY = oi.PS4getLeftY();
+    this.turnX = oi.PS4getRightX();
 
-    this.xAxis = oi.getXboxLeftX();
-
-    innerDriver.ArcadeDrive((this.forwardY - this.reverseY), this.xAxis);  
+    innerDriver.ArcadeDrive(this.forwardY, this.turnX);  
   }
 
   // Called once the command ends or is interrupted.

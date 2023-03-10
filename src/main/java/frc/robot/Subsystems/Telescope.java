@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -80,6 +81,8 @@ public class Telescope extends SubsystemBase {
     else {
       m_teleGrip.set(-0.5);
     }
+
+    SmartDashboard.putNumber("Tele", this.getLength() + RobotMap.TELE_MIN_LENGTH);
   }
 
   /** Moves the .settelescope with a limit.

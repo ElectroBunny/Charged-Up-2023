@@ -18,8 +18,8 @@ public class RobotMap {
     //Definition of drive motors' ports.
     public static final int DRIVE_LEFT_MASTER  = 3;
     public static final int DRIVE_LEFT_SLAVE  = 1;
-    public static final int DRIVE_RIGHT_MASTER  = 20;
-    public static final int DRIVE_RIGHT_SLAVE  = 21;
+    public static final int DRIVE_RIGHT_MASTER  = 7;
+    public static final int DRIVE_RIGHT_SLAVE  = 20;
 
  //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -70,7 +70,7 @@ public class RobotMap {
     public static final double RESIST_VOLT = 0.25;
     
     // Definition of arm raise and lower volt.above
-    public static final double ARM_RAISE_VOLT = 0.4;
+    public static final double ARM_RAISE_VOLT = 0.5;
     public static final double ARM_LOWER_VOLT = 0.05;
 
     //Definition of PID consants for the arm system.
@@ -114,7 +114,7 @@ public class RobotMap {
     public static final double LOW_BACK_ANGLE = 51.93; // 270 + 52.1
     public static final double MID_CONE_ANGLE = 270 - (101.68 - 90);
     public static final double MID_CUBE_ANGLE = 270 - (90 - 90);
-    public static final double HIGH_CONE_ANGLE = 270 - (114.217 - 90);
+    public static final double HIGH_CONE_ANGLE = 243; //270 - (114.217 - 90) - 10
     public static final double HIGH_CUBE_ANGLE = 270 - (104.447 - 90) - 10; // 104.447
 
     public static final double FEEDER_ANGLE = 107.24;
@@ -132,7 +132,7 @@ public class RobotMap {
 
     public static final double LOW_LENGTH_BACK = TELE_MIN_LENGTH; //Telescope is closed
     public static final double MID_LENGTH_CONE = 106.2;
-    public static final double HIGH_LENGTH_CONE = 125.55;
+    public static final double HIGH_LENGTH_CONE = 144;
 
 
 

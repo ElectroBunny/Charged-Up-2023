@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
@@ -86,6 +85,14 @@ public class OI {
 
     public double getXboxLeftX(){
         return xboxController.getLeftX();
+    }
+
+    public double getXboxLeftY(){
+        return xboxController.getLeftY();
+    }
+
+    public double getXboxRightX(){
+        return xboxController.getRightX();
     }
 
     //PS4 functions
