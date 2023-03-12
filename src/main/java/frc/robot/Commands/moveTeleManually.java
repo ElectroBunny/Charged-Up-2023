@@ -5,6 +5,7 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotMap;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Telescope;
 
@@ -29,14 +30,16 @@ public class moveTeleManually extends CommandBase {
   @Override
   public void execute() {
     // // BACKUP FOR INSP
-    // if ((this.innerTele.getLength() + RobotMap.TELE_MIN_LENGTH >= 117) && this.gain > 0){
-    //   this.innerTele.stopTele();
-    // }
-    // else {
-    //   innerTele.moveTeleManually(this.gain, this.innerArm.getAngle());
-    // }
+    if ((this.innerTele.getLength() + RobotMap.TELE_MIN_LENGTH >= 117) && this.gain > 0){
+      this.innerTele.stopTele();
 
-    innerTele.moveTeleManually(this.gain, this.innerArm.getAngle());
+    }
+    else {
+      innerTele.moveTeleManually(this.gain, this.innerArm.getAngle());
+    }
+
+    // no limitaion
+    // innerTele.moveTeleManually(this.gain, this.innerArm.getAngle());
   }
 
   // Called once the command ends or is interrupted.

@@ -148,6 +148,7 @@ public class Telescope extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Telescope", this.getLength());
   }
 
   public static Telescope getInstance() {
