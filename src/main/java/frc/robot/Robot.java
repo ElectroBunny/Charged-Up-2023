@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Subsystems.Telescope;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,7 +20,7 @@ import frc.robot.Subsystems.Telescope;
  */
 public class Robot extends TimedRobot {
   /*
-   * Definition of autonomus commands chooser
+   * Definition of autonomus commands chooser, default option doesnt operate
    */
 
   private static final String kDefaultAuto = "Default Auto";

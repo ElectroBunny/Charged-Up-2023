@@ -14,17 +14,13 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Commands.ArcadeDrive;
 // import frc.robot.Commands.ChangeDriveVelocity;
 import frc.robot.Commands.Grip;
-import frc.robot.Commands.moveArm;
 import frc.robot.Commands.moveArmManually;
-import frc.robot.Commands.moveArmToAngle;
 // import frc.robot.Commands.moveArmToAngle;
 import frc.robot.Commands.moveTeleManually;
-import frc.robot.Commands.moveTeleToPos;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.DriveTrain;
 import frc.robot.Subsystems.Gripper;
 import frc.robot.Subsystems.Telescope;
-// import frc.robot.Utilities.MPU6050;
 
 
 public class RobotContainer {
@@ -41,7 +37,6 @@ public class RobotContainer {
 
   private Compressor pcmCompressor;
 
-  // private MPU6050 mpu;
 
   CvSink cvSink;
   CvSource outputStream;
@@ -56,9 +51,6 @@ public class RobotContainer {
     pcmCompressor = new Compressor(PneumaticsModuleType.CTREPCM);
     pcmCompressor.enableDigital();
     // pcmCompressor.enableAnalog(0, 120);
-
-    // mpu = new MPU6050();
-
     configureButtonBindings();
   }
 
@@ -93,7 +85,7 @@ public class RobotContainer {
     m_telescope.stopTele();
 
 
-    // send arm to angle
+    // sends arm to angle
     m_arm.setSetpointAngle(angleSetpoint);
     while (!m_arm.armAtSetPoint()){
       m_arm.move_arm();
@@ -106,7 +98,7 @@ public class RobotContainer {
     m_arm.resist();
 
 
-    // open tele
+    // opens tele
     m_telescope.setSetpointLength(teleSetpoint);
     while (!this.m_telescope.teleAtSetPoint()){
       m_telescope.moveTeleToLength();
@@ -119,7 +111,7 @@ public class RobotContainer {
     m_telescope.stopTele();
 
 
-    // release gripper
+    // releases gripper
     m_gripper.gripRelease();
 
     // moves the arm a little bit higher then the grid
@@ -172,6 +164,7 @@ public class RobotContainer {
     delta_time = 0;
   }
 
+  // drivers's control without Interfere 
   public void onTeleopInit(){
     driveTrain.ArcadeDrive(0, 0);
     m_arm.changeToBrake();
