@@ -30,16 +30,17 @@ public class moveTeleManually extends CommandBase {
   @Override
   public void execute() {
     // // BACKUP FOR INSP
-    if ((this.innerTele.getLength() + RobotMap.TELE_MIN_LENGTH >= 117) && this.gain > 0){
-      this.innerTele.stopTele();
+    // if ((this.innerTele.getLength() + RobotMap.TELE_MIN_LENGTH >= 117) && this.gain > 0){
+    //   this.innerTele.stopTele();
 
-    }
-    else {
-      innerTele.moveTeleManually(this.gain, this.innerArm.getAngle());
-    }
+    // }
+    // else {
+    //   innerTele.moveTeleManually(this.gain, this.innerArm.getAngle());
+    // }
 
     // no limitaion
-    // innerTele.moveTeleManually(this.gain, this.innerArm.getAngle());
+
+    innerTele.moveTeleManually(this.gain, this.innerArm.getAngle());
   }
 
   // Called once the command ends or is interrupted.

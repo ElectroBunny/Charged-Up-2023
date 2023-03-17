@@ -188,6 +188,8 @@ public class Arm extends SubsystemBase {
    */
   public void resist(){
     this.currentAngle = this.getAngle();
+
+    SmartDashboard.putNumber("Resist Angle", this.currentAngle);
     // armRightMotor.set(Math.sin(Math.toRadians(this.currentAngle)) * RobotMap.RESIST_VOLT);
 
     if (this.getAngle() <= 165){

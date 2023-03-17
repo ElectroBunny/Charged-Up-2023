@@ -70,86 +70,86 @@ public class RobotContainer {
     this.startTime = Timer.getFPGATimestamp();
 
     // grabs the game piece which is inside the gripper
-    m_gripper.gripGrab();
+    // m_gripper.gripGrab();
 
-    // closes the tele before movign the arm
-    m_telescope.setSetpointLength(RobotMap.TELE_MIN_LENGTH);
-    while (!this.m_telescope.teleAtSetPoint()){
-      m_telescope.moveTeleToLength();
-      delta_time = Timer.getFPGATimestamp() - startTime;
+    // // closes the tele before movign the arm
+    // m_telescope.setSetpointLength(RobotMap.TELE_MIN_LENGTH);
+    // while (!this.m_telescope.teleAtSetPoint()){
+    //   m_telescope.moveTeleToLength();
+    //   delta_time = Timer.getFPGATimestamp() - startTime;
 
-      if(delta_time >= 15){
-        return;
-      }
-    }
-    m_telescope.stopTele();
-
-
-    // sends arm to angle
-    m_arm.setSetpointAngle(angleSetpoint);
-    while (!m_arm.armAtSetPoint()){
-      m_arm.move_arm();
-      delta_time = Timer.getFPGATimestamp() - startTime;
-
-      if(delta_time >= 15){
-        return;
-      }
-    }
-    m_arm.resist();
+    //   if(delta_time >= 15){
+    //     return;
+    //   }
+    // }
+    // m_telescope.stopTele();
 
 
-    // opens tele
-    m_telescope.setSetpointLength(teleSetpoint);
-    while (!this.m_telescope.teleAtSetPoint()){
-      m_telescope.moveTeleToLength();
-      delta_time = Timer.getFPGATimestamp() - startTime;
+    // // sends arm to angle
+    // m_arm.setSetpointAngle(angleSetpoint);
+    // while (!m_arm.armAtSetPoint()){
+    //   m_arm.move_arm();
+    //   delta_time = Timer.getFPGATimestamp() - startTime;
 
-      if(delta_time >= 15){
-        return;
-      }
-    }
-    m_telescope.stopTele();
-
-
-    // releases gripper
-    m_gripper.gripRelease();
-
-    // moves the arm a little bit higher then the grid
-    m_arm.setSetpointAngle(angleSetpoint - 10);
-    while (!m_arm.armAtSetPoint()){
-      m_arm.move_arm();
-      delta_time = Timer.getFPGATimestamp() - startTime;
-
-      if(delta_time >= 15){
-        return;
-      }
-    }
-    m_arm.resist();
-
-    // close tele to zero
-    m_telescope.setSetpointLength(RobotMap.TELE_MIN_LENGTH);
-    while (!this.m_telescope.teleAtSetPoint()){
-      m_telescope.moveTeleToLength();
-      delta_time = Timer.getFPGATimestamp() - startTime;
-
-      if(delta_time >= 15){
-        return;
-      }
-    }
-    m_telescope.stopTele();
+    //   if(delta_time >= 15){
+    //     return;
+    //   }
+    // }
+    // m_arm.resist();
 
 
-    // sends arm to low
-    m_arm.setSetpointAngle(RobotMap.LOW_BACK_ANGLE);
-    while (!m_arm.armAtSetPoint()){
-      m_arm.move_arm();
-      delta_time = Timer.getFPGATimestamp() - startTime;
+    // // opens tele
+    // m_telescope.setSetpointLength(teleSetpoint);
+    // while (!this.m_telescope.teleAtSetPoint()){
+    //   m_telescope.moveTeleToLength();
+    //   delta_time = Timer.getFPGATimestamp() - startTime;
 
-      if(delta_time >= 15){
-        return;
-      }
-    }
-    m_arm.resist();
+    //   if(delta_time >= 15){
+    //     return;
+    //   }
+    // }
+    // m_telescope.stopTele();
+
+
+    // // releases gripper
+    // m_gripper.gripRelease();
+
+    // // moves the arm a little bit higher then the grid
+    // m_arm.setSetpointAngle(angleSetpoint - 10);
+    // while (!m_arm.armAtSetPoint()){
+    //   m_arm.move_arm();
+    //   delta_time = Timer.getFPGATimestamp() - startTime;
+
+    //   if(delta_time >= 15){
+    //     return;
+    //   }
+    // }
+    // m_arm.resist();
+
+    // // close tele to zero
+    // m_telescope.setSetpointLength(RobotMap.TELE_MIN_LENGTH);
+    // while (!this.m_telescope.teleAtSetPoint()){
+    //   m_telescope.moveTeleToLength();
+    //   delta_time = Timer.getFPGATimestamp() - startTime;
+
+    //   if(delta_time >= 15){
+    //     return;
+    //   }
+    // }
+    // m_telescope.stopTele();
+
+
+    // // sends arm to low
+    // m_arm.setSetpointAngle(RobotMap.LOW_BACK_ANGLE);
+    // while (!m_arm.armAtSetPoint()){
+    //   m_arm.move_arm();
+    //   delta_time = Timer.getFPGATimestamp() - startTime;
+
+    //   if(delta_time >= 15){
+    //     return;
+    //   }
+    // }
+    // m_arm.resist();
 
     // drives out of the community
     this.autoDriveStartTime = Timer.getFPGATimestamp();

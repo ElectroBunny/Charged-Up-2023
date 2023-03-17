@@ -54,6 +54,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("Cube High", kCubeHigh);
     m_chooser.addOption("Cone mid", kConeMid);
     m_chooser.addOption("Cone high", kConeHigh);
+    m_chooser.addOption("Default", kDefaultAuto);
 
 
     SmartDashboard.putData("Auto choices", m_chooser);
@@ -100,7 +101,7 @@ public class Robot extends TimedRobot {
       case kConeHigh:
         m_robotContainer.onAutoInit(2, RobotMap.HIGH_CONE_ANGLE, RobotMap.HIGH_LENGTH_CONE);
         break;
-      default:
+      case kDefaultAuto:
         break;
       }
   }

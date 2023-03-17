@@ -30,6 +30,7 @@ public class moveArmManually extends CommandBase {
   @Override
   public void execute() {
     this.yAxis = oi.getJoystickRawAxis(RobotMap.Y_AXIS_PORT);
+
     this.innerArm.moveArmManually(yAxis);
   }
 

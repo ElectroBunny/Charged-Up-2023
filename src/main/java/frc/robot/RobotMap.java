@@ -70,7 +70,7 @@ public class RobotMap {
     public static final double RESIST_VOLT = 0.25;
     
     // Definition of arm raise and lower volt.above
-    public static final double ARM_RAISE_VOLT = 0.5;
+    public static final double ARM_RAISE_VOLT = 0.7;
     public static final double ARM_LOWER_VOLT = 0.05;
 
     //Definition of PID consants for the arm system.
